@@ -73,13 +73,16 @@ const TEMPLATES = {
 export default function ImportPage() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('prodotti');
-  const [counts, setCounts] = useState(null);
+  const [counts, setCounts] = useState({ prodotti: 0, prezzi: 0, clienti: 0, puntivendita: 0 });
+  const [countsLoading, setCountsLoading] = useState(true);
 
   useEffect(() => { loadCounts(); }, []);
 
   const loadCounts = async () => {
+    setCountsLoading(true);
     const res = await api.get('/import/counts');
     if (res?.success) setCounts(res.data);
+    setCountsLoading(false);
   };
 
   return (
@@ -88,26 +91,26 @@ export default function ImportPage() {
         <h1 className="text-2xl font-bold text-gray-900">{t('import.title')}</h1>
       </div>
 
-      {/* Stats cards */}
-      {counts && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          {TABS.map(tab => (
-            <div key={tab.key} className={`card p-4 cursor-pointer transition-all ${
-              activeTab === tab.key ? 'ring-2 ring-primary-500 bg-primary-50' : 'hover:shadow-md'
-            }`} onClick={() => setActiveTab(tab.key)}>
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${activeTab === tab.key ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-gray-500'}`}>
-                  <tab.icon size={20} />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 uppercase">{t(tab.labelKey)}</p>
-                  <p className="text-xl font-bold">{counts[tab.key] ?? 0}</p>
-                </div>
+      {/* Stats cards — always visible, show 0 while loading */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        {TABS.map(tab => (
+          <div key={tab.key} className={`card p-4 cursor-pointer transition-all ${
+            activeTab === tab.key ? 'ring-2 ring-primary-500 bg-primary-50' : 'hover:shadow-md'
+          }`} onClick={() => setActiveTab(tab.key)}>
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-lg ${activeTab === tab.key ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-gray-500'}`}>
+                <tab.icon size={20} />
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 uppercase">{t(tab.labelKey)}</p>
+                <p className={`text-xl font-bold ${countsLoading ? 'text-gray-300' : ''}`}>
+                  {counts[tab.key] ?? 0}
+                </p>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
 
       {/* Tabs */}
       <div className="flex gap-1 mb-6 overflow-x-auto border-b border-gray-200">
@@ -139,27 +142,30 @@ function TabContent({ tabKey, onImportDone }) {
   const { t } = useTranslation();
   const fmt = useFormatters();
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState(null);
   const [showImport, setShowImport] = useState(false);
   const [showTemplate, setShowTemplate] = useState(false);
 
+  // Reset state and load data immediately when tab changes (or on first mount)
   useEffect(() => {
     setSearch('');
     setPage(1);
     setShowImport(false);
     setShowTemplate(false);
+    setData([]);
+    setPagination(null);
+    fetch(tabKey, 1, '');
   }, [tabKey]);
 
-  useEffect(() => { loadData(); }, [tabKey, page]);
-
-  const loadData = async () => {
+  // Single data-loading function with explicit arguments to avoid stale closures
+  const fetch = async (tab, pg, srch) => {
     setLoading(true);
-    const params = new URLSearchParams({ page: String(page), pageSize: '50' });
-    if (search) params.set('search', search);
-    const res = await api.get(`/import/${tabKey}?${params}`);
+    const params = new URLSearchParams({ page: String(pg), pageSize: '50' });
+    if (srch) params.set('search', srch);
+    const res = await api.get(`/import/${tab}?${params}`);
     if (res?.success) {
       setData(res.data);
       setPagination(res.pagination);
@@ -170,7 +176,12 @@ function TabContent({ tabKey, onImportDone }) {
   const handleSearch = (e) => {
     e.preventDefault();
     setPage(1);
-    loadData();
+    fetch(tabKey, 1, search);
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    fetch(tabKey, newPage, search);
   };
 
   const handleExport = async () => {
@@ -191,8 +202,9 @@ function TabContent({ tabKey, onImportDone }) {
 
   const handleImportDone = () => {
     setShowImport(false);
+    setSearch('');
     setPage(1);
-    loadData();
+    fetch(tabKey, 1, '');
     onImportDone?.();
   };
 
@@ -291,7 +303,7 @@ function TabContent({ tabKey, onImportDone }) {
               })}
             </span>
             <div className="flex gap-1">
-              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1}
+              <button onClick={() => handlePageChange(Math.max(1, page - 1))} disabled={page <= 1}
                 className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed">
                 <ChevronLeft size={18} />
               </button>
@@ -302,13 +314,13 @@ function TabContent({ tabKey, onImportDone }) {
                 else if (page >= pagination.totalPages - 2) pn = pagination.totalPages - 4 + i;
                 else pn = page - 2 + i;
                 return (
-                  <button key={pn} onClick={() => setPage(pn)}
+                  <button key={pn} onClick={() => handlePageChange(pn)}
                     className={`px-3 py-1 rounded text-sm ${page === pn ? 'bg-primary-600 text-white' : 'hover:bg-gray-200 text-gray-600'}`}>
                     {pn}
                   </button>
                 );
               })}
-              <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page >= pagination.totalPages}
+              <button onClick={() => handlePageChange(Math.min(pagination.totalPages, page + 1))} disabled={page >= pagination.totalPages}
                 className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed">
                 <ChevronRight size={18} />
               </button>
