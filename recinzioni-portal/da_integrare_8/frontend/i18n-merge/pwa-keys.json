@@ -1,0 +1,71 @@
+{
+  "_info": "Sezione 'pwa' da mergere nei file locales/it.json, en.json, fr.json, de.json esistenti",
+
+  "it": {
+    "pwa": {
+      "installTitle": "Installa l'app",
+      "installMessage": "Installa il Portale Recinzioni per un accesso rapido dalla schermata home.",
+      "installButton": "Installa",
+      "dismissButton": "Non ora",
+      "offlineTitle": "Sei offline",
+      "offlineMessage": "Controlla la connessione a Internet e riprova.",
+      "offlineRetry": "Riprova",
+      "offlineLimited": "Alcune funzionalità potrebbero non essere disponibili offline.",
+      "updateAvailable": "Aggiornamento disponibile",
+      "updateMessage": "Una nuova versione è disponibile. Aggiorna per ottenere le ultime novità.",
+      "updateButton": "Aggiorna ora",
+      "updateDismiss": "Più tardi"
+    }
+  },
+
+  "en": {
+    "pwa": {
+      "installTitle": "Install the app",
+      "installMessage": "Install the Fencing Portal for quick access from your home screen.",
+      "installButton": "Install",
+      "dismissButton": "Not now",
+      "offlineTitle": "You are offline",
+      "offlineMessage": "Check your Internet connection and try again.",
+      "offlineRetry": "Retry",
+      "offlineLimited": "Some features may not be available offline.",
+      "updateAvailable": "Update available",
+      "updateMessage": "A new version is available. Update to get the latest features.",
+      "updateButton": "Update now",
+      "updateDismiss": "Later"
+    }
+  },
+
+  "fr": {
+    "pwa": {
+      "installTitle": "Installer l'application",
+      "installMessage": "Installez le Portail Clôtures pour un accès rapide depuis votre écran d'accueil.",
+      "installButton": "Installer",
+      "dismissButton": "Pas maintenant",
+      "offlineTitle": "Vous êtes hors ligne",
+      "offlineMessage": "Vérifiez votre connexion Internet et réessayez.",
+      "offlineRetry": "Réessayer",
+      "offlineLimited": "Certaines fonctionnalités peuvent ne pas être disponibles hors ligne.",
+      "updateAvailable": "Mise à jour disponible",
+      "updateMessage": "Une nouvelle version est disponible. Mettez à jour pour obtenir les dernières nouveautés.",
+      "updateButton": "Mettre à jour",
+      "updateDismiss": "Plus tard"
+    }
+  },
+
+  "de": {
+    "pwa": {
+      "installTitle": "App installieren",
+      "installMessage": "Installieren Sie das Zaunportal für schnellen Zugriff vom Startbildschirm.",
+      "installButton": "Installieren",
+      "dismissButton": "Nicht jetzt",
+      "offlineTitle": "Sie sind offline",
+      "offlineMessage": "Überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+      "offlineRetry": "Erneut versuchen",
+      "offlineLimited": "Einige Funktionen sind möglicherweise offline nicht verfügbar.",
+      "updateAvailable": "Update verfügbar",
+      "updateMessage": "Eine neue Version ist verfügbar. Aktualisieren Sie, um die neuesten Funktionen zu erhalten.",
+      "updateButton": "Jetzt aktualisieren",
+      "updateDismiss": "Später"
+    }
+  }
+}

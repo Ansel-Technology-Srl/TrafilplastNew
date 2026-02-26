@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-gray-800 antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium;
+  }
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium;
+  }
+  .btn-success {
+    @apply bg-success-600 text-white px-4 py-2 rounded-lg hover:bg-success-700 transition-colors font-medium;
+  }
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-colors;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+  }
+  .btn-danger {
+    @apply bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium;
+  }
+}
+
+/* ============================================================
+   Fase 7: Accessibilità + Focus Ring (WCAG 2.1 AA)
+   ============================================================ */
+
+/* A. Screen Reader Only (sr-only migliorato) */
+.sr-only-focusable:focus,
+.sr-only-focusable:focus-within,
+.focus-within\:not-sr-only:focus-within {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* B. Focus Ring — WCAG 2.4.7 */
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-danger {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500;
+}
+
+.nav-link:focus-visible,
+.sidebar a:focus-visible,
+.sidebar button:focus-visible {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-2 rounded;
+}
+
+.lang-selector button:focus-visible {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-1 rounded;
+}
+
+/* C. Contrasto colori fix */
+.text-primary-link {
+  @apply text-primary-700;
+}
+
+.badge-primary {
+  @apply bg-primary-100 text-primary-800;
+}
+
+.input-field::placeholder {
+  @apply text-gray-500;
+}
+
+.text-muted {
+  @apply text-gray-500;
+}
+
+/* D. Reduced Motion — WCAG 2.3.3 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* E. High Contrast Mode (forced-colors) */
+@media (forced-colors: active) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-success,
+  .btn-danger {
+    border: 2px solid ButtonText;
+  }
+
+  .input-field {
+    border: 1px solid ButtonText;
+  }
+
+  .card {
+    border: 1px solid CanvasText;
+  }
+}
+
+/* F. Print styles */
+@media print {
+  .no-print,
+  nav,
+  .sidebar {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}
+
+/* ============================================================
+   Fase 8: PWA — Animazione lenta per icona aggiornamento
+   ============================================================ */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}

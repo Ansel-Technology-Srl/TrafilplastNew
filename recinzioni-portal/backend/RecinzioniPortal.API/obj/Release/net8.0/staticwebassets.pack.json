@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\User\\Documents\\GitHub\\trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\wwwroot\\euritmo\\.gitkeep",
+      "PackagePath": "staticwebassets\\euritmo\\.gitkeep"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.RecinzioniPortal.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.build.RecinzioniPortal.API.props",
+      "PackagePath": "build\\RecinzioniPortal.API.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.RecinzioniPortal.API.props",
+      "PackagePath": "buildMultiTargeting\\RecinzioniPortal.API.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildTransitive.RecinzioniPortal.API.props",
+      "PackagePath": "buildTransitive\\RecinzioniPortal.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
