@@ -163,7 +163,7 @@ function TabContent({ tabKey, onImportDone }) {
   // Single data-loading function with explicit arguments to avoid stale closures
   const fetch = async (tab, pg, srch) => {
     setLoading(true);
-    const params = new URLSearchParams({ page: String(pg), pageSize: '50' });
+    const params = new URLSearchParams({ page: String(pg), pageSize: '10' });
     if (srch) params.set('search', srch);
     const res = await api.get(`/import/${tab}?${params}`);
     if (res?.success) {

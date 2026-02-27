@@ -7,22 +7,22 @@ import './index.css';
 import './i18n/i18n.js';
 
 // ─── Registrazione Service Worker PWA ───────────────────────────────
-// L'evento 'pwa-update-available' viene ascoltato da UpdatePrompt.jsx
-// L'evento 'pwa-offline-ready' viene loggato in console
+// Auto-aggiornamento: quando viene rilevato un nuovo build,
+// il service worker si aggiorna e la pagina si ricarica automaticamente.
 const updateSW = registerSW({
   onNeedRefresh() {
-    // Dispatch evento custom per notificare UpdatePrompt
-    window.dispatchEvent(new CustomEvent('pwa-update-available'));
+    // Aggiorna immediatamente senza chiedere all'utente
+    updateSW(true);
   },
   onOfflineReady() {
     console.log('[PWA] App pronta per uso offline');
   },
   onRegisteredSW(swUrl, registration) {
-    // Check periodico aggiornamenti ogni 60 minuti
+    // Check periodico aggiornamenti ogni 15 minuti
     if (registration) {
       setInterval(() => {
         registration.update();
-      }, 60 * 60 * 1000);
+      }, 15 * 60 * 1000);
     }
   },
   onRegisterError(error) {
@@ -30,7 +30,7 @@ const updateSW = registerSW({
   }
 });
 
-// Salva la funzione di aggiornamento globalmente per UpdatePrompt
+// Salva la funzione di aggiornamento globalmente
 window.__PWA_UPDATE_SW = updateSW;
 
 // ─── Render App ─────────────────────────────────────────────────────

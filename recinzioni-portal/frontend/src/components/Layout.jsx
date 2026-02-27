@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore, useCartStore } from '../store/store';
 import { Package, Wrench, ShoppingCart, FileText, Users, Upload, Tag, LogOut, Globe, Menu, X, KeyRound } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ChangePasswordModal from './ChangePasswordModal';
 import InstallPrompt from './InstallPrompt';
 import UpdatePrompt from './UpdatePrompt';
@@ -25,6 +25,15 @@ export default function Layout() {
   const [showChangePwd, setShowChangePwd] = useState(false);
 
   const handleLogout = () => { logout(); navigate('/login'); };
+
+  // Controlla aggiornamenti service worker ad ogni cambio pagina
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (reg) reg.update();
+      });
+    }
+  }, [location.pathname]);
 
   const navItems = [];
   if (user?.userType === 1) {
@@ -57,8 +66,8 @@ export default function Layout() {
         </button>
       </div>
 
-      {/* Sidebar */}
-      <aside className={`sidebar ${menuOpen ? 'block' : 'hidden'} md:flex md:flex-col w-full md:w-64 bg-gray-900 text-white flex-shrink-0`}>
+      {/* Sidebar — sticky su desktop con footer sempre visibile */}
+      <aside className={`sidebar ${menuOpen ? 'block' : 'hidden'} md:flex md:flex-col w-full md:w-64 md:h-screen md:sticky md:top-0 bg-gray-900 text-white flex-shrink-0`}>
         {/* Header sidebar desktop */}
         <div className="hidden md:block p-6 border-b border-gray-700">
           <h1 className="font-bold text-xl text-primary-400">{t('app.title')}</h1>
@@ -67,7 +76,7 @@ export default function Layout() {
         </div>
 
         {/* Navigation */}
-        <nav id="main-nav" aria-label={t('nav.main', 'Navigazione principale')} className="p-4 space-y-1 flex-1">
+        <nav id="main-nav" aria-label={t('nav.main', 'Navigazione principale')} className="p-4 space-y-1 flex-1 overflow-y-auto">
           {navItems.map(item => (
             <Link
               key={item.to}
@@ -90,8 +99,8 @@ export default function Layout() {
           ))}
         </nav>
 
-        {/* Footer sidebar: lingua, cambio password, logout */}
-        <div className="p-4 border-t border-gray-700 space-y-1">
+        {/* Footer sidebar: lingua, cambio password, logout — sempre visibile */}
+        <div className="p-4 border-t border-gray-700 space-y-1 flex-shrink-0">
           {/* Language selector */}
           <div className="lang-selector flex items-center gap-2 mb-3 px-3" role="group" aria-label={t('a11y.selectLanguage')}>
             <Globe size={16} className="text-gray-400" aria-hidden="true" />
