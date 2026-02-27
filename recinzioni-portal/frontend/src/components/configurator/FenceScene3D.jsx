@@ -6,9 +6,9 @@ import * as THREE from 'three';
 // ─── Costanti geometriche ──────────────────────────────────────────────────
 const PALO_WIDTH = 0.06;       // 6cm larghezza palo
 const PALO_DEPTH = 0.06;       // 6cm profondità palo
-const DOGA_HEIGHT = 0.04;      // 4cm altezza doga
-const DOGA_DEPTH = 0.02;       // 2cm profondità doga
-const DOGA_GAP_PERSIANA = 0.03; // 3cm gap tra doghe persiana
+const DOGA_HEIGHT = 0.108;     // 10.8cm (108mm) altezza profilo PVC reale
+const DOGA_DEPTH = 0.018;      // 1.8cm (18mm) profondità profilo PVC reale
+const DOGA_GAP_PERSIANA = 0.018; // ~1.8cm gap tra doghe persiana (da scheda tecnica)
 const DOGA_GAP_PIENO = 0.002;   // 0.2cm gap tra doghe pieno (quasi nulla)
 const DOGA_TILT_PERSIANA = 0;    // doghe sempre dritte (0 = nessuna inclinazione)
 const CAPPELLOTTO_HEIGHT = 0.03;
@@ -330,8 +330,8 @@ export default function FenceScene3D({
   sezioni = [],
   altezzaPali = 150,
   tipoDoghe = 'persiana',
-  coloreDoghe = '#7B7B7B',
-  colorePali = '#7B7B7B',
+  coloreDoghe = '#4A4A4A',
+  colorePali = '#4A4A4A',
   selectedPaloIndex = null,
   onPaloClick,
   className = '',

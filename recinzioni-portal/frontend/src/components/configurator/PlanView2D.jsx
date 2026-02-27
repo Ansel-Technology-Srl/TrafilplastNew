@@ -138,7 +138,7 @@ export default function PlanView2D({
     const dx = svgX - prevPalo.x;
     const dy = svgY - prevPalo.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    const newLunghezza = Math.round(Math.max(10, Math.min(150, dist / scale)));
+    const newLunghezza = Math.round(Math.max(10, Math.min(158, dist / scale)));
 
     // Calcola angolo — snap a 0° o 90° (unici angoli ammessi)
     const angle = Math.atan2(dy, dx);

@@ -22,9 +22,9 @@ public class ConfiguratoreService
 
     private static readonly Dictionary<string, string> MappaColori = new(StringComparer.OrdinalIgnoreCase)
     {
-        { "#7B7B7B", "GR" },
-        { "#2D5A27", "VE" },
-        { "#8B4513", "RO" }
+        { "#E8E0D0", "BI" },   // Bianco melange
+        { "#8B4513", "MA" },   // Marrone
+        { "#4A4A4A", "AN" }    // Antracite
     };
 
     private static readonly Dictionary<int, string> MappaAngoli = new()
@@ -40,30 +40,30 @@ public class ConfiguratoreService
     public ValidazioneSezioneResponse Valida(DistintaBaseRequest req)
     {
         if (!AltezzeValide.Contains(req.AltezzaPali))
-            return new(false, "Altezza pali non valida. Valori ammessi: 100, 150, 185, 200 cm.", 10, 150, 20);
+            return new(false, "Altezza pali non valida. Valori ammessi: 100, 150, 185, 200 cm.", 10, 158, 20);
 
         if (req.TipoDoghe != "persiana" && req.TipoDoghe != "pieno")
-            return new(false, "Tipo doghe non valido. Valori ammessi: persiana, pieno.", 10, 150, 20);
+            return new(false, "Tipo doghe non valido. Valori ammessi: persiana, pieno.", 10, 158, 20);
 
         if (req.Fissaggio != "cemento" && req.Fissaggio != "terreno")
-            return new(false, "Tipo fissaggio non valido. Valori ammessi: cemento, terreno.", 10, 150, 20);
+            return new(false, "Tipo fissaggio non valido. Valori ammessi: cemento, terreno.", 10, 158, 20);
 
         if (req.Sezioni == null || req.Sezioni.Count == 0)
-            return new(false, "Almeno una sezione è richiesta.", 10, 150, 20);
+            return new(false, "Almeno una sezione è richiesta.", 10, 158, 20);
 
         if (req.Sezioni.Count > 20)
-            return new(false, "Massimo 20 sezioni per recinzione.", 10, 150, 20);
+            return new(false, "Massimo 20 sezioni per recinzione.", 10, 158, 20);
 
         foreach (var (sez, i) in req.Sezioni.Select((s, i) => (s, i)))
         {
-            if (sez.Lunghezza < 10 || sez.Lunghezza > 150)
-                return new(false, $"Sezione {i + 1}: lunghezza deve essere tra 10 e 150 cm.", 10, 150, 20);
+            if (sez.Lunghezza < 10 || sez.Lunghezza > 158)
+                return new(false, $"Sezione {i + 1}: lunghezza deve essere tra 10 e 158 cm.", 10, 158, 20);
 
             if (sez.Angolo != 0 && sez.Angolo != 90)
                 return new(false, $"Sezione {i + 1}: l'angolo deve essere 0° (in linea) o 90°.", 10, 150, 20);
         }
 
-        return new(true, null, 10, 150, 20);
+        return new(true, null, 10, 158, 20);
     }
 
     public async Task<DistintaBaseResponse> CalcolaDistintaBase(
@@ -77,9 +77,15 @@ public class ConfiguratoreService
         int numDoghePerSezione = GetNumeroDoghe(req.AltezzaPali, req.TipoDoghe);
         int numDoghe   = numDoghePerSezione * numSezioni;
         int numFissaggi = numPali;
-        int numDistanziali = numDoghePerSezione * numSezioni;
         int numCappellotti = numPali;
         double lunghezzaTotale = req.Sezioni.Sum(s => s.Lunghezza);
+
+        // Distanziatori: solo per persiana, 2 per sezione (kit); 0 per pieno (da scheda tecnica)
+        int numDistanziali = req.TipoDoghe == "persiana" ? 2 * numSezioni : 0;
+
+        // Cover: 2 per palo terminale (primo/ultimo), 1 per palo intermedio
+        // Palo 60x60 ha 3 scanalature: cover copre i lati non utilizzati
+        int numCover = numPali + 2; // 2×2 (terminali) + (numPali-2)×1 (intermedi)
 
         var angoli = req.Sezioni
             .Where(s => s.Angolo != 0)
@@ -94,9 +100,15 @@ public class ConfiguratoreService
             ($"PAL-{req.AltezzaPali}", codColPali, $"PAL-{req.AltezzaPali}-{codColPali}", numPali),
             ("DOG-150", codColDoghe, $"DOG-150-{codColDoghe}", numDoghe),
             (req.Fissaggio == "cemento" ? "FIX-CEM" : "FIX-TER", null, req.Fissaggio == "cemento" ? "FIX-CEM-01" : "FIX-TER-01", numFissaggi),
-            (req.TipoDoghe == "persiana" ? "DST-PER" : "DST-PIE", null, req.TipoDoghe == "persiana" ? "DST-PER-01" : "DST-PIE-01", numDistanziali),
+            ($"COV-{req.AltezzaPali}", null, $"COV-{req.AltezzaPali}-01", numCover),
             ("ACC-CAP", codColPali, $"ACC-CAP-{codColPali}", numCappellotti)
         };
+
+        // Distanziatori solo se persiana
+        if (req.TipoDoghe == "persiana")
+        {
+            componentiBom.Add(("DST-PER", null, "DST-PER-01", numDistanziali));
+        }
 
         foreach (var (angolo, qty) in angoli)
         {
@@ -249,9 +261,9 @@ public class ConfiguratoreService
     public static int[] GetAltezzeValide() => AltezzeValide;
     public static Dictionary<string, string> GetColoriDisponibili() => new()
     {
-        { "#7B7B7B", "Grigio" },
-        { "#2D5A27", "Verde" },
-        { "#8B4513", "Rosso mattone" }
+        { "#E8E0D0", "Bianco melange" },
+        { "#8B4513", "Marrone" },
+        { "#4A4A4A", "Antracite" }
     };
 
     /// <summary>
