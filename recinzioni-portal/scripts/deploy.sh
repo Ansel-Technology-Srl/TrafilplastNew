@@ -47,39 +47,65 @@ echo "Progetto: $PROJECT_ROOT"
 echo "Backend:  $(if $SKIP_BACKEND; then echo 'SKIP'; else echo 'BUILD'; fi)"
 echo "Frontend: $(if $SKIP_FRONTEND; then echo 'SKIP'; else echo 'BUILD'; fi)"
 
-# ─── Step 1: Build Backend ───────────────────────────────────────────
+# ─── Step 1: Pulizia cartella publish ─────────────────────────────────
+step "Step 1/4: Pulizia cartella publish"
+if [ -d "$PUBLISH_DIR" ]; then
+    # Salva euritmo (archivio EDI) se esiste
+    EURITMO_BAK=""
+    if [ -d "$WWWROOT_DIR/euritmo" ]; then
+        EURITMO_BAK="$(mktemp -d)"
+        cp -r "$WWWROOT_DIR/euritmo" "$EURITMO_BAK/"
+        ok "Backup euritmo in $EURITMO_BAK"
+    fi
+    rm -rf "$PUBLISH_DIR"
+    ok "Cartella publish rimossa"
+    # Ripristina euritmo
+    if [ -n "$EURITMO_BAK" ] && [ -d "$EURITMO_BAK/euritmo" ]; then
+        mkdir -p "$WWWROOT_DIR"
+        cp -r "$EURITMO_BAK/euritmo" "$WWWROOT_DIR/"
+        rm -rf "$EURITMO_BAK"
+        ok "Cartella euritmo ripristinata"
+    fi
+else
+    ok "Nessuna cartella publish precedente"
+fi
+
+# ─── Step 2: Build Backend ───────────────────────────────────────────
 if ! $SKIP_BACKEND; then
-    step "Step 1/3: Build backend (.NET)"
+    step "Step 2/4: Build backend (.NET)"
     [ -d "$BACKEND_DIR" ] || fail "Cartella backend non trovata: $BACKEND_DIR"
     cd "$BACKEND_DIR"
     dotnet publish -c Release -o "$PUBLISH_DIR"
     ok "Backend compilato in: $PUBLISH_DIR"
 else
-    step "Step 1/3: Build backend SKIP"
+    step "Step 2/4: Build backend SKIP"
 fi
 
-# ─── Step 2: Build Frontend ─────────────────────────────────────────
+# ─── Step 3: Build Frontend ─────────────────────────────────────────
 if ! $SKIP_FRONTEND; then
-    step "Step 2/3: Build frontend (Vite + PWA)"
+    step "Step 3/4: Build frontend (Vite + PWA)"
     [ -d "$FRONTEND_DIR" ] || fail "Cartella frontend non trovata: $FRONTEND_DIR"
     cd "$FRONTEND_DIR"
     npm install
     npm run build
     ok "Frontend compilato"
 else
-    step "Step 2/3: Build frontend SKIP"
+    step "Step 3/4: Build frontend SKIP"
 fi
 
-# ─── Step 3: Copia frontend in wwwroot ───────────────────────────────
+# ─── Step 4: Copia frontend in wwwroot ───────────────────────────────
 if ! $SKIP_FRONTEND; then
-    step "Step 3/3: Copia frontend in wwwroot"
+    step "Step 4/4: Copia frontend in wwwroot"
     DIST_DIR="$FRONTEND_DIR/dist"
     [ -d "$DIST_DIR" ] || fail "Cartella dist non trovata: $DIST_DIR"
     mkdir -p "$WWWROOT_DIR"
+    # Pulisci i vecchi asset frontend (preserva euritmo)
+    rm -rf "$WWWROOT_DIR/assets"
+    rm -f "$WWWROOT_DIR"/sw.js "$WWWROOT_DIR"/workbox-*.js "$WWWROOT_DIR"/index.html "$WWWROOT_DIR"/manifest.webmanifest
     cp -r "$DIST_DIR"/* "$WWWROOT_DIR/"
     ok "Frontend copiato in $WWWROOT_DIR"
 else
-    step "Step 3/3: Copia frontend SKIP"
+    step "Step 4/4: Copia frontend SKIP"
 fi
 
 # ─── Report ──────────────────────────────────────────────────────────
