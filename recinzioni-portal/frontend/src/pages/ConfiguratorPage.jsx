@@ -611,21 +611,22 @@ export default function ConfiguratorPage() {
                   ))}
                 </div>
 
-                {/* Totale */}
-                <div className="card p-4 bg-blue-50 border border-blue-200">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-gray-700">{t('configurator.bom.grandTotal')}</span>
-                    <span className="text-xl font-bold text-blue-700">{fmt.currency(distinta.totale)}</span>
-                  </div>
-                </div>
-
               </div>
             )}
 
             </div>{/* Fine area scrollabile */}
 
-            {/* ─── Barra pulsanti fissa in basso ─────────────────────── */}
-            <div className="flex-shrink-0 pt-3 border-t border-gray-200 mt-3 bg-white">
+            {/* ─── Barra fissa in basso (totale + pulsanti) ───────────── */}
+            <div className="flex-shrink-0 pt-3 border-t border-gray-200 mt-3 bg-white space-y-3">
+              {/* Totale complessivo fisso - visibile solo allo step 2 */}
+              {step === 2 && distinta && (
+                <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-gray-700">{t('configurator.bom.grandTotal')}</span>
+                    <span className="text-xl font-bold text-blue-700">{fmt.currency(distinta.totale)}</span>
+                  </div>
+                </div>
+              )}
               {step === 0 && (
                 <button
                   onClick={() => setStep(1)}
