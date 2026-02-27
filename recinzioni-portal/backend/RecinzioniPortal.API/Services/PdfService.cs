@@ -32,7 +32,8 @@ public class PdfService
                 page.MarginBottom(1.5f, Unit.Centimetre);
                 page.MarginLeft(2, Unit.Centimetre);
                 page.MarginRight(2, Unit.Centimetre);
-                page.DefaultTextStyle(x => x.FontSize(9).FontFamily("Arial"));
+                // Usa font di default QuestPDF (Lato) — "Arial" potrebbe non essere disponibile
+                page.DefaultTextStyle(x => x.FontSize(9));
 
                 // ── Header ──────────────────────────────────────
                 page.Header().Column(col =>
@@ -41,12 +42,12 @@ public class PdfService
                     col.Item().Row(row =>
                     {
                         // Logo a sinistra
-                        row.ConstantItem(120).Height(60).AlignMiddle().Element(container =>
+                        row.ConstantItem(120).Height(60).AlignMiddle().Element(logoContainer =>
                         {
                             if (!string.IsNullOrEmpty(logoPath) && File.Exists(logoPath))
-                                container.Image(logoPath).FitArea();
+                                logoContainer.Image(logoPath).FitArea();
                             else
-                                container.Text(""); // spazio vuoto se no logo
+                                logoContainer.Text(""); // spazio vuoto se no logo
                         });
 
                         row.RelativeItem().PaddingLeft(10).AlignRight().Column(c =>

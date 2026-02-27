@@ -81,6 +81,8 @@ builder.Services.AddSwaggerGen(c =>
 
 // Licenza QuestPDF Community (gratuita)
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+// Evita eccezioni se un glifo non è disponibile nel font corrente
+QuestPDF.Settings.CheckIfAllTextGlyphsAreAvailable = false;
 
 var app = builder.Build();
 
