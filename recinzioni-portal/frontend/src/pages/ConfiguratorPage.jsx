@@ -591,40 +591,32 @@ export default function ConfiguratorPage() {
                   </div>
                 </div>
 
-                {/* Tabella componenti */}
-                <div className="card overflow-hidden">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-gray-50 text-left">
-                        <th className="px-3 py-2 font-medium text-gray-600">{t('configurator.bom.code')}</th>
-                        <th className="px-3 py-2 font-medium text-gray-600">{t('configurator.bom.description')}</th>
-                        <th className="px-3 py-2 font-medium text-gray-600 text-center">{t('configurator.bom.qty')}</th>
-                        <th className="px-3 py-2 font-medium text-gray-600 text-right">{t('configurator.bom.unitPrice')}</th>
-                        <th className="px-3 py-2 font-medium text-gray-600 text-right">{t('configurator.bom.totalPrice')}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {distinta.componenti.map((comp, i) => (
-                        <tr key={i} className="border-t border-gray-100 hover:bg-gray-50">
-                          <td className="px-3 py-2 font-mono text-xs text-gray-500">{comp.prdCod}</td>
-                          <td className="px-3 py-2">{comp.prdDes}</td>
-                          <td className="px-3 py-2 text-center font-medium">{comp.quantita}</td>
-                          <td className="px-3 py-2 text-right">{fmt.currency(comp.prezzoUnitario)}</td>
-                          <td className="px-3 py-2 text-right font-medium">{fmt.currency(comp.prezzoTotale)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                    <tfoot>
-                      <tr className="border-t-2 border-gray-300 bg-blue-50">
-                        <td colSpan={4} className="px-3 py-3 text-right font-bold text-gray-700">
-                          {t('configurator.bom.grandTotal')}
-                        </td>
-                        <td className="px-3 py-3 text-right font-bold text-blue-700 text-lg">
-                          {fmt.currency(distinta.totale)}
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
+                {/* Lista componenti (layout compatto per pannello 380px) */}
+                <div className="space-y-2">
+                  {distinta.componenti.map((comp, i) => (
+                    <div key={i} className="card p-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-800 truncate">{comp.prdDes}</p>
+                          <p className="text-xs text-gray-400 font-mono">{comp.prdCod}</p>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <p className="text-sm font-bold text-gray-800">{fmt.currency(comp.prezzoTotale)}</p>
+                          <p className="text-xs text-gray-400">
+                            {comp.quantita} x {fmt.currency(comp.prezzoUnitario)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Totale */}
+                <div className="card p-4 bg-blue-50 border border-blue-200">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-gray-700">{t('configurator.bom.grandTotal')}</span>
+                    <span className="text-xl font-bold text-blue-700">{fmt.currency(distinta.totale)}</span>
+                  </div>
                 </div>
 
               </div>
