@@ -171,7 +171,32 @@
     "importAnother": "Importa un altro file",
     "done": "Chiudi",
     "exporting": "Esportazione in corso...",
-    "exportDone": "Esportazione completata"
+    "exportDone": "Esportazione completata",
+    "col": {
+      "code": "Codice",
+      "description": "Descrizione",
+      "um": "U.M.",
+      "category": "Categoria",
+      "family": "Famiglia",
+      "group": "Gruppo",
+      "configuration": "Configurazione",
+      "color": "Colore",
+      "productCode": "Codice Prodotto",
+      "priceListCode": "Codice Listino",
+      "price": "Prezzo",
+      "companyName": "Ragione Sociale",
+      "vatNumber": "P.IVA",
+      "taxCode": "C.F.",
+      "address": "Indirizzo",
+      "city": "Località",
+      "province": "Prov.",
+      "priceList": "Listino",
+      "payment": "Pagamento",
+      "customer": "Cliente",
+      "branch": "Sede",
+      "phone": "Telefono",
+      "email": "Email"
+    }
   },
   "priceLists": {
     "title": "Gestione Listini",
@@ -270,6 +295,7 @@
     "viewDetail": "Vedi dettaglio",
     "configure": "Configura",
     "configurable": "Configurabile",
+    "goToConfigurator": "Configuratore",
     "actions": "Azioni",
     "showing": "Da {{from}} a {{to}} di {{total}}",
     "detail": {

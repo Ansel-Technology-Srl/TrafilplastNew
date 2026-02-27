@@ -341,15 +341,20 @@ export default function CatalogPage() {
             >
               <Settings2 size={14} /> {t('catalog.configure')}
             </button>
+          ) : p.prezzo != null ? (
+            <button
+              onClick={() => handleAddToCart(p)}
+              className="btn-success flex items-center gap-1 text-sm py-1.5 px-3"
+            >
+              <Plus size={14} /> {t('catalog.addToCart')}
+            </button>
           ) : (
-            p.prezzo != null && (
-              <button
-                onClick={() => handleAddToCart(p)}
-                className="btn-success flex items-center gap-1 text-sm py-1.5 px-3"
-              >
-                <Plus size={14} /> {t('catalog.addToCart')}
-              </button>
-            )
+            <button
+              onClick={() => navigate('/configuratore')}
+              className="btn-secondary flex items-center gap-1 text-sm py-1.5 px-3"
+            >
+              <Settings2 size={14} /> {t('catalog.goToConfigurator')}
+            </button>
           )}
         </div>
       </div>
@@ -414,15 +419,20 @@ export default function CatalogPage() {
             >
               <Settings2 size={13} /> {t('catalog.configure')}
             </button>
+          ) : p.prezzo != null ? (
+            <button
+              onClick={() => handleAddToCart(p)}
+              className="btn-success text-xs py-1 px-2 flex items-center gap-1"
+            >
+              <Plus size={13} /> {t('catalog.add')}
+            </button>
           ) : (
-            p.prezzo != null && (
-              <button
-                onClick={() => handleAddToCart(p)}
-                className="btn-success text-xs py-1 px-2 flex items-center gap-1"
-              >
-                <Plus size={13} /> {t('catalog.add')}
-              </button>
-            )
+            <button
+              onClick={() => navigate('/configuratore')}
+              className="btn-secondary text-xs py-1 px-2 flex items-center gap-1"
+            >
+              <Settings2 size={13} /> {t('catalog.goToConfigurator')}
+            </button>
           )}
         </div>
       </td>

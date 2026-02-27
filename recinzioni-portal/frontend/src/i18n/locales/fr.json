@@ -171,7 +171,32 @@
     "importAnother": "Importer un autre fichier",
     "done": "Fermer",
     "exporting": "Exportation en cours...",
-    "exportDone": "Exportation terminée"
+    "exportDone": "Exportation terminée",
+    "col": {
+      "code": "Code",
+      "description": "Description",
+      "um": "U.M.",
+      "category": "Catégorie",
+      "family": "Famille",
+      "group": "Groupe",
+      "configuration": "Configuration",
+      "color": "Couleur",
+      "productCode": "Code Produit",
+      "priceListCode": "Code Tarif",
+      "price": "Prix",
+      "companyName": "Raison Sociale",
+      "vatNumber": "N° TVA",
+      "taxCode": "Code Fiscal",
+      "address": "Adresse",
+      "city": "Localité",
+      "province": "Prov.",
+      "priceList": "Tarif",
+      "payment": "Paiement",
+      "customer": "Client",
+      "branch": "Siège",
+      "phone": "Téléphone",
+      "email": "Email"
+    }
   },
   "priceLists": {
     "title": "Gestion des Tarifs",
@@ -270,6 +295,7 @@
     "viewDetail": "Voir le détail",
     "configure": "Configurer",
     "configurable": "Configurable",
+    "goToConfigurator": "Configurateur",
     "actions": "Actions",
     "showing": "De {{from}} à {{to}} sur {{total}}",
     "detail": {

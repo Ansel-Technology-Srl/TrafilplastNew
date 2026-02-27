@@ -54,7 +54,7 @@ export default function Layout() {
     <div className="min-h-screen flex flex-col md:flex-row">
       <UpdatePrompt />
       {/* Mobile header */}
-      <div className="md:hidden bg-gray-900 text-white p-4 flex items-center justify-between">
+      <div className="md:hidden bg-gray-800 text-white p-4 flex items-center justify-between">
         <h1 className="font-bold text-lg">{t('app.title')}</h1>
         <button
           onClick={() => setMenuOpen(!menuOpen)}
@@ -67,10 +67,10 @@ export default function Layout() {
       </div>
 
       {/* Sidebar — sticky su desktop con footer sempre visibile */}
-      <aside className={`sidebar ${menuOpen ? 'block' : 'hidden'} md:flex md:flex-col w-full md:w-64 md:h-screen md:sticky md:top-0 bg-gray-900 text-white flex-shrink-0`}>
+      <aside className={`sidebar ${menuOpen ? 'block' : 'hidden'} md:flex md:flex-col w-full md:w-64 md:h-screen md:sticky md:top-0 bg-gray-800 text-white flex-shrink-0`}>
         {/* Header sidebar desktop */}
-        <div className="hidden md:block p-6 border-b border-gray-700">
-          <h1 className="font-bold text-xl text-primary-400">{t('app.title')}</h1>
+        <div className="hidden md:block p-6 border-b border-gray-600">
+          <h1 className="font-bold text-xl text-primary-300">{t('app.title')}</h1>
           <p className="text-sm text-gray-400 mt-1">{user?.userName}</p>
           <p className="text-xs text-gray-500">{t(`users.types.${user?.userType}`)}</p>
         </div>
@@ -85,7 +85,7 @@ export default function Layout() {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                 location.pathname === item.to
                   ? 'bg-primary-600 text-white'
-                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
             >
               <item.icon size={20} />
@@ -100,7 +100,7 @@ export default function Layout() {
         </nav>
 
         {/* Footer sidebar: lingua, cambio password, logout — sempre visibile */}
-        <div className="p-4 border-t border-gray-700 space-y-1 flex-shrink-0">
+        <div className="p-4 border-t border-gray-600 space-y-1 flex-shrink-0">
           {/* Language selector */}
           <div className="lang-selector flex items-center gap-2 mb-3 px-3" role="group" aria-label={t('a11y.selectLanguage')}>
             <Globe size={16} className="text-gray-400" aria-hidden="true" />
@@ -124,7 +124,7 @@ export default function Layout() {
           {/* Cambio Password */}
           <button
             onClick={() => { setShowChangePwd(true); setMenuOpen(false); }}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white w-full transition-colors"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white w-full transition-colors"
           >
             <KeyRound size={20} />
             <span>{t('nav.changePassword')}</span>
@@ -133,7 +133,7 @@ export default function Layout() {
           {/* Logout */}
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white w-full transition-colors"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white w-full transition-colors"
           >
             <LogOut size={20} />
             <span>{t('nav.logout')}</span>
