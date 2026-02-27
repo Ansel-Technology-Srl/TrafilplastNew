@@ -1,10 +1,47 @@
-import { useEffect, Suspense, lazy } from 'react';
+import { useEffect, Suspense, lazy, Component } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from './store/store';
 import Layout from './components/Layout';
 import SkipLinks from './components/SkipLinks';
+
+// ─── Error Boundary per chunk loading falliti ───────────────────────
+// Quando il Service Worker serve chunk JS obsoleti, il lazy import fallisce.
+// Questo boundary intercetta l'errore e forza un reload dalla rete.
+class ChunkErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError(error) {
+    // Rileva errori di caricamento chunk (nomi variano per browser)
+    if (
+      error?.name === 'ChunkLoadError' ||
+      error?.message?.includes('Failed to fetch dynamically imported module') ||
+      error?.message?.includes('Loading chunk') ||
+      error?.message?.includes('Importing a module script failed')
+    ) {
+      return { hasError: true };
+    }
+    throw error; // Non è un errore di chunk, ri-lancia
+  }
+  componentDidCatch() {
+    // Evita loop infiniti: se abbiamo già provato a ricaricare, non riprovare
+    const reloadKey = 'chunk_reload_ts';
+    const lastReload = sessionStorage.getItem(reloadKey);
+    const now = Date.now();
+    if (lastReload && now - Number(lastReload) < 10000) {
+      return; // Già ricaricato negli ultimi 10 secondi, non riprovare
+    }
+    sessionStorage.setItem(reloadKey, String(now));
+    window.location.reload();
+  }
+  render() {
+    if (this.state.hasError) return null; // Momentaneamente vuoto durante il reload
+    return this.props.children;
+  }
+}
 
 // Lazy load pages
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -64,6 +101,7 @@ export default function App() {
         duration: 4000,
         style: { borderRadius: '12px', fontSize: '14px' }
       }} />
+      <ChunkErrorBoundary>
       <Suspense fallback={<Spinner />}>
         <Routes>
           {/* ===== Auth routes (pubbliche) ===== */}
@@ -101,6 +139,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Suspense>
+      </ChunkErrorBoundary>
     </>
   );
 }

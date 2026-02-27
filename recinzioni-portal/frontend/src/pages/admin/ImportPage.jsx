@@ -293,7 +293,7 @@ function TabContent({ tabKey, onImportDone }) {
         </div>
 
         {/* Pagination */}
-        {pagination && pagination.totalPages > 1 && (
+        {pagination && pagination.total > 0 && (
           <div className="flex items-center justify-between px-4 py-3 border-t bg-gray-50 text-sm">
             <span className="text-gray-500">
               {t('import.showing', {
@@ -302,29 +302,31 @@ function TabContent({ tabKey, onImportDone }) {
                 total: pagination.total
               })}
             </span>
-            <div className="flex gap-1">
-              <button onClick={() => handlePageChange(Math.max(1, page - 1))} disabled={page <= 1}
-                className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed">
-                <ChevronLeft size={18} />
-              </button>
-              {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-                let pn;
-                if (pagination.totalPages <= 5) pn = i + 1;
-                else if (page <= 3) pn = i + 1;
-                else if (page >= pagination.totalPages - 2) pn = pagination.totalPages - 4 + i;
-                else pn = page - 2 + i;
-                return (
-                  <button key={pn} onClick={() => handlePageChange(pn)}
-                    className={`px-3 py-1 rounded text-sm ${page === pn ? 'bg-primary-600 text-white' : 'hover:bg-gray-200 text-gray-600'}`}>
-                    {pn}
-                  </button>
-                );
-              })}
-              <button onClick={() => handlePageChange(Math.min(pagination.totalPages, page + 1))} disabled={page >= pagination.totalPages}
-                className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed">
-                <ChevronRight size={18} />
-              </button>
-            </div>
+            {pagination.totalPages > 1 && (
+              <div className="flex gap-1">
+                <button onClick={() => handlePageChange(Math.max(1, page - 1))} disabled={page <= 1}
+                  className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed">
+                  <ChevronLeft size={18} />
+                </button>
+                {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                  let pn;
+                  if (pagination.totalPages <= 5) pn = i + 1;
+                  else if (page <= 3) pn = i + 1;
+                  else if (page >= pagination.totalPages - 2) pn = pagination.totalPages - 4 + i;
+                  else pn = page - 2 + i;
+                  return (
+                    <button key={pn} onClick={() => handlePageChange(pn)}
+                      className={`px-3 py-1 rounded text-sm ${page === pn ? 'bg-primary-600 text-white' : 'hover:bg-gray-200 text-gray-600'}`}>
+                      {pn}
+                    </button>
+                  );
+                })}
+                <button onClick={() => handlePageChange(Math.min(pagination.totalPages, page + 1))} disabled={page >= pagination.totalPages}
+                  className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed">
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

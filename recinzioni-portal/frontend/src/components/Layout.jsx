@@ -51,7 +51,7 @@ export default function Layout() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="min-h-screen md:h-screen flex flex-col md:flex-row md:overflow-hidden">
       <UpdatePrompt />
       {/* Mobile header */}
       <div className="md:hidden bg-gray-800 text-white p-4 flex items-center justify-between">
@@ -67,7 +67,7 @@ export default function Layout() {
       </div>
 
       {/* Sidebar — sticky su desktop con footer sempre visibile */}
-      <aside className={`sidebar ${menuOpen ? 'block' : 'hidden'} md:flex md:flex-col w-full md:w-64 md:h-screen md:sticky md:top-0 bg-gray-800 text-white flex-shrink-0`}>
+      <aside className={`sidebar ${menuOpen ? 'block' : 'hidden'} md:flex md:flex-col w-full md:w-64 bg-gray-800 text-white flex-shrink-0`}>
         {/* Header sidebar desktop */}
         <div className="hidden md:block p-6 border-b border-gray-600">
           <h1 className="font-bold text-xl text-primary-300">{t('app.title')}</h1>
@@ -145,7 +145,7 @@ export default function Layout() {
       <OfflineBanner />
 
       {/* Main content */}
-      <main id="main-content" className="flex-1 p-4 md:p-8 overflow-auto">
+      <main id="main-content" className="flex-1 p-4 md:p-8 overflow-auto bg-[#f5f5f5]">
         <Outlet />
       </main>
 

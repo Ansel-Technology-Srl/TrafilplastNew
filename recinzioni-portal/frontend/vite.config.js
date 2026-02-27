@@ -43,6 +43,14 @@ export default defineConfig(({ mode }) => ({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         // Non precachare asset oltre 2MB (Three.js chunks)
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
+        // Forza attivazione immediata del nuovo SW senza attendere reload
+        skipWaiting: true,
+        clientsClaim: true,
+        // Rimuovi automaticamente cache vecchie quando il SW si aggiorna
+        cleanupOutdatedCaches: true,
+        // SPA: tutte le navigation request servono index.html
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api\//, /^\/swagger/],
         runtimeCaching: [
           // Prodotti e filtri — mostra cache poi aggiorna in background
           {

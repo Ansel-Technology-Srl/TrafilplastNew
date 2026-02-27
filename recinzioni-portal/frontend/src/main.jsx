@@ -7,22 +7,23 @@ import './index.css';
 import './i18n/i18n.js';
 
 // ─── Registrazione Service Worker PWA ───────────────────────────────
-// Auto-aggiornamento: quando viene rilevato un nuovo build,
-// il service worker si aggiorna e la pagina si ricarica automaticamente.
+// skipWaiting + clientsClaim sono nel workbox config (vite.config.js),
+// quindi il nuovo SW si attiva subito senza attendere reload.
 const updateSW = registerSW({
   onNeedRefresh() {
-    // Aggiorna immediatamente senza chiedere all'utente
+    // Il SW è già configurato con skipWaiting, ma per sicurezza
+    // forza anche qui l'aggiornamento immediato
     updateSW(true);
   },
   onOfflineReady() {
-    console.log('[PWA] App pronta per uso offline');
+    // App pronta per uso offline
   },
   onRegisteredSW(swUrl, registration) {
-    // Check periodico aggiornamenti ogni 15 minuti
+    // Check aggiornamenti ogni 5 minuti (ridotto da 15)
     if (registration) {
       setInterval(() => {
         registration.update();
-      }, 15 * 60 * 1000);
+      }, 5 * 60 * 1000);
     }
   },
   onRegisterError(error) {
