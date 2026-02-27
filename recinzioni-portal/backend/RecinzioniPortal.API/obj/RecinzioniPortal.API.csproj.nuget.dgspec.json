@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Documents\\GitHub\\trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\RecinzioniPortal.API.csproj": {}
+    "C:\\Users\\User\\Documents\\GitHub\\Trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\RecinzioniPortal.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Documents\\GitHub\\trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\RecinzioniPortal.API.csproj": {
+    "C:\\Users\\User\\Documents\\GitHub\\Trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\RecinzioniPortal.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Documents\\GitHub\\trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\RecinzioniPortal.API.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\GitHub\\Trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\RecinzioniPortal.API.csproj",
         "projectName": "RecinzioniPortal.API",
-        "projectPath": "C:\\Users\\User\\Documents\\GitHub\\trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\RecinzioniPortal.API.csproj",
+        "projectPath": "C:\\Users\\User\\Documents\\GitHub\\Trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\RecinzioniPortal.API.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Documents\\GitHub\\trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\obj\\",
+        "outputPath": "C:\\Users\\User\\Documents\\GitHub\\Trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "R4hwIZaRmQn5Eevq+pUdmvCsz4VkNs9hNOJsJQuEblo=",
+  "Hash": "iPr0ejsYMPlabAueY9VxQikJr+Dda5vCr0abMCcuoF0=",
   "Source": "RecinzioniPortal.API",
   "BasePath": "_content/RecinzioniPortal.API",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "RecinzioniPortal.API\\wwwroot",
       "Source": "RecinzioniPortal.API",
-      "ContentRoot": "C:\\Users\\User\\Documents\\GitHub\\trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\Documents\\GitHub\\Trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\wwwroot\\",
       "BasePath": "_content/RecinzioniPortal.API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\User\\Documents\\GitHub\\trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\wwwroot\\euritmo\\.gitkeep",
+      "Identity": "C:\\Users\\User\\Documents\\GitHub\\Trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\wwwroot\\euritmo\\.gitkeep",
       "SourceId": "RecinzioniPortal.API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\Documents\\GitHub\\trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\Documents\\GitHub\\Trafilplast\\recinzioni-portal\\backend\\RecinzioniPortal.API\\wwwroot\\",
       "BasePath": "_content/RecinzioniPortal.API",
       "RelativePath": "euritmo/.gitkeep",
       "AssetKind": "All",
