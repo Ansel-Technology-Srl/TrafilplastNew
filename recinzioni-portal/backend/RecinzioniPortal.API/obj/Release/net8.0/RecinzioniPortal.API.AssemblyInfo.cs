@@ -14,9 +14,13 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 <<<<<<< HEAD
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ded1a58a81ff3d15fa99308d954d42a1ce73a22")]
 =======
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e36b24fd9f15159d2b38ef1e6b643b6875bee376")]
+>>>>>>> claude/claude-md-mm42pj5xwnjxx8aq-mJAnW
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f76e3574550fe4f500584978beb4df3396c8ba9")]
 >>>>>>> claude/claude-md-mm42pj5xwnjxx8aq-mJAnW
 [assembly: System.Reflection.AssemblyProductAttribute("RecinzioniPortal.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RecinzioniPortal.API")]

@@ -598,10 +598,18 @@ public class OrdiniController : ControllerBase
         if (System.IO.File.Exists(possibleLogo))
             logoPath = possibleLogo;
 
-        var pdfBytes = _pdfService.GeneraPdf(ordine, configList, pdv, logoPath);
+        try
+        {
+            var pdfBytes = _pdfService.GeneraPdf(ordine, configList, pdv, logoPath);
 
-        var tipoDoc = ordine.FlagConferma ? "ordine" : "preventivo";
-        return File(pdfBytes, "application/pdf", $"{tipoDoc}_{ordNum}.pdf");
+            var tipoDoc = ordine.FlagConferma ? "ordine" : "preventivo";
+            return File(pdfBytes, "application/pdf", $"{tipoDoc}_{ordNum}.pdf");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"[PDF] Errore generazione PDF ordine {ordNum}: {ex}");
+            return StatusCode(500, new ApiResponse(false, $"Errore generazione PDF: {ex.Message}"));
+        }
     }
 
     // ─── DELETE /api/ordini/{ordNum} ───────────────────────────────
