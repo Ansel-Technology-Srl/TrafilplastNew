@@ -295,6 +295,7 @@
     "viewDetail": "Voir le détail",
     "configure": "Configurer",
     "configurable": "Configurable",
+    "goToConfigurator": "Configurateur",
     "actions": "Actions",
     "showing": "De {{from}} à {{to}} sur {{total}}",
     "detail": {

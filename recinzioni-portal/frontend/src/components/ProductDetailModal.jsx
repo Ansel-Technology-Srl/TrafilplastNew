@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { X, Plus, Settings2, Globe, Tag, Package, Layers, FolderTree, Palette, Wrench } from 'lucide-react';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 
 export default function ProductDetailModal({ product, onClose, onAddToCart, onConfigure, formatPrice }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const modalRef = useRef(null);
   const [imageBroken, setImageBroken] = useState(false);
   useFocusTrap(modalRef, !!product, onClose);
@@ -83,15 +85,20 @@ export default function ProductDetailModal({ product, onClose, onAddToCart, onCo
                 >
                   <Settings2 size={16} /> {t('catalog.configure')}
                 </button>
+              ) : p.prezzo != null ? (
+                <button
+                  onClick={() => { onAddToCart(p); onClose(); }}
+                  className="btn-success flex items-center gap-2"
+                >
+                  <Plus size={16} /> {t('catalog.addToCart')}
+                </button>
               ) : (
-                p.prezzo != null && (
-                  <button
-                    onClick={() => { onAddToCart(p); onClose(); }}
-                    className="btn-success flex items-center gap-2"
-                  >
-                    <Plus size={16} /> {t('catalog.addToCart')}
-                  </button>
-                )
+                <button
+                  onClick={() => { onClose(); navigate('/configuratore'); }}
+                  className="btn-secondary flex items-center gap-2"
+                >
+                  <Settings2 size={16} /> {t('catalog.goToConfigurator')}
+                </button>
               )}
             </div>
           </div>
