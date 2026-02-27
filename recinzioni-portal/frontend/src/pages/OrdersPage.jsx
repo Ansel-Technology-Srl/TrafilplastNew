@@ -98,6 +98,10 @@ export default function OrdersPage() {
   const handleDownloadPdf = async (ordNum) => {
     try {
       const blob = await api.downloadBlob(`/ordini/${ordNum}/pdf`);
+      if (!blob || blob.size === 0) {
+        toast.error(t('orders.pdfError', 'Errore generazione PDF'));
+        return;
+      }
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -107,7 +111,14 @@ export default function OrdersPage() {
       URL.revokeObjectURL(url);
       toast.success(t('orders.pdfDownloaded'));
     } catch (err) {
-      toast.error(t('common.error'));
+      console.error('[PDF Download]', err.message);
+      // Prova a estrarre il messaggio di errore dal server
+      let errorMsg = t('orders.pdfError', 'Errore generazione PDF');
+      try {
+        const parsed = JSON.parse(err.message);
+        if (parsed?.message) errorMsg = parsed.message;
+      } catch { /* non-JSON error */ }
+      toast.error(errorMsg);
     }
   };
 

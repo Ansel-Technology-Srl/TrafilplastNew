@@ -93,7 +93,11 @@ class ApiService {
 
   async downloadBlob(path) {
     const res = await this.request(path);
-    return res?.blob();
+    if (!res || !res.ok) {
+      const errorText = await res?.text().catch(() => '');
+      throw new Error(errorText || `HTTP ${res?.status}`);
+    }
+    return res.blob();
   }
 }
 
