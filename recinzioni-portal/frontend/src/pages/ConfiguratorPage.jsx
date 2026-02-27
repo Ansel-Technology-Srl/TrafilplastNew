@@ -24,9 +24,9 @@ const TABELLA_DOGHE = {
 };
 
 const COLORI_DEFAULT = [
-  { hex: '#7B7B7B', nome: 'Grigio' },
-  { hex: '#2D5A27', nome: 'Verde' },
-  { hex: '#8B4513', nome: 'Rosso mattone' },
+  { hex: '#E8E0D0', nome: 'Bianco melange' },
+  { hex: '#8B4513', nome: 'Marrone' },
+  { hex: '#4A4A4A', nome: 'Antracite' },
 ];
 
 const ALTEZZE_VALIDE = [100, 150, 185, 200];
@@ -122,12 +122,12 @@ export default function ConfiguratorPage() {
   // ─── State configurazione ─────────────────────────────────────────────
   const [step, setStep] = useState(0);
   const [stessoColore, setStessoColore] = useState(true);
-  const [coloreDoghe, setColoreDoghe] = useState('#7B7B7B');
-  const [colorePali, setColorePali] = useState('#7B7B7B');
+  const [coloreDoghe, setColoreDoghe] = useState('#4A4A4A');
+  const [colorePali, setColorePali] = useState('#4A4A4A');
   const [fissaggio, setFissaggio] = useState('cemento');
   const [tipoDoghe, setTipoDoghe] = useState('persiana');
   const [altezzaPali, setAltezzaPali] = useState(150);
-  const [sezioni, setSezioni] = useState([{ lunghezza: 150, angolo: 0 }]);
+  const [sezioni, setSezioni] = useState([{ lunghezza: 158, angolo: 0 }]);
 
   // ─── State vista/interazione ──────────────────────────────────────────
   const [viewMode, setViewMode] = useState('both'); // '3d' | '2d' | 'both'
@@ -169,7 +169,7 @@ export default function ConfiguratorPage() {
       toast.error(t('configurator.maxSections'));
       return;
     }
-    setSezioni((prev) => [...prev, { lunghezza: 150, angolo: 0 }]);
+    setSezioni((prev) => [...prev, { lunghezza: 158, angolo: 0 }]);
     toast.success(t('configurator.sectionAdded'));
   }, [sezioni.length, t]);
 
@@ -516,7 +516,7 @@ export default function ConfiguratorPage() {
                       <SliderInput
                         value={sez.lunghezza}
                         min={10}
-                        max={150}
+                        max={158}
                         onChange={(v) => updateSezione(i, { lunghezza: v })}
                         label={t('configurator.design.length')}
                       />
