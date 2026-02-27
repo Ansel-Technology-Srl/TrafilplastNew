@@ -171,7 +171,32 @@
     "importAnother": "Weitere Datei importieren",
     "done": "Schließen",
     "exporting": "Export läuft...",
-    "exportDone": "Export abgeschlossen"
+    "exportDone": "Export abgeschlossen",
+    "col": {
+      "code": "Code",
+      "description": "Beschreibung",
+      "um": "ME",
+      "category": "Kategorie",
+      "family": "Familie",
+      "group": "Gruppe",
+      "configuration": "Konfiguration",
+      "color": "Farbe",
+      "productCode": "Produktcode",
+      "priceListCode": "Preislistencode",
+      "price": "Preis",
+      "companyName": "Firmenname",
+      "vatNumber": "USt-IdNr.",
+      "taxCode": "Steuernummer",
+      "address": "Adresse",
+      "city": "Ort",
+      "province": "Prov.",
+      "priceList": "Preisliste",
+      "payment": "Zahlung",
+      "customer": "Kunde",
+      "branch": "Standort",
+      "phone": "Telefon",
+      "email": "E-Mail"
+    }
   },
   "priceLists": {
     "title": "Preislistenverwaltung",

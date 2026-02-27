@@ -20,42 +20,42 @@ const TABS = [
   { key: 'puntivendita', icon: Store,       labelKey: 'import.branches' },
 ];
 
-// Column config per tab
+// Column config per tab — labelKey references import.col.* i18n keys
 const COLUMNS = {
   prodotti: [
-    { key: 'prdCod',    label: 'Codice',        w: 'w-32' },
-    { key: 'prdDes',    label: 'Descrizione',    w: 'flex-1' },
-    { key: 'prdUm',     label: 'U.M.',          w: 'w-20' },
-    { key: 'catCod',    label: 'Categoria',      w: 'w-28' },
-    { key: 'famCod',    label: 'Famiglia',       w: 'w-28' },
-    { key: 'grpCod',    label: 'Gruppo',         w: 'w-28' },
-    { key: 'cfgTipo',   label: 'Configurazione', w: 'w-28' },
-    { key: 'cfgColore', label: 'Colore',         w: 'w-20' },
+    { key: 'prdCod',    labelKey: 'import.col.code',          w: 'w-32' },
+    { key: 'prdDes',    labelKey: 'import.col.description',   w: 'flex-1' },
+    { key: 'prdUm',     labelKey: 'import.col.um',            w: 'w-20' },
+    { key: 'catCod',    labelKey: 'import.col.category',      w: 'w-28' },
+    { key: 'famCod',    labelKey: 'import.col.family',        w: 'w-28' },
+    { key: 'grpCod',    labelKey: 'import.col.group',         w: 'w-28' },
+    { key: 'cfgTipo',   labelKey: 'import.col.configuration', w: 'w-28' },
+    { key: 'cfgColore', labelKey: 'import.col.color',         w: 'w-20' },
   ],
   prezzi: [
-    { key: 'prdCod',  label: 'Codice Prodotto', w: 'flex-1' },
-    { key: 'lstCod',  label: 'Codice Listino',  w: 'flex-1' },
-    { key: 'prdPrz',  label: 'Prezzo',          w: 'w-32', format: 'price' },
+    { key: 'prdCod',  labelKey: 'import.col.productCode',    w: 'flex-1' },
+    { key: 'lstCod',  labelKey: 'import.col.priceListCode',  w: 'flex-1' },
+    { key: 'prdPrz',  labelKey: 'import.col.price',          w: 'w-32', format: 'price' },
   ],
   clienti: [
-    { key: 'itemID',    label: 'Codice',          w: 'w-28' },
-    { key: 'itemDes',   label: 'Ragione Sociale',  w: 'flex-1' },
-    { key: 'pIva',      label: 'P.IVA',            w: 'w-36' },
-    { key: 'cFis',      label: 'C.F.',             w: 'w-36' },
-    { key: 'ind',       label: 'Indirizzo',         w: 'w-40' },
-    { key: 'loc',       label: 'Località',          w: 'w-28' },
-    { key: 'pro',       label: 'Prov.',             w: 'w-16' },
-    { key: 'lstCod',    label: 'Listino',          w: 'w-28' },
-    { key: 'pagCod',    label: 'Pagamento',         w: 'w-24' },
+    { key: 'itemID',    labelKey: 'import.col.code',          w: 'w-28' },
+    { key: 'itemDes',   labelKey: 'import.col.companyName',   w: 'flex-1' },
+    { key: 'pIva',      labelKey: 'import.col.vatNumber',     w: 'w-36' },
+    { key: 'cFis',      labelKey: 'import.col.taxCode',       w: 'w-36' },
+    { key: 'ind',       labelKey: 'import.col.address',       w: 'w-40' },
+    { key: 'loc',       labelKey: 'import.col.city',          w: 'w-28' },
+    { key: 'pro',       labelKey: 'import.col.province',      w: 'w-16' },
+    { key: 'lstCod',    labelKey: 'import.col.priceList',     w: 'w-28' },
+    { key: 'pagCod',    labelKey: 'import.col.payment',       w: 'w-24' },
   ],
   puntivendita: [
-    { key: 'itemID',     label: 'Cliente',      w: 'w-24' },
-    { key: 'itemIDSede', label: 'Sede',          w: 'w-24' },
-    { key: 'itemDes',    label: 'Descrizione',   w: 'flex-1' },
-    { key: 'loc',        label: 'Località',      w: 'w-32' },
-    { key: 'pro',        label: 'Prov.',         w: 'w-16' },
-    { key: 'tel',        label: 'Telefono',      w: 'w-32' },
-    { key: 'mail',       label: 'Email',         w: 'w-40' },
+    { key: 'itemID',     labelKey: 'import.col.customer',     w: 'w-24' },
+    { key: 'itemIDSede', labelKey: 'import.col.branch',       w: 'w-24' },
+    { key: 'itemDes',    labelKey: 'import.col.description',  w: 'flex-1' },
+    { key: 'loc',        labelKey: 'import.col.city',         w: 'w-32' },
+    { key: 'pro',        labelKey: 'import.col.province',     w: 'w-16' },
+    { key: 'tel',        labelKey: 'import.col.phone',        w: 'w-32' },
+    { key: 'mail',       labelKey: 'import.col.email',        w: 'w-40' },
   ],
 };
 
@@ -264,7 +264,7 @@ function TabContent({ tabKey, onImportDone }) {
             <thead>
               <tr className="bg-gray-50 text-left text-gray-600 border-b">
                 {columns.map(col => (
-                  <th key={col.key} className="px-4 py-3 font-medium whitespace-nowrap">{col.label}</th>
+                  <th key={col.key} className="px-4 py-3 font-medium whitespace-nowrap">{t(col.labelKey)}</th>
                 ))}
               </tr>
             </thead>
