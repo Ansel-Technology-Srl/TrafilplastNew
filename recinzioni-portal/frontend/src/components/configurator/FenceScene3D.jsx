@@ -10,7 +10,7 @@ const DOGA_HEIGHT = 0.04;      // 4cm altezza doga
 const DOGA_DEPTH = 0.02;       // 2cm profondità doga
 const DOGA_GAP_PERSIANA = 0.03; // 3cm gap tra doghe persiana
 const DOGA_GAP_PIENO = 0.002;   // 0.2cm gap tra doghe pieno (quasi nulla)
-const DOGA_TILT_PERSIANA = 0.25; // inclinazione doghe persiana (radianti)
+const DOGA_TILT_PERSIANA = 0;    // doghe sempre dritte (0 = nessuna inclinazione)
 const CAPPELLOTTO_HEIGHT = 0.03;
 const SCALA = 0.01;            // 1cm = 0.01 unità 3D
 
@@ -93,19 +93,20 @@ function Doga({ position, lunghezza, colore, isPersiana, rotation = [0, 0, 0] })
   const tilt = isPersiana ? DOGA_TILT_PERSIANA : 0;
 
   return (
-    <mesh
-      position={position}
-      rotation={[tilt, rotation[1], rotation[2]]}
-      castShadow
-      receiveShadow
-    >
-      <boxGeometry args={[l - PALO_WIDTH, DOGA_HEIGHT, DOGA_DEPTH]} />
-      <meshStandardMaterial
-        color={colore}
-        roughness={0.65}
-        metalness={0.05}
-      />
-    </mesh>
+    <group position={position} rotation={[0, rotation[1], 0]}>
+      <mesh
+        rotation={[tilt, 0, 0]}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[l - PALO_WIDTH, DOGA_HEIGHT, DOGA_DEPTH]} />
+        <meshStandardMaterial
+          color={colore}
+          roughness={0.65}
+          metalness={0.05}
+        />
+      </mesh>
+    </group>
   );
 }
 
