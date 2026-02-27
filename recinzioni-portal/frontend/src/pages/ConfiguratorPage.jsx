@@ -521,21 +521,19 @@ export default function ConfiguratorPage() {
                         label={t('configurator.design.length')}
                       />
 
-                      {/* Angolo (solo dalla seconda sezione): solo 0° o 90° */}
-                      {i > 0 && (
-                        <div className="mt-2">
-                          <label className="flex items-center gap-2 cursor-pointer">
-                            <RotateCw size={12} className="text-gray-400" />
-                            <input
-                              type="checkbox"
-                              checked={sez.angolo === 90}
-                              onChange={(e) => updateSezione(i, { angolo: e.target.checked ? 90 : 0 })}
-                              className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
-                            />
-                            <span className="text-sm text-gray-600">{t('configurator.design.angle90')}</span>
-                          </label>
-                        </div>
-                      )}
+                      {/* Angolo: 0° (in linea) o 90° */}
+                      <div className="mt-2">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <RotateCw size={12} className="text-gray-400" />
+                          <input
+                            type="checkbox"
+                            checked={sez.angolo === 90}
+                            onChange={(e) => updateSezione(i, { angolo: e.target.checked ? 90 : 0 })}
+                            className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm text-gray-600">{t('configurator.design.angle90')}</span>
+                        </label>
+                      </div>
                     </div>
                   ))}
                 </div>
