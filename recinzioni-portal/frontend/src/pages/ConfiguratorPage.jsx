@@ -339,7 +339,10 @@ export default function ConfiguratorPage() {
 
         {/* ═══ PANNELLO SINISTRO: Parametri / Sezioni / Riepilogo ═══ */}
         {!is3DExpanded && (
-          <div className="space-y-4 overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
+          <div className="flex flex-col max-h-[calc(100vh-200px)]">
+
+            {/* Area scrollabile */}
+            <div className="flex-1 overflow-y-auto pr-2 space-y-4">
 
             {/* ─── STEP 0: Parametri generali ────────────────────────── */}
             {step === 0 && (
@@ -465,15 +468,6 @@ export default function ConfiguratorPage() {
                     })}
                   </div>
                 </div>
-
-                {/* Pulsante avanti */}
-                <button
-                  onClick={() => setStep(1)}
-                  className="btn-primary w-full flex items-center justify-center gap-2"
-                >
-                  {t('configurator.steps.goToDesign')}
-                  <ChevronRight size={16} />
-                </button>
               </div>
             )}
 
@@ -566,29 +560,6 @@ export default function ConfiguratorPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* Navigazione */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setStep(0)}
-                    className="btn-secondary flex-1 flex items-center justify-center gap-2"
-                  >
-                    <ChevronLeft size={16} />
-                    {t('configurator.steps.back')}
-                  </button>
-                  <button
-                    onClick={calcolaDistinta}
-                    disabled={loading}
-                    className="btn-primary flex-1 flex items-center justify-center gap-2"
-                  >
-                    {loading ? (
-                      <span className="animate-spin">⏳</span>
-                    ) : (
-                      <FileText size={16} />
-                    )}
-                    {t('configurator.steps.calculateBom')}
-                  </button>
-                </div>
               </div>
             )}
 
@@ -656,7 +627,46 @@ export default function ConfiguratorPage() {
                   </table>
                 </div>
 
-                {/* Azioni */}
+              </div>
+            )}
+
+            </div>{/* Fine area scrollabile */}
+
+            {/* ─── Barra pulsanti fissa in basso ─────────────────────── */}
+            <div className="flex-shrink-0 pt-3 border-t border-gray-200 mt-3 bg-white">
+              {step === 0 && (
+                <button
+                  onClick={() => setStep(1)}
+                  className="btn-primary w-full flex items-center justify-center gap-2"
+                >
+                  {t('configurator.steps.goToDesign')}
+                  <ChevronRight size={16} />
+                </button>
+              )}
+              {step === 1 && (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setStep(0)}
+                    className="btn-secondary flex-1 flex items-center justify-center gap-2"
+                  >
+                    <ChevronLeft size={16} />
+                    {t('configurator.steps.back')}
+                  </button>
+                  <button
+                    onClick={calcolaDistinta}
+                    disabled={loading}
+                    className="btn-primary flex-1 flex items-center justify-center gap-2"
+                  >
+                    {loading ? (
+                      <span className="animate-spin">⏳</span>
+                    ) : (
+                      <FileText size={16} />
+                    )}
+                    {t('configurator.steps.calculateBom')}
+                  </button>
+                </div>
+              )}
+              {step === 2 && distinta && (
                 <div className="flex gap-2">
                   <button
                     onClick={() => setStep(1)}
@@ -673,8 +683,9 @@ export default function ConfiguratorPage() {
                     {t('configurator.addToCart')}
                   </button>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+
           </div>
         )}
 
