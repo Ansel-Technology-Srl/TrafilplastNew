@@ -171,7 +171,32 @@
     "importAnother": "Import another file",
     "done": "Close",
     "exporting": "Exporting...",
-    "exportDone": "Export completed"
+    "exportDone": "Export completed",
+    "col": {
+      "code": "Code",
+      "description": "Description",
+      "um": "U.M.",
+      "category": "Category",
+      "family": "Family",
+      "group": "Group",
+      "configuration": "Configuration",
+      "color": "Color",
+      "productCode": "Product Code",
+      "priceListCode": "Price List Code",
+      "price": "Price",
+      "companyName": "Company Name",
+      "vatNumber": "VAT No.",
+      "taxCode": "Tax Code",
+      "address": "Address",
+      "city": "City",
+      "province": "Prov.",
+      "priceList": "Price List",
+      "payment": "Payment",
+      "customer": "Customer",
+      "branch": "Branch",
+      "phone": "Phone",
+      "email": "Email"
+    }
   },
   "priceLists": {
     "title": "Price List Management",
@@ -270,6 +295,7 @@
     "viewDetail": "View details",
     "configure": "Configure",
     "configurable": "Configurable",
+    "goToConfigurator": "Configurator",
     "actions": "Actions",
     "showing": "From {{from}} to {{to}} of {{total}}",
     "detail": {
