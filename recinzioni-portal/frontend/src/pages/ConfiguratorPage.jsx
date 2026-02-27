@@ -339,7 +339,10 @@ export default function ConfiguratorPage() {
 
         {/* ═══ PANNELLO SINISTRO: Parametri / Sezioni / Riepilogo ═══ */}
         {!is3DExpanded && (
-          <div className="space-y-4 overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
+          <div className="flex flex-col max-h-[calc(100vh-200px)]">
+
+            {/* Area scrollabile */}
+            <div className="flex-1 overflow-y-auto pr-2 space-y-4">
 
             {/* ─── STEP 0: Parametri generali ────────────────────────── */}
             {step === 0 && (
@@ -465,15 +468,6 @@ export default function ConfiguratorPage() {
                     })}
                   </div>
                 </div>
-
-                {/* Pulsante avanti */}
-                <button
-                  onClick={() => setStep(1)}
-                  className="btn-primary w-full flex items-center justify-center gap-2"
-                >
-                  {t('configurator.steps.goToDesign')}
-                  <ChevronRight size={16} />
-                </button>
               </div>
             )}
 
@@ -521,21 +515,19 @@ export default function ConfiguratorPage() {
                         label={t('configurator.design.length')}
                       />
 
-                      {/* Angolo (solo dalla seconda sezione): solo 0° o 90° */}
-                      {i > 0 && (
-                        <div className="mt-2">
-                          <label className="flex items-center gap-2 cursor-pointer">
-                            <RotateCw size={12} className="text-gray-400" />
-                            <input
-                              type="checkbox"
-                              checked={sez.angolo === 90}
-                              onChange={(e) => updateSezione(i, { angolo: e.target.checked ? 90 : 0 })}
-                              className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
-                            />
-                            <span className="text-sm text-gray-600">{t('configurator.design.angle90')}</span>
-                          </label>
-                        </div>
-                      )}
+                      {/* Angolo: 0° (in linea) o 90° */}
+                      <div className="mt-2">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <RotateCw size={12} className="text-gray-400" />
+                          <input
+                            type="checkbox"
+                            checked={sez.angolo === 90}
+                            onChange={(e) => updateSezione(i, { angolo: e.target.checked ? 90 : 0 })}
+                            className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm text-gray-600">{t('configurator.design.angle90')}</span>
+                        </label>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -568,29 +560,6 @@ export default function ConfiguratorPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* Navigazione */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setStep(0)}
-                    className="btn-secondary flex-1 flex items-center justify-center gap-2"
-                  >
-                    <ChevronLeft size={16} />
-                    {t('configurator.steps.back')}
-                  </button>
-                  <button
-                    onClick={calcolaDistinta}
-                    disabled={loading}
-                    className="btn-primary flex-1 flex items-center justify-center gap-2"
-                  >
-                    {loading ? (
-                      <span className="animate-spin">⏳</span>
-                    ) : (
-                      <FileText size={16} />
-                    )}
-                    {t('configurator.steps.calculateBom')}
-                  </button>
-                </div>
               </div>
             )}
 
@@ -622,43 +591,74 @@ export default function ConfiguratorPage() {
                   </div>
                 </div>
 
-                {/* Tabella componenti */}
-                <div className="card overflow-hidden">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-gray-50 text-left">
-                        <th className="px-3 py-2 font-medium text-gray-600">{t('configurator.bom.code')}</th>
-                        <th className="px-3 py-2 font-medium text-gray-600">{t('configurator.bom.description')}</th>
-                        <th className="px-3 py-2 font-medium text-gray-600 text-center">{t('configurator.bom.qty')}</th>
-                        <th className="px-3 py-2 font-medium text-gray-600 text-right">{t('configurator.bom.unitPrice')}</th>
-                        <th className="px-3 py-2 font-medium text-gray-600 text-right">{t('configurator.bom.totalPrice')}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {distinta.componenti.map((comp, i) => (
-                        <tr key={i} className="border-t border-gray-100 hover:bg-gray-50">
-                          <td className="px-3 py-2 font-mono text-xs text-gray-500">{comp.prdCod}</td>
-                          <td className="px-3 py-2">{comp.prdDes}</td>
-                          <td className="px-3 py-2 text-center font-medium">{comp.quantita}</td>
-                          <td className="px-3 py-2 text-right">{fmt.currency(comp.prezzoUnitario)}</td>
-                          <td className="px-3 py-2 text-right font-medium">{fmt.currency(comp.prezzoTotale)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                    <tfoot>
-                      <tr className="border-t-2 border-gray-300 bg-blue-50">
-                        <td colSpan={4} className="px-3 py-3 text-right font-bold text-gray-700">
-                          {t('configurator.bom.grandTotal')}
-                        </td>
-                        <td className="px-3 py-3 text-right font-bold text-blue-700 text-lg">
-                          {fmt.currency(distinta.totale)}
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
+                {/* Lista componenti (layout compatto per pannello 380px) */}
+                <div className="space-y-2">
+                  {distinta.componenti.map((comp, i) => (
+                    <div key={i} className="card p-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-800 truncate">{comp.prdDes}</p>
+                          <p className="text-xs text-gray-400 font-mono">{comp.prdCod}</p>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <p className="text-sm font-bold text-gray-800">{fmt.currency(comp.prezzoTotale)}</p>
+                          <p className="text-xs text-gray-400">
+                            {comp.quantita} x {fmt.currency(comp.prezzoUnitario)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
-                {/* Azioni */}
+                {/* Totale */}
+                <div className="card p-4 bg-blue-50 border border-blue-200">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-gray-700">{t('configurator.bom.grandTotal')}</span>
+                    <span className="text-xl font-bold text-blue-700">{fmt.currency(distinta.totale)}</span>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            </div>{/* Fine area scrollabile */}
+
+            {/* ─── Barra pulsanti fissa in basso ─────────────────────── */}
+            <div className="flex-shrink-0 pt-3 border-t border-gray-200 mt-3 bg-white">
+              {step === 0 && (
+                <button
+                  onClick={() => setStep(1)}
+                  className="btn-primary w-full flex items-center justify-center gap-2"
+                >
+                  {t('configurator.steps.goToDesign')}
+                  <ChevronRight size={16} />
+                </button>
+              )}
+              {step === 1 && (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setStep(0)}
+                    className="btn-secondary flex-1 flex items-center justify-center gap-2"
+                  >
+                    <ChevronLeft size={16} />
+                    {t('configurator.steps.back')}
+                  </button>
+                  <button
+                    onClick={calcolaDistinta}
+                    disabled={loading}
+                    className="btn-primary flex-1 flex items-center justify-center gap-2"
+                  >
+                    {loading ? (
+                      <span className="animate-spin">⏳</span>
+                    ) : (
+                      <FileText size={16} />
+                    )}
+                    {t('configurator.steps.calculateBom')}
+                  </button>
+                </div>
+              )}
+              {step === 2 && distinta && (
                 <div className="flex gap-2">
                   <button
                     onClick={() => setStep(1)}
@@ -675,8 +675,9 @@ export default function ConfiguratorPage() {
                     {t('configurator.addToCart')}
                   </button>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+
           </div>
         )}
 
