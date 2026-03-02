@@ -286,74 +286,177 @@ GO
 
 -- Prodotti di esempio (componenti recinzione)
 -- Codici allineati a quelli generati dal ConfiguratoreService:
---   Pali:         PAL-{altezza}-{colore}   (es. PAL-150-GR)
---   Doghe:        DOG-150-{colore}
---   Fissaggi:     FIX-CEM-01, FIX-TER-01
---   Distanziali:  DST-PER-01, DST-PIE-01
---   Cappellotti:  ACC-CAP-{colore}
---   Angolari:     ACC-ANG-90
---   Configurato:  CONF-REC
-IF NOT EXISTS (SELECT * FROM [Prodotti] WHERE [PrdCod] = 'PAL-100-GR')
+--   DiBaCod identifica il ruolo del componente nella distinta base
+--   CfgColore identifica la variante colore (BI=Bianco melange, MA=Marrone, AN=Antracite, GR=Grigio, VE=Verde, RO=Rosso)
+--   Pali:         DiBaCod=PAL-{altezza}  CfgColore={colore}
+--   Doghe:        DiBaCod=DOG-150        CfgColore={colore}
+--   Fissaggi:     DiBaCod=FIX-CEM / FIX-TER  (no colore)
+--   Distanziali:  DiBaCod=DST-PER / DST-PIE   (no colore)
+--   Cappellotti:  DiBaCod=ACC-CAP        CfgColore={colore}
+--   Cover:        DiBaCod=COV-{altezza}  (no colore)
+--   Angolari:     DiBaCod=ACC-ANG        (no colore)
+--   Configurato:  CONF-REC               CfgTipo='recinzione'
+IF NOT EXISTS (SELECT * FROM [Prodotti] WHERE [PrdCod] = 'PAL-100-BI')
 BEGIN
-    -- Pali (4 altezze x 3 colori = 12)
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-100-GR', N'Palo montante H100 cm - Grigio', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-100-VE', N'Palo montante H100 cm - Verde', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-100-RO', N'Palo montante H100 cm - Rosso mattone', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-150-GR', N'Palo montante H150 cm - Grigio', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-150-VE', N'Palo montante H150 cm - Verde', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-150-RO', N'Palo montante H150 cm - Rosso mattone', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-185-GR', N'Palo montante H185 cm - Grigio', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-185-VE', N'Palo montante H185 cm - Verde', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-185-RO', N'Palo montante H185 cm - Rosso mattone', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-200-GR', N'Palo montante H200 cm - Grigio', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-200-VE', N'Palo montante H200 cm - Verde', 'PZ', 'PALI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('PAL-200-RO', N'Palo montante H200 cm - Rosso mattone', 'PZ', 'PALI', 'RECINZIONI')
-    -- Doghe (3 colori)
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('DOG-150-GR', N'Doga orizzontale L150 cm - Grigio', 'PZ', 'DOGHE', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('DOG-150-VE', N'Doga orizzontale L150 cm - Verde', 'PZ', 'DOGHE', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('DOG-150-RO', N'Doga orizzontale L150 cm - Rosso mattone', 'PZ', 'DOGHE', 'RECINZIONI')
-    -- Fissaggi
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('FIX-CEM-01', N'Kit fissaggio su cemento', 'PZ', 'FISSAGGI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('FIX-TER-01', N'Kit fissaggio su terreno', 'PZ', 'FISSAGGI', 'RECINZIONI')
-    -- Distanziali
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('DST-PER-01', N'Distanziale per persiana', 'PZ', 'ACCESSORI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('DST-PIE-01', N'Distanziale per pieno', 'PZ', 'ACCESSORI', 'RECINZIONI')
-    -- Cappellotti (3 colori)
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('ACC-CAP-GR', N'Cappellotto palo - Grigio', 'PZ', 'ACCESSORI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('ACC-CAP-VE', N'Cappellotto palo - Verde', 'PZ', 'ACCESSORI', 'RECINZIONI')
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('ACC-CAP-RO', N'Cappellotto palo - Rosso mattone', 'PZ', 'ACCESSORI', 'RECINZIONI')
-    -- Angolare
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('ACC-ANG-90', N'Giunzione angolare 90°', 'PZ', 'ACCESSORI', 'RECINZIONI')
+    -- Pali — Bianco melange (BI) — colore primario configuratore
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-100-BI', N'Palo montante H100 cm - Bianco melange', 'PZ', 'PALI', 'RECINZIONI', 'PAL-100', 'BI')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-150-BI', N'Palo montante H150 cm - Bianco melange', 'PZ', 'PALI', 'RECINZIONI', 'PAL-150', 'BI')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-185-BI', N'Palo montante H185 cm - Bianco melange', 'PZ', 'PALI', 'RECINZIONI', 'PAL-185', 'BI')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-200-BI', N'Palo montante H200 cm - Bianco melange', 'PZ', 'PALI', 'RECINZIONI', 'PAL-200', 'BI')
+    -- Pali — Marrone (MA)
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-100-MA', N'Palo montante H100 cm - Marrone', 'PZ', 'PALI', 'RECINZIONI', 'PAL-100', 'MA')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-150-MA', N'Palo montante H150 cm - Marrone', 'PZ', 'PALI', 'RECINZIONI', 'PAL-150', 'MA')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-185-MA', N'Palo montante H185 cm - Marrone', 'PZ', 'PALI', 'RECINZIONI', 'PAL-185', 'MA')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-200-MA', N'Palo montante H200 cm - Marrone', 'PZ', 'PALI', 'RECINZIONI', 'PAL-200', 'MA')
+    -- Pali — Antracite (AN)
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-100-AN', N'Palo montante H100 cm - Antracite', 'PZ', 'PALI', 'RECINZIONI', 'PAL-100', 'AN')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-150-AN', N'Palo montante H150 cm - Antracite', 'PZ', 'PALI', 'RECINZIONI', 'PAL-150', 'AN')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-185-AN', N'Palo montante H185 cm - Antracite', 'PZ', 'PALI', 'RECINZIONI', 'PAL-185', 'AN')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-200-AN', N'Palo montante H200 cm - Antracite', 'PZ', 'PALI', 'RECINZIONI', 'PAL-200', 'AN')
+    -- Pali — vecchi colori mantenuti per retrocompatibilità
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-100-GR', N'Palo montante H100 cm - Grigio', 'PZ', 'PALI', 'RECINZIONI', 'PAL-100', 'GR')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-100-VE', N'Palo montante H100 cm - Verde', 'PZ', 'PALI', 'RECINZIONI', 'PAL-100', 'VE')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-100-RO', N'Palo montante H100 cm - Rosso mattone', 'PZ', 'PALI', 'RECINZIONI', 'PAL-100', 'RO')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-150-GR', N'Palo montante H150 cm - Grigio', 'PZ', 'PALI', 'RECINZIONI', 'PAL-150', 'GR')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-150-VE', N'Palo montante H150 cm - Verde', 'PZ', 'PALI', 'RECINZIONI', 'PAL-150', 'VE')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-150-RO', N'Palo montante H150 cm - Rosso mattone', 'PZ', 'PALI', 'RECINZIONI', 'PAL-150', 'RO')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-185-GR', N'Palo montante H185 cm - Grigio', 'PZ', 'PALI', 'RECINZIONI', 'PAL-185', 'GR')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-185-VE', N'Palo montante H185 cm - Verde', 'PZ', 'PALI', 'RECINZIONI', 'PAL-185', 'VE')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-185-RO', N'Palo montante H185 cm - Rosso mattone', 'PZ', 'PALI', 'RECINZIONI', 'PAL-185', 'RO')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-200-GR', N'Palo montante H200 cm - Grigio', 'PZ', 'PALI', 'RECINZIONI', 'PAL-200', 'GR')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-200-VE', N'Palo montante H200 cm - Verde', 'PZ', 'PALI', 'RECINZIONI', 'PAL-200', 'VE')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('PAL-200-RO', N'Palo montante H200 cm - Rosso mattone', 'PZ', 'PALI', 'RECINZIONI', 'PAL-200', 'RO')
+    -- Doghe — nuovi colori (BI/MA/AN)
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('DOG-150-BI', N'Doga orizzontale L150 cm - Bianco melange', 'PZ', 'DOGHE', 'RECINZIONI', 'DOG-150', 'BI')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('DOG-150-MA', N'Doga orizzontale L150 cm - Marrone', 'PZ', 'DOGHE', 'RECINZIONI', 'DOG-150', 'MA')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('DOG-150-AN', N'Doga orizzontale L150 cm - Antracite', 'PZ', 'DOGHE', 'RECINZIONI', 'DOG-150', 'AN')
+    -- Doghe — vecchi colori
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('DOG-150-GR', N'Doga orizzontale L150 cm - Grigio', 'PZ', 'DOGHE', 'RECINZIONI', 'DOG-150', 'GR')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('DOG-150-VE', N'Doga orizzontale L150 cm - Verde', 'PZ', 'DOGHE', 'RECINZIONI', 'DOG-150', 'VE')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('DOG-150-RO', N'Doga orizzontale L150 cm - Rosso mattone', 'PZ', 'DOGHE', 'RECINZIONI', 'DOG-150', 'RO')
+    -- Fissaggi (nessun colore)
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod]) VALUES ('FIX-CEM-01', N'Kit fissaggio su cemento', 'PZ', 'FISSAGGI', 'RECINZIONI', 'FIX-CEM')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod]) VALUES ('FIX-TER-01', N'Kit fissaggio su terreno', 'PZ', 'FISSAGGI', 'RECINZIONI', 'FIX-TER')
+    -- Distanziali (nessun colore)
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod]) VALUES ('DST-PER-01', N'Distanziale per persiana', 'PZ', 'ACCESSORI', 'RECINZIONI', 'DST-PER')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod]) VALUES ('DST-PIE-01', N'Distanziale per pieno', 'PZ', 'ACCESSORI', 'RECINZIONI', 'DST-PIE')
+    -- Cappellotti — nuovi colori (BI/MA/AN)
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('ACC-CAP-BI', N'Cappellotto palo - Bianco melange', 'PZ', 'ACCESSORI', 'RECINZIONI', 'ACC-CAP', 'BI')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('ACC-CAP-MA', N'Cappellotto palo - Marrone', 'PZ', 'ACCESSORI', 'RECINZIONI', 'ACC-CAP', 'MA')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('ACC-CAP-AN', N'Cappellotto palo - Antracite', 'PZ', 'ACCESSORI', 'RECINZIONI', 'ACC-CAP', 'AN')
+    -- Cappellotti — vecchi colori
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('ACC-CAP-GR', N'Cappellotto palo - Grigio', 'PZ', 'ACCESSORI', 'RECINZIONI', 'ACC-CAP', 'GR')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('ACC-CAP-VE', N'Cappellotto palo - Verde', 'PZ', 'ACCESSORI', 'RECINZIONI', 'ACC-CAP', 'VE')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod],[CfgColore]) VALUES ('ACC-CAP-RO', N'Cappellotto palo - Rosso mattone', 'PZ', 'ACCESSORI', 'RECINZIONI', 'ACC-CAP', 'RO')
+    -- Cover scanalatura palo (nessun colore)
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod]) VALUES ('COV-100-01', N'Cover scanalatura palo H100 cm', 'PZ', 'ACCESSORI', 'RECINZIONI', 'COV-100')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod]) VALUES ('COV-150-01', N'Cover scanalatura palo H150 cm', 'PZ', 'ACCESSORI', 'RECINZIONI', 'COV-150')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod]) VALUES ('COV-185-01', N'Cover scanalatura palo H185 cm', 'PZ', 'ACCESSORI', 'RECINZIONI', 'COV-185')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod]) VALUES ('COV-200-01', N'Cover scanalatura palo H200 cm', 'PZ', 'ACCESSORI', 'RECINZIONI', 'COV-200')
+    -- Angolare (nessun colore)
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[DiBaCod]) VALUES ('ACC-ANG-90', N'Giunzione angolare 90°', 'PZ', 'ACCESSORI', 'RECINZIONI', 'ACC-ANG')
     -- Configurato (prodotto padre)
     INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[CfgTipo]) VALUES ('CONF-REC',   N'Recinzione configurata', 'PZ', 'CONFIGURATI', 'RECINZIONI', 'recinzione')
 END
 GO
 
 -- Traduzioni prodotti
-IF NOT EXISTS (SELECT * FROM [ProdottiTrad] WHERE [PrdCod] = 'PAL-100-GR')
+IF NOT EXISTS (SELECT * FROM [ProdottiTrad] WHERE [PrdCod] = 'PAL-100-BI')
 BEGIN
+    -- Pali BI
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-100-BI','en',N'Post H100 cm - White melange')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-100-BI','fr',N'Poteau H100 cm - Blanc mélange')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-100-BI','de',N'Pfosten H100 cm - Weiß melange')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-150-BI','en',N'Post H150 cm - White melange')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-150-BI','fr',N'Poteau H150 cm - Blanc mélange')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-150-BI','de',N'Pfosten H150 cm - Weiß melange')
+    -- Pali MA
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-100-MA','en',N'Post H100 cm - Brown')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-100-MA','fr',N'Poteau H100 cm - Marron')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-100-MA','de',N'Pfosten H100 cm - Braun')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-150-MA','en',N'Post H150 cm - Brown')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-150-MA','fr',N'Poteau H150 cm - Marron')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-150-MA','de',N'Pfosten H150 cm - Braun')
+    -- Pali AN
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-100-AN','en',N'Post H100 cm - Anthracite')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-100-AN','fr',N'Poteau H100 cm - Anthracite')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-100-AN','de',N'Pfosten H100 cm - Anthrazit')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-150-AN','en',N'Post H150 cm - Anthracite')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-150-AN','fr',N'Poteau H150 cm - Anthracite')
+    INSERT INTO [ProdottiTrad] VALUES ('PAL-150-AN','de',N'Pfosten H150 cm - Anthrazit')
+    -- Pali GR (vecchi)
     INSERT INTO [ProdottiTrad] VALUES ('PAL-100-GR','en',N'Post H100 cm - Grey')
     INSERT INTO [ProdottiTrad] VALUES ('PAL-100-GR','fr',N'Poteau H100 cm - Gris')
     INSERT INTO [ProdottiTrad] VALUES ('PAL-100-GR','de',N'Pfosten H100 cm - Grau')
+    -- Doghe
+    INSERT INTO [ProdottiTrad] VALUES ('DOG-150-BI','en',N'Horizontal slat L150 cm - White melange')
+    INSERT INTO [ProdottiTrad] VALUES ('DOG-150-BI','fr',N'Lame horizontale L150 cm - Blanc mélange')
+    INSERT INTO [ProdottiTrad] VALUES ('DOG-150-BI','de',N'Horizontalleiste L150 cm - Weiß melange')
+    INSERT INTO [ProdottiTrad] VALUES ('DOG-150-MA','en',N'Horizontal slat L150 cm - Brown')
+    INSERT INTO [ProdottiTrad] VALUES ('DOG-150-MA','fr',N'Lame horizontale L150 cm - Marron')
+    INSERT INTO [ProdottiTrad] VALUES ('DOG-150-MA','de',N'Horizontalleiste L150 cm - Braun')
+    INSERT INTO [ProdottiTrad] VALUES ('DOG-150-AN','en',N'Horizontal slat L150 cm - Anthracite')
+    INSERT INTO [ProdottiTrad] VALUES ('DOG-150-AN','fr',N'Lame horizontale L150 cm - Anthracite')
+    INSERT INTO [ProdottiTrad] VALUES ('DOG-150-AN','de',N'Horizontalleiste L150 cm - Anthrazit')
     INSERT INTO [ProdottiTrad] VALUES ('DOG-150-GR','en',N'Horizontal slat L150 cm - Grey')
     INSERT INTO [ProdottiTrad] VALUES ('DOG-150-GR','fr',N'Lame horizontale L150 cm - Gris')
     INSERT INTO [ProdottiTrad] VALUES ('DOG-150-GR','de',N'Horizontalleiste L150 cm - Grau')
+    -- Fissaggi
     INSERT INTO [ProdottiTrad] VALUES ('FIX-CEM-01','en',N'Concrete fixing kit')
     INSERT INTO [ProdottiTrad] VALUES ('FIX-CEM-01','fr',N'Kit fixation béton')
     INSERT INTO [ProdottiTrad] VALUES ('FIX-CEM-01','de',N'Befestigungsset Beton')
     INSERT INTO [ProdottiTrad] VALUES ('FIX-TER-01','en',N'Ground fixing kit')
     INSERT INTO [ProdottiTrad] VALUES ('FIX-TER-01','fr',N'Kit fixation sol')
     INSERT INTO [ProdottiTrad] VALUES ('FIX-TER-01','de',N'Befestigungsset Boden')
+    -- Angolare
     INSERT INTO [ProdottiTrad] VALUES ('ACC-ANG-90','en',N'90° angular joint')
     INSERT INTO [ProdottiTrad] VALUES ('ACC-ANG-90','fr',N'Jonction angulaire 90°')
     INSERT INTO [ProdottiTrad] VALUES ('ACC-ANG-90','de',N'90°-Winkelverbinder')
+    -- Cover
+    INSERT INTO [ProdottiTrad] VALUES ('COV-100-01','en',N'Post groove cover H100 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-100-01','fr',N'Couvre-rainure poteau H100 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-100-01','de',N'Pfostennutabdeckung H100 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-150-01','en',N'Post groove cover H150 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-150-01','fr',N'Couvre-rainure poteau H150 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-150-01','de',N'Pfostennutabdeckung H150 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-185-01','en',N'Post groove cover H185 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-185-01','fr',N'Couvre-rainure poteau H185 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-185-01','de',N'Pfostennutabdeckung H185 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-200-01','en',N'Post groove cover H200 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-200-01','fr',N'Couvre-rainure poteau H200 cm')
+    INSERT INTO [ProdottiTrad] VALUES ('COV-200-01','de',N'Pfostennutabdeckung H200 cm')
+    -- Cappellotti
+    INSERT INTO [ProdottiTrad] VALUES ('ACC-CAP-BI','en',N'Post cap - White melange')
+    INSERT INTO [ProdottiTrad] VALUES ('ACC-CAP-BI','fr',N'Chapeau poteau - Blanc mélange')
+    INSERT INTO [ProdottiTrad] VALUES ('ACC-CAP-BI','de',N'Pfostenkappe - Weiß melange')
+    INSERT INTO [ProdottiTrad] VALUES ('ACC-CAP-MA','en',N'Post cap - Brown')
+    INSERT INTO [ProdottiTrad] VALUES ('ACC-CAP-MA','fr',N'Chapeau poteau - Marron')
+    INSERT INTO [ProdottiTrad] VALUES ('ACC-CAP-MA','de',N'Pfostenkappe - Braun')
+    INSERT INTO [ProdottiTrad] VALUES ('ACC-CAP-AN','en',N'Post cap - Anthracite')
+    INSERT INTO [ProdottiTrad] VALUES ('ACC-CAP-AN','fr',N'Chapeau poteau - Anthracite')
+    INSERT INTO [ProdottiTrad] VALUES ('ACC-CAP-AN','de',N'Pfostenkappe - Anthrazit')
 END
 GO
 
 -- Prezzi di esempio (listino pubblico)
-IF NOT EXISTS (SELECT * FROM [Prezzi] WHERE [PrdCod] = 'PAL-100-GR' AND [LstCod] = 'LSTPUB001')
+IF NOT EXISTS (SELECT * FROM [Prezzi] WHERE [PrdCod] = 'PAL-100-BI' AND [LstCod] = 'LSTPUB001')
 BEGIN
-    -- Pali
+    -- Pali BI
+    INSERT INTO [Prezzi] VALUES ('PAL-100-BI','LSTPUB001', 25.00)
+    INSERT INTO [Prezzi] VALUES ('PAL-150-BI','LSTPUB001', 35.00)
+    INSERT INTO [Prezzi] VALUES ('PAL-185-BI','LSTPUB001', 45.00)
+    INSERT INTO [Prezzi] VALUES ('PAL-200-BI','LSTPUB001', 50.00)
+    -- Pali MA
+    INSERT INTO [Prezzi] VALUES ('PAL-100-MA','LSTPUB001', 27.00)
+    INSERT INTO [Prezzi] VALUES ('PAL-150-MA','LSTPUB001', 37.50)
+    INSERT INTO [Prezzi] VALUES ('PAL-185-MA','LSTPUB001', 48.00)
+    INSERT INTO [Prezzi] VALUES ('PAL-200-MA','LSTPUB001', 53.00)
+    -- Pali AN
+    INSERT INTO [Prezzi] VALUES ('PAL-100-AN','LSTPUB001', 27.00)
+    INSERT INTO [Prezzi] VALUES ('PAL-150-AN','LSTPUB001', 37.50)
+    INSERT INTO [Prezzi] VALUES ('PAL-185-AN','LSTPUB001', 48.00)
+    INSERT INTO [Prezzi] VALUES ('PAL-200-AN','LSTPUB001', 53.00)
+    -- Pali GR/VE/RO (vecchi)
     INSERT INTO [Prezzi] VALUES ('PAL-100-GR','LSTPUB001', 25.00)
     INSERT INTO [Prezzi] VALUES ('PAL-100-VE','LSTPUB001', 27.00)
     INSERT INTO [Prezzi] VALUES ('PAL-100-RO','LSTPUB001', 27.00)
@@ -366,7 +469,11 @@ BEGIN
     INSERT INTO [Prezzi] VALUES ('PAL-200-GR','LSTPUB001', 50.00)
     INSERT INTO [Prezzi] VALUES ('PAL-200-VE','LSTPUB001', 53.00)
     INSERT INTO [Prezzi] VALUES ('PAL-200-RO','LSTPUB001', 53.00)
-    -- Doghe
+    -- Doghe BI/MA/AN
+    INSERT INTO [Prezzi] VALUES ('DOG-150-BI','LSTPUB001', 12.50)
+    INSERT INTO [Prezzi] VALUES ('DOG-150-MA','LSTPUB001', 13.50)
+    INSERT INTO [Prezzi] VALUES ('DOG-150-AN','LSTPUB001', 13.50)
+    -- Doghe GR/VE/RO
     INSERT INTO [Prezzi] VALUES ('DOG-150-GR','LSTPUB001', 12.50)
     INSERT INTO [Prezzi] VALUES ('DOG-150-VE','LSTPUB001', 13.50)
     INSERT INTO [Prezzi] VALUES ('DOG-150-RO','LSTPUB001', 13.50)
@@ -376,10 +483,19 @@ BEGIN
     -- Distanziali
     INSERT INTO [Prezzi] VALUES ('DST-PER-01','LSTPUB001', 1.50)
     INSERT INTO [Prezzi] VALUES ('DST-PIE-01','LSTPUB001', 1.20)
-    -- Cappellotti
+    -- Cappellotti BI/MA/AN
+    INSERT INTO [Prezzi] VALUES ('ACC-CAP-BI','LSTPUB001', 3.50)
+    INSERT INTO [Prezzi] VALUES ('ACC-CAP-MA','LSTPUB001', 4.00)
+    INSERT INTO [Prezzi] VALUES ('ACC-CAP-AN','LSTPUB001', 4.00)
+    -- Cappellotti GR/VE/RO
     INSERT INTO [Prezzi] VALUES ('ACC-CAP-GR','LSTPUB001', 3.50)
     INSERT INTO [Prezzi] VALUES ('ACC-CAP-VE','LSTPUB001', 4.00)
     INSERT INTO [Prezzi] VALUES ('ACC-CAP-RO','LSTPUB001', 4.00)
+    -- Cover
+    INSERT INTO [Prezzi] VALUES ('COV-100-01','LSTPUB001', 2.50)
+    INSERT INTO [Prezzi] VALUES ('COV-150-01','LSTPUB001', 3.00)
+    INSERT INTO [Prezzi] VALUES ('COV-185-01','LSTPUB001', 3.50)
+    INSERT INTO [Prezzi] VALUES ('COV-200-01','LSTPUB001', 4.00)
     -- Angolare
     INSERT INTO [Prezzi] VALUES ('ACC-ANG-90','LSTPUB001', 6.50)
 END
