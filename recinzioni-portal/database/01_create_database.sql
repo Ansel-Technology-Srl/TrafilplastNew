@@ -325,7 +325,7 @@ BEGIN
     -- Angolare
     INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('ACC-ANG-90', N'Giunzione angolare 90°', 'PZ', 'ACCESSORI', 'RECINZIONI')
     -- Configurato (prodotto padre)
-    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod]) VALUES ('CONF-REC',   N'Recinzione configurata', 'PZ', 'CONFIGURATI', 'RECINZIONI')
+    INSERT INTO [Prodotti] ([PrdCod],[PrdDes],[PrdUm],[CatCod],[FamCod],[CfgTipo]) VALUES ('CONF-REC',   N'Recinzione configurata', 'PZ', 'CONFIGURATI', 'RECINZIONI', 'recinzione')
 END
 GO
 
