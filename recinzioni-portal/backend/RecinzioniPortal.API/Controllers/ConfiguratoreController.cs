@@ -65,7 +65,7 @@ public class ConfiguratoreController : ControllerBase
                 altezze = ConfiguratoreService.GetAltezzeValide(),
                 tabellaDoghe = ConfiguratoreService.GetTabellaDoghe()
                     .Select(t => new { altezza = t.Key, persiana = t.Value.Persiana, pieno = t.Value.Pieno }),
-                limiti = new { lunghezzaMin = 10, lunghezzaMax = 150, maxSezioni = 20, angoliPreset = new[] { 0, 90 } },
+                limiti = new { lunghezzaMin = 10, lunghezzaMax = 158, maxSezioni = 20, angoliPreset = new[] { 0, 90 } },
                 tipiConfigurazione
             }
         });
