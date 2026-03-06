@@ -1,6 +1,54 @@
 import { create } from 'zustand';
 import api from '../services/api';
 
+// ========== THEME STORE (dark/light mode) ==========
+function getInitialTheme() {
+  if (typeof window === 'undefined') return 'light';
+  const stored = localStorage.getItem('theme');
+  if (stored === 'dark' || stored === 'light') return stored;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  if (theme === 'dark') {
+    root.classList.add('dark');
+  } else {
+    root.classList.remove('dark');
+  }
+}
+
+export const useThemeStore = create((set, get) => ({
+  theme: getInitialTheme(),
+
+  toggleTheme: () => {
+    const newTheme = get().theme === 'dark' ? 'light' : 'dark';
+    set({ theme: newTheme });
+    localStorage.setItem('theme', newTheme);
+    applyTheme(newTheme);
+  },
+
+  setTheme: (theme) => {
+    set({ theme });
+    localStorage.setItem('theme', theme);
+    applyTheme(theme);
+  },
+
+  initTheme: () => {
+    applyTheme(get().theme);
+    // Ascolta cambiamenti preferenza sistema (solo se utente non ha scelto manualmente)
+    if (typeof window !== 'undefined') {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          const newTheme = e.matches ? 'dark' : 'light';
+          set({ theme: newTheme });
+          applyTheme(newTheme);
+        }
+      });
+    }
+  }
+}));
+
 // ========== AUTH STORE ==========
 export const useAuthStore = create((set) => ({
   user: null,

@@ -595,5 +595,10 @@
     "updateMessage": "A new version is available. Update to get the latest features.",
     "updateButton": "Update now",
     "updateDismiss": "Later"
+  },
+  "theme": {
+    "light": "Light mode",
+    "dark": "Dark mode",
+    "toggle": "Toggle light/dark theme"
   }
 }

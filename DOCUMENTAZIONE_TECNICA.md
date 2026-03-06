@@ -1184,36 +1184,109 @@ formatQuantity(value)   // Senza decimali inutili
 
 ---
 
-## 8. Accessibilità (WCAG 2.1 AA)
+## 8. Accessibilità (WCAG 2.1 AA / Legge Stanca)
 
-### Implementazioni
+> **Riferimento normativo:** Legge 9 gennaio 2004, n. 4 (Legge Stanca) — requisiti tecnici allineati a WCAG 2.1 livello AA (AgID, Determinazione 437/2020). Dal 28 giugno 2025, l'European Accessibility Act (Direttiva UE 2019/882) estende gli obblighi anche alle imprese private con >10 dipendenti e >2M€ fatturato.
 
-1. **Skip Links:** `<SkipLinks />` per saltare a contenuto principale e navigazione
-2. **Focus Trap:** `useFocusTrap` hook per modali — Tab/Shift+Tab cicla tra elementi focusabili, Escape chiude
-3. **ARIA attributes:** `aria-label`, `aria-hidden`, `aria-expanded`, `aria-invalid`, `aria-live`
-4. **Tabelle:** `scope="col"` sugli header
-5. **Icone decorative:** `aria-hidden="true"` su tutte le icone Lucide
-6. **Contrasto colori:** primario-700+ per testo (minimo 4.5:1)
-7. **Canvas 3D:** alternativa testuale via `Accessible3DCanvas` con toggle
-8. **Reduced motion:** `@media (prefers-reduced-motion: reduce)` per transizioni
-9. **High contrast:** `@media (forced-colors: active)` per testi con !important
-10. **Print styles:** `@media print` per nascondere navigazione e mostrare solo contenuto
+### 8.1 Implementazioni per criterio WCAG
 
-### CSS accessibilità (index.css)
+| Criterio WCAG | Requisito | Implementazione |
+|---|---|---|
+| 1.3.1 Info e Relazioni | Struttura semantica | `<table>` con `scope="col"`, `<label htmlFor>`, gerarchia heading h1→h3 |
+| 1.4.3 Contrasto minimo | 4.5:1 testo normale, 3:1 testo grande | primary-700+ per testo su sfondo chiaro, gray-100/200 su sfondo scuro |
+| 1.4.11 Contrasto non-testo | 3:1 per elementi UI | `@media (forced-colors: active)` con bordi espliciti |
+| 2.1.1 Tastiera | Tutti gli elementi raggiungibili | Nessun `onClick` su `<div>` senza equivalente keyboard; tutti i controlli sono `<button>` o `<a>` |
+| 2.4.1 Salta blocchi | Skip link visibile | `<SkipLinks />` in App.jsx → "Vai al contenuto" e "Vai alla navigazione" |
+| 2.4.7 Focus visibile | Indicatore visivo focus | `*:focus-visible` con outline primary-500, ring su pulsanti, dark offset |
+| 2.5.5 Dimensione target | Min 44×44px (o spaziatura) | Pulsanti sidebar py-2.5 px-3, action buttons p-1.5 con gap |
+| 3.1.1 Lingua pagina | `<html lang>` dinamico | `document.documentElement.lang = i18n.language` in App.jsx |
+| 2.3.3 Riduzione movimento | Rispetto preferenza utente | `@media (prefers-reduced-motion: reduce)` disabilita animazioni |
+
+### 8.2 Dark Mode (Modalità Notturna)
+
+Il portale supporta una modalità chiara (default) e una modalità scura, attivabile per ogni utente tramite toggle nella sidebar.
+
+#### Architettura
+
+- **Strategia:** Tailwind CSS `darkMode: 'class'` — la classe `dark` su `<html>` attiva tutti i prefissi `dark:`
+- **Store:** `useThemeStore` (Zustand) in `store/store.js` — gestisce `theme`, `toggleTheme()`, `setTheme()`, `initTheme()`
+- **Persistenza:** `localStorage.setItem('theme', 'dark'|'light')` — sopravvive alla sessione
+- **Sistema:** Se l'utente non ha scelto, segue `prefers-color-scheme` del browser con listener su cambiamenti
+- **Inizializzazione:** `initTheme()` chiamato in `App.jsx` al mount — applica `dark` class prima del primo render
+
+#### Componenti UI
+
+| Componente | Dove è il toggle |
+|---|---|
+| `Layout.jsx` | Sidebar footer — icona Sun/Moon con label i18n (`theme.light`/`theme.dark`) |
+| `LoginPage.jsx` | Header in alto a destra — icona Sun/Moon accanto al selettore lingua |
+
+#### Mapping colori dark mode
+
+| Classe Light | Classe Dark | Uso |
+|---|---|---|
+| `bg-white` | `dark:bg-gray-800` | Card, modali, input |
+| `bg-gray-50` | `dark:bg-gray-800` / `dark:bg-gray-900` | Sfondi sezione, table header |
+| `bg-[#f5f5f5]` | `dark:bg-gray-900` | Main content area |
+| `text-gray-900` | `dark:text-gray-100` | Titoli principali |
+| `text-gray-700` | `dark:text-gray-300` | Label, testo secondario |
+| `text-gray-500` | `dark:text-gray-400` | Testo muted |
+| `border-gray-200` | `dark:border-gray-700` | Bordi card |
+| `border-gray-300` | `dark:border-gray-600` | Bordi input |
+| `bg-red-50` | `dark:bg-red-900/30` | Alert errore |
+| `bg-blue-100` | `dark:bg-blue-900/30` | Badge info |
+| `bg-purple-50` | `dark:bg-purple-900/20` | Righe configurate |
+
+#### i18n
+
+Chiavi aggiunte in tutte e 4 le lingue (`it`, `en`, `fr`, `de`):
+- `theme.light` — "Modalità chiara" / "Light mode" / "Mode clair" / "Heller Modus"
+- `theme.dark` — "Modalità scura" / "Dark mode" / "Mode sombre" / "Dunkler Modus"
+- `theme.toggle` — Label accessibile per il pulsante toggle
+
+### 8.3 CSS accessibilità (index.css)
 
 ```css
-.sr-only { position: absolute; width: 1px; height: 1px; clip: rect(0,0,0,0); ... }
-
-*:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+/* Focus visibile WCAG 2.4.7 */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-500;
 }
 
+/* Pulsanti con focus ring + offset scuro */
+.btn-primary, .btn-secondary, .btn-success, .btn-danger {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500
+         dark:focus:ring-offset-gray-900;
+}
+
+/* Riduzione movimento WCAG 2.3.3 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High Contrast WCAG 1.4.11 */
 @media (forced-colors: active) {
-  .btn-primary, .btn-success, .btn-danger { border: 2px solid ButtonText; }
+  .btn-primary, .btn-secondary, .btn-success, .btn-danger { border: 2px solid ButtonText; }
+  .input-field { border: 1px solid ButtonText; }
+  .card { border: 1px solid CanvasText; }
+}
+
+/* Dark mode select options */
+.dark select option {
+  background-color: #1f2937;
+  color: #f3f4f6;
 }
 ```
+
+### 8.4 Caching e Pagina Bianca — Fix
+
+Per evitare la **pagina bianca al primo caricamento** dopo un deploy (il browser serve un `index.html` cachato che referenzia JS bundle con hash obsoleti):
+
+- **Program.cs:** Middleware `OnStarting` che aggiunge `Cache-Control: no-cache, no-store, must-revalidate` a tutte le risposte HTML
+- **StaticFileOptions.OnPrepareResponse:** No-cache per `index.html`, `sw.js`, `workbox-*.js`
+- **web.config:** Regola IIS `NoCacheHTML` per risposte `text/html` + regola `NoCacheSW` per service worker
 
 ---
 
