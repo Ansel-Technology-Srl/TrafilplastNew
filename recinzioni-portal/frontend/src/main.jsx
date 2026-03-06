@@ -11,12 +11,13 @@ import './i18n/i18n.js';
 // quindi il nuovo SW si attiva subito senza attendere reload.
 const updateSW = registerSW({
   onNeedRefresh() {
-    // Il SW è già configurato con skipWaiting, ma per sicurezza
-    // forza anche qui l'aggiornamento immediato
-    updateSW(true);
+    // Notifica il componente UpdatePrompt che un aggiornamento è disponibile.
+    // L'utente potrà scegliere quando applicarlo tramite il banner.
+    window.dispatchEvent(new CustomEvent('pwa-update-available'));
   },
   onOfflineReady() {
-    // App pronta per uso offline
+    // App pronta per uso offline — i dati cachati sono disponibili
+    console.info('[PWA] App pronta per uso offline');
   },
   onRegisteredSW(swUrl, registration) {
     // Check aggiornamenti ogni 5 minuti (ridotto da 15)

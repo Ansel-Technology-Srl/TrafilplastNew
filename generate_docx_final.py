@@ -891,19 +891,101 @@ for item in a11y:
 
 doc.add_heading('12.3 Progressive Web App (PWA)', level=2)
 doc.add_paragraph(
-    'L\'applicazione e configurata come Progressive Web App tramite vite-plugin-pwa con Workbox:'
+    'L\'applicazione e configurata come Progressive Web App completa tramite vite-plugin-pwa 0.21.0 '
+    'con Workbox per il caching e un Service Worker registrato con autoUpdate.'
 )
-pwa_features = [
-    'Installabilita: Prompt di installazione che appare quando il browser rileva i requisiti PWA soddisfatti.',
-    'Service Worker: Gestisce il caching delle risorse statiche e dei chunk JavaScript.',
-    'Aggiornamenti: Prompt di aggiornamento quando e disponibile una nuova versione. L\'utente puo aggiornare immediatamente o posticipare.',
-    'Pagina Offline: Fallback dedicato quando l\'utente tenta di accedere a pagine non in cache senza connessione.',
-    'Banner Offline: Indicatore visuale nella parte superiore quando la connessione e assente.',
-    'Manifest: Configurazione PWA con nome, colori, icone per l\'installazione su dispositivi.',
-    'ChunkErrorBoundary: Gestione errori di caricamento chunk obsoleti con reload automatico dalla rete.',
+
+doc.add_heading('12.3.1 Web App Manifest', level=3)
+doc.add_paragraph(
+    'Il manifest viene generato automaticamente da vite-plugin-pwa con i seguenti parametri:'
+)
+add_styled_table(doc,
+    ['Parametro', 'Valore'],
+    [
+        ['name', 'Portale Recinzioni'],
+        ['short_name', 'Recinzioni'],
+        ['description', 'Configuratore recinzioni con preventivi e ordini'],
+        ['display', 'standalone'],
+        ['orientation', 'any'],
+        ['theme_color', '#2563eb (blu primary)'],
+        ['background_color', '#ffffff'],
+        ['start_url / scope', '/'],
+        ['lang', 'it'],
+        ['categories', 'business, productivity'],
+        ['Icona 192x192', 'logo-192.png (PNG)'],
+        ['Icona 512x512', 'logo-512.png (PNG + maskable)'],
+    ],
+    [5, 11]
+)
+
+doc.add_heading('12.3.2 Service Worker e Registrazione', level=3)
+doc.add_paragraph(
+    'Il Service Worker viene registrato in main.jsx tramite registerSW() da virtual:pwa-register. '
+    'La configurazione prevede:'
+)
+sw_features = [
+    'registerType: autoUpdate - Il SW si aggiorna automaticamente quando rileva una nuova versione.',
+    'skipWaiting: true - Il nuovo SW si attiva immediatamente senza attendere la chiusura delle tab.',
+    'clientsClaim: true - Il nuovo SW prende il controllo di tutti i client immediatamente.',
+    'cleanupOutdatedCaches: true - Le cache vecchie vengono rimosse automaticamente.',
+    'navigateFallback: /index.html - Tutte le navigation request non-API servono index.html (SPA).',
+    'navigateFallbackDenylist: /api/, /swagger - Le richieste API e Swagger non vengono intercettate.',
+    'Controllo aggiornamenti: Ogni 5 minuti (setInterval) + ad ogni cambio pagina (Layout.jsx).',
 ]
-for item in pwa_features:
+for item in sw_features:
     doc.add_paragraph(item, style='List Bullet')
+
+doc.add_heading('12.3.3 Strategie di Caching Runtime', level=3)
+doc.add_paragraph(
+    'Il Service Worker implementa 6 strategie di caching differenziate per tipo di risorsa:'
+)
+add_styled_table(doc,
+    ['Cache Name', 'Strategia', 'URL Pattern', 'Scadenza', 'Descrizione'],
+    [
+        ['products-cache', 'StaleWhileRevalidate', '/api/prodotti', '100 entries, 1h', 'Mostra cache, aggiorna in background'],
+        ['api-critical-cache', 'NetworkFirst (5s timeout)', '/api/ordini, /api/auth', '50 entries, 5min', 'Rete prima, fallback cache'],
+        ['pricelist-cache', 'StaleWhileRevalidate', '/api/listini', '50 entries, 30min', 'Cache con aggiornamento background'],
+        ['(health)', 'NetworkOnly', '/api/health', '-', 'Sempre dalla rete'],
+        ['images-cache', 'CacheFirst', '.png/.jpg/.svg/.webp', '50 entries, 30gg', 'Immagini statiche'],
+        ['fonts-cache', 'CacheFirst', '.woff/.woff2/.ttf', '10 entries, 1 anno', 'Web fonts'],
+    ],
+    [2.5, 2.5, 3, 2.5, 4]
+)
+
+doc.add_heading('12.3.4 Componenti PWA Frontend', level=3)
+pwa_components = [
+    'InstallPrompt.jsx: Banner di installazione (blu, in basso) che intercetta l\'evento beforeinstallprompt del browser. Presenta pulsanti "Installa" e "Non ora". Se dismissato, non riappare per 7 giorni (localStorage). Si nasconde automaticamente dopo l\'evento appinstalled.',
+    'UpdatePrompt.jsx: Banner di aggiornamento (ambra, in alto) che ascolta l\'evento custom pwa-update-available emesso da main.jsx. Pulsanti "Aggiorna ora" (chiama window.__PWA_UPDATE_SW(true)) e "Piu tardi". Fallback con window.location.reload() dopo 500ms.',
+    'OfflineBanner.jsx: Banner rosso sottile mostrato automaticamente quando la connessione cade. Usa l\'hook useOnlineStatus che monitora gli eventi online/offline del browser. Si nasconde quando la connessione ritorna.',
+    'OfflinePage.jsx: Pagina di fallback (route /offline) con icona WiFi spento, messaggio localizzato e pulsante "Riprova" che ricarica la pagina. Raggiungibile quando l\'utente accede a risorse non in cache senza connessione.',
+    'ChunkErrorBoundary (App.jsx): Error Boundary React che intercetta errori di caricamento chunk JavaScript obsoleti (ChunkLoadError, Failed to fetch dynamically imported module). Forza un reload dalla rete con protezione anti-loop (max 1 reload ogni 10 secondi tramite sessionStorage).',
+    'useOnlineStatus hook: Hook custom che monitora navigator.onLine e gli eventi online/offline del browser. Restituisce un booleano reattivo usato da OfflineBanner.',
+]
+for item in pwa_components:
+    doc.add_paragraph(item, style='List Bullet')
+
+doc.add_heading('12.3.5 Meta Tags HTML per PWA', level=3)
+doc.add_paragraph(
+    'Il file index.html include i meta tag necessari per il supporto PWA su tutti i browser:'
+)
+meta_items = [
+    'theme-color: #2563eb (colore barra del browser)',
+    'apple-mobile-web-app-capable: yes (supporto iOS standalone)',
+    'apple-mobile-web-app-status-bar-style: black-translucent (stile barra di stato iOS)',
+    'apple-mobile-web-app-title: Recinzioni (titolo su iOS)',
+    'apple-touch-icon: /apple-touch-icon.png (icona 180x180 per iOS)',
+    'Asset in public/: favicon.ico, favicon.svg, apple-touch-icon.png, logo-192.png, logo-512.png',
+]
+for item in meta_items:
+    doc.add_paragraph(item, style='List Bullet')
+
+doc.add_heading('12.3.6 Traduzioni PWA', level=3)
+doc.add_paragraph(
+    'Tutte le 12 stringhe PWA sono localizzate in 4 lingue (IT, EN, FR, DE) nei file i18n sotto '
+    'la chiave "pwa". Le chiavi coprono: installTitle, installMessage, installButton, dismissButton, '
+    'offlineTitle, offlineMessage, offlineRetry, offlineLimited, updateAvailable, updateMessage, '
+    'updateButton, updateDismiss.'
+)
 
 doc.add_heading('12.4 Notifiche', level=2)
 doc.add_paragraph(

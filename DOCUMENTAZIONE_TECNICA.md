@@ -1219,46 +1219,192 @@ formatQuantity(value)   // Senza decimali inutili
 
 ## 9. Progressive Web App (PWA)
 
-### Configurazione (vite.config.js)
+### 9.1 Configurazione (vite.config.js)
 
 ```js
 VitePWA({
   registerType: 'autoUpdate',
-  workbox: {
-    globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest}'],
-    maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
-    skipWaiting: true,
-    clientsClaim: true,
-    runtimeCaching: [
-      // StaleWhileRevalidate per catalogo
-      { urlPattern: /\/api\/prodotti/, handler: 'StaleWhileRevalidate', options: { cacheName: 'products-cache', ... } },
-      // NetworkFirst per ordini/auth
-      { urlPattern: /\/api\/(ordini|auth|configuratore|listini)/, handler: 'NetworkFirst', options: { cacheName: 'api-cache', networkTimeoutSeconds: 5, ... } },
-      // CacheFirst per immagini e font
-      { urlPattern: /\.(png|jpg|jpeg|svg|gif|webp|woff2?)$/, handler: 'CacheFirst', options: { cacheName: 'images-cache', expiration: { maxEntries: 50, maxAgeSeconds: 30*24*60*60 } } },
-    ],
-  },
+  includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'logo-192.png', 'logo-512.png'],
   manifest: {
     name: 'Portale Recinzioni',
     short_name: 'Recinzioni',
-    theme_color: '#b01e45',
+    description: 'Configuratore recinzioni con preventivi e ordini',
+    theme_color: '#2563eb',
     background_color: '#ffffff',
     display: 'standalone',
-    scope: '/', start_url: '/',
+    orientation: 'any',
+    scope: '/',
+    start_url: '/',
+    lang: 'it',
+    categories: ['business', 'productivity'],
     icons: [
-      { src: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
-      { src: '/icons/icon-512x512.png', sizes: '512x512', type: 'image/png' },
-    ],
+      { src: 'logo-192.png', sizes: '192x192', type: 'image/png' },
+      { src: 'logo-512.png', sizes: '512x512', type: 'image/png' },
+      { src: 'logo-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+    ]
   },
+  workbox: {
+    globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+    maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3MB (Three.js chunks)
+    skipWaiting: true,
+    clientsClaim: true,
+    cleanupOutdatedCaches: true,
+    navigateFallback: '/index.html',
+    navigateFallbackDenylist: [/^\/api\//, /^\/swagger/],
+    runtimeCaching: [
+      // Prodotti e filtri — mostra cache poi aggiorna in background
+      {
+        urlPattern: /^https?:\/\/.*\/api\/prodotti/,
+        handler: 'StaleWhileRevalidate',
+        options: { cacheName: 'products-cache', expiration: { maxEntries: 100, maxAgeSeconds: 3600 } }
+      },
+      // Ordini e auth — dati critici, rete prima con fallback cache
+      {
+        urlPattern: /^https?:\/\/.*\/api\/(ordini|auth)/,
+        handler: 'NetworkFirst',
+        options: { cacheName: 'api-critical-cache', networkTimeoutSeconds: 5, expiration: { maxEntries: 50, maxAgeSeconds: 300 } }
+      },
+      // Listini — cambiano poco
+      {
+        urlPattern: /^https?:\/\/.*\/api\/listini/,
+        handler: 'StaleWhileRevalidate',
+        options: { cacheName: 'pricelist-cache', expiration: { maxEntries: 50, maxAgeSeconds: 1800 } }
+      },
+      // Health check — sempre rete
+      { urlPattern: /^https?:\/\/.*\/api\/health/, handler: 'NetworkOnly' },
+      // Immagini statiche — cache first (30 giorni)
+      {
+        urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
+        handler: 'CacheFirst',
+        options: { cacheName: 'images-cache', expiration: { maxEntries: 50, maxAgeSeconds: 2592000 } }
+      },
+      // Font — cache first (1 anno)
+      {
+        urlPattern: /\.(?:woff|woff2|ttf|eot)$/,
+        handler: 'CacheFirst',
+        options: { cacheName: 'fonts-cache', expiration: { maxEntries: 10, maxAgeSeconds: 31536000 } }
+      }
+    ]
+  }
 })
 ```
 
-### Componenti PWA
+### 9.2 Registrazione Service Worker (main.jsx)
 
-- **InstallPrompt.jsx:** Banner installazione app, dismissibile per 7 giorni
-- **UpdatePrompt.jsx:** Notifica aggiornamento service worker disponibile
-- **OfflineBanner.jsx:** Banner stato offline
-- **OfflinePage.jsx:** Pagina fallback offline con retry
+```jsx
+import { registerSW } from 'virtual:pwa-register';
+
+const updateSW = registerSW({
+  onNeedRefresh() {
+    // Notifica il componente UpdatePrompt che un aggiornamento è disponibile
+    window.dispatchEvent(new CustomEvent('pwa-update-available'));
+  },
+  onOfflineReady() {
+    console.info('[PWA] App pronta per uso offline');
+  },
+  onRegisteredSW(swUrl, registration) {
+    // Check aggiornamenti ogni 5 minuti
+    if (registration) {
+      setInterval(() => { registration.update(); }, 5 * 60 * 1000);
+    }
+  },
+  onRegisterError(error) {
+    console.error('[PWA] Errore registrazione SW:', error);
+  }
+});
+
+// Funzione di aggiornamento globale usata da UpdatePrompt
+window.__PWA_UPDATE_SW = updateSW;
+```
+
+In aggiunta, il Layout.jsx esegue `registration.update()` ad ogni cambio pagina per rilevare nuove versioni tempestivamente.
+
+### 9.3 Meta tags HTML (index.html)
+
+```html
+<meta name="theme-color" content="#2563eb" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Recinzioni" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+```
+
+### 9.4 Asset PWA (public/)
+
+| File | Dimensione | Scopo |
+|------|-----------|-------|
+| `favicon.ico` | 32x32 | Favicon browser |
+| `favicon.svg` | Scalabile | Favicon SVG moderno |
+| `apple-touch-icon.png` | 180x180 | Icona iOS home screen |
+| `logo-192.png` | 192x192 | Icona PWA standard |
+| `logo-512.png` | 512x512 | Icona PWA grande + maskable |
+
+### 9.5 Componenti PWA
+
+#### InstallPrompt.jsx
+Banner di installazione che intercetta l'evento `beforeinstallprompt` del browser. Appare nella parte inferiore dello schermo con pulsanti "Installa" e "Non ora". Se l'utente clicca "Non ora", il banner non viene più mostrato per 7 giorni (gestito tramite `localStorage` con chiave `pwa-install-dismissed`). Si nasconde automaticamente dopo `appinstalled`.
+
+#### UpdatePrompt.jsx
+Banner di aggiornamento che ascolta l'evento custom `pwa-update-available` emesso da `main.jsx` quando il Service Worker rileva un nuovo build. Appare nella parte superiore dello schermo (ambra) con pulsanti "Aggiorna ora" e "Più tardi". Chiama `window.__PWA_UPDATE_SW(true)` per applicare l'aggiornamento, con fallback `window.location.reload()` dopo 500ms.
+
+#### OfflineBanner.jsx
+Banner rosso sottile che appare automaticamente quando la connessione cade (hook `useOnlineStatus` che monitora gli eventi `online`/`offline` del browser). Si nasconde quando la connessione ritorna.
+
+#### OfflinePage.jsx
+Pagina di fallback raggiungibile via route `/offline` quando l'utente tenta di accedere a una risorsa non disponibile in cache. Mostra icona WiFi spento, messaggio localizzato e pulsante "Riprova" che ricarica la pagina.
+
+#### ChunkErrorBoundary (App.jsx)
+Error Boundary React che intercetta errori di caricamento chunk JavaScript obsoleti (comuni dopo aggiornamenti PWA quando il Service Worker serve file vecchi). Rileva errori come `ChunkLoadError`, `Failed to fetch dynamically imported module`, etc. e forza un reload dalla rete con protezione anti-loop (max 1 reload ogni 10 secondi tramite `sessionStorage`).
+
+### 9.6 Hook useOnlineStatus
+
+```js
+// hooks/useOnlineStatus.js
+export function useOnlineStatus() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => { /* cleanup */ };
+  }, []);
+  return isOnline;
+}
+```
+
+### 9.7 Strategie di Caching Workbox
+
+| Cache | Strategia | Scadenza | Uso |
+|-------|-----------|----------|-----|
+| `products-cache` | StaleWhileRevalidate | 100 entries, 1 ora | `/api/prodotti` — mostra dati cache, aggiorna in background |
+| `api-critical-cache` | NetworkFirst (timeout 5s) | 50 entries, 5 min | `/api/ordini`, `/api/auth` — priorità rete, fallback cache |
+| `pricelist-cache` | StaleWhileRevalidate | 50 entries, 30 min | `/api/listini` — dati che cambiano poco |
+| `images-cache` | CacheFirst | 50 entries, 30 giorni | Immagini statiche (PNG, JPG, SVG, WebP) |
+| `fonts-cache` | CacheFirst | 10 entries, 1 anno | Web fonts (WOFF, WOFF2, TTF) |
+| `/api/health` | NetworkOnly | — | Health check, sempre dalla rete |
+| Precache (Workbox) | Precache | Automatico | JS, CSS, HTML, icone — generato dal build |
+
+### 9.8 Traduzioni PWA (i18n)
+
+Tutte le stringhe PWA sono localizzate in 4 lingue (12 chiavi per lingua):
+
+| Chiave | IT | EN |
+|--------|-----|-----|
+| `pwa.installTitle` | Installa l'app | Install the app |
+| `pwa.installMessage` | Installa il Portale Recinzioni... | Install the Fencing Portal... |
+| `pwa.installButton` | Installa | Install |
+| `pwa.dismissButton` | Non ora | Not now |
+| `pwa.offlineTitle` | Sei offline | You are offline |
+| `pwa.offlineMessage` | Controlla la connessione... | Check your Internet connection... |
+| `pwa.offlineRetry` | Riprova | Retry |
+| `pwa.offlineLimited` | Alcune funzionalità... | Some features... |
+| `pwa.updateAvailable` | Aggiornamento disponibile | Update available |
+| `pwa.updateMessage` | Una nuova versione... | A new version... |
+| `pwa.updateButton` | Aggiorna ora | Update now |
+| `pwa.updateDismiss` | Più tardi | Later |
+
+Anche FR e DE hanno traduzioni complete.
 
 ---
 
