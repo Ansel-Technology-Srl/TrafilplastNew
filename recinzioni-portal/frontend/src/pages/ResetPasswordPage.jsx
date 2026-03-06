@@ -77,13 +77,13 @@ export default function ResetPasswordPage() {
   // Loading: validazione token in corso
   if (validating) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
           <svg className="animate-spin h-10 w-10 text-primary-600 mx-auto mb-4" viewBox="0 0 24 24" fill="none">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
-          <p className="text-gray-500">{t('app.loading')}</p>
+          <p className="text-gray-500 dark:text-gray-400">{t('app.loading')}</p>
         </div>
       </div>
     );
@@ -92,16 +92,16 @@ export default function ResetPasswordPage() {
   // Token non valido / scaduto
   if (!tokenValid && !success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
         <div className="w-full max-w-[420px] text-center">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-red-100 rounded-full mb-4">
-              <svg className="w-7 h-7 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-red-100 dark:bg-red-900/30 rounded-full mb-4">
+              <svg className="w-7 h-7 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
               </svg>
             </div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">{t('auth.resetTitle')}</h2>
-            <p className="text-sm text-gray-500 mb-6">{tokenError}</p>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{t('auth.resetTitle')}</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">{tokenError}</p>
             <Link
               to="/forgot-password"
               className="btn-primary inline-flex items-center gap-2 px-6 py-2.5"
@@ -109,7 +109,7 @@ export default function ResetPasswordPage() {
               {t('auth.forgotSend')}
             </Link>
             <div className="mt-4">
-              <Link to="/login" className="text-sm text-gray-500 hover:text-gray-700">
+              <Link to="/login" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                 {t('auth.forgotBack')}
               </Link>
             </div>
@@ -122,16 +122,16 @@ export default function ResetPasswordPage() {
   // Successo!
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
         <div className="w-full max-w-[420px] text-center">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-green-100 rounded-full mb-4">
-              <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
+              <svg className="w-7 h-7 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
             </div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">{t('auth.resetTitle')}</h2>
-            <p className="text-sm text-gray-600 mb-6">{t('auth.resetSuccess')}</p>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{t('auth.resetTitle')}</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">{t('auth.resetSuccess')}</p>
             <Link to="/login" className="btn-primary inline-flex items-center gap-2 px-6 py-2.5">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
@@ -146,7 +146,7 @@ export default function ResetPasswordPage() {
 
   // Form reset password
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
       <div className="w-full max-w-[420px]">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-2xl mb-4">
@@ -154,13 +154,13 @@ export default function ResetPasswordPage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('auth.resetTitle')}</h1>
-          <p className="text-sm text-gray-500 mt-1">{t('auth.resetSubtitle')}</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('auth.resetTitle')}</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('auth.resetSubtitle')}</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
           {errorMsg && (
-            <div className="mb-5 flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm" role="alert">
+            <div className="mb-5 flex items-start gap-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-xl text-sm" role="alert">
               <svg className="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
               </svg>
@@ -171,7 +171,7 @@ export default function ResetPasswordPage() {
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             {/* Nuova password */}
             <div>
-              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                 {t('auth.newPassword')}
               </label>
               <div className="relative">
@@ -188,7 +188,7 @@ export default function ResetPasswordPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                   tabIndex={-1}
                 >
                   {showPassword ? (
@@ -208,7 +208,7 @@ export default function ResetPasswordPage() {
 
             {/* Conferma password */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                 {t('auth.confirmNewPassword')}
               </label>
               <input
@@ -227,7 +227,7 @@ export default function ResetPasswordPage() {
                 disabled={loading}
               />
               {confirmPassword && confirmPassword !== newPassword && (
-                <p className="mt-1 text-xs text-red-600">{t('auth.passwordMismatch')}</p>
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{t('auth.passwordMismatch')}</p>
               )}
             </div>
 

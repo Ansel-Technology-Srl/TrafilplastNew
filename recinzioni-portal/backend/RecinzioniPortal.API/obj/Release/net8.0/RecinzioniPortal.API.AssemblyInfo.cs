@@ -16,6 +16,7 @@ using System.Reflection;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ded1a58a81ff3d15fa99308d954d42a1ce73a22")]
 =======
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e36b24fd9f15159d2b38ef1e6b643b6875bee376")]
@@ -25,6 +26,9 @@ using System.Reflection;
 >>>>>>> claude/claude-md-mm42pj5xwnjxx8aq-mJAnW
 =======
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0ddc2888d3d0b2b262a7b75340f8b2330b4a7c11")]
+>>>>>>> claude/claude-md-mm42pj5xwnjxx8aq-mJAnW
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c5452c8ea4208e84c058b88f48cafa6203047fe")]
 >>>>>>> claude/claude-md-mm42pj5xwnjxx8aq-mJAnW
 [assembly: System.Reflection.AssemblyProductAttribute("RecinzioniPortal.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RecinzioniPortal.API")]

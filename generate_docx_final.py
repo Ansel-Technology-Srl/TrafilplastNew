@@ -874,19 +874,77 @@ doc.add_paragraph(
     'descrizione) memorizzate nel database.'
 )
 
-doc.add_heading('12.2 Accessibilita (WCAG 2.1 AA)', level=2)
-doc.add_paragraph('L\'applicazione implementa le seguenti caratteristiche di accessibilita:')
-a11y = [
-    'Skip Links: Link di salto al contenuto principale, visibili al focus da tastiera.',
-    'Focus Trap: Nelle modali, il focus resta confinato all\'interno della modale.',
-    'Attributi ARIA: aria-label, aria-hidden, aria-expanded, aria-invalid su tutti gli elementi interattivi.',
-    'Icone decorative: Tutte le icone decorative hanno aria-hidden="true".',
-    'Tabelle: Uso di scope="col" sugli header delle tabelle.',
-    'Contrasto colori: Minimo rapporto 4.5:1 per testo su sfondo (primary-700 o superiore).',
-    'Configuratore accessibile: Componente testuale alternativo per la visualizzazione 3D.',
-    'Lingua documento: Attributo lang su <html> sincronizzato con la lingua corrente.',
+doc.add_heading('12.2 Accessibilita (WCAG 2.1 AA / Legge Stanca)', level=2)
+doc.add_paragraph(
+    'L\'applicazione e conforme ai requisiti della Legge 9 gennaio 2004, n. 4 (Legge Stanca) '
+    'allineati a WCAG 2.1 livello AA (AgID, Determinazione 437/2020). Dal 28 giugno 2025 '
+    'l\'European Accessibility Act (Direttiva UE 2019/882) estende gli obblighi anche alle imprese '
+    'private con fatturato >2M EUR e >10 dipendenti.'
+)
+
+doc.add_heading('12.2.1 Criteri WCAG implementati', level=3)
+add_styled_table(doc,
+    ['Criterio WCAG', 'Requisito', 'Implementazione'],
+    [
+        ['1.3.1', 'Info e Relazioni', 'Tabelle con scope="col", label con htmlFor, gerarchia heading'],
+        ['1.4.3', 'Contrasto minimo 4.5:1', 'primary-700+ per testo su sfondo chiaro, gray-100/200 su scuro'],
+        ['1.4.11', 'Contrasto non-testo', '@media (forced-colors: active) con bordi espliciti'],
+        ['2.1.1', 'Accesso da tastiera', 'Tutti i controlli sono <button> o <a>, nessun onClick su div'],
+        ['2.4.1', 'Salta blocchi', 'SkipLinks.jsx: "Vai al contenuto" e "Vai alla navigazione"'],
+        ['2.4.7', 'Focus visibile', '*:focus-visible con outline primary-500, ring sui pulsanti'],
+        ['2.5.5', 'Dimensione target', 'Pulsanti min 44x44px o spaziatura adeguata'],
+        ['3.1.1', 'Lingua pagina', '<html lang> sincronizzato con i18n.language'],
+        ['2.3.3', 'Riduzione movimento', '@media (prefers-reduced-motion: reduce)'],
+    ],
+    [2, 3, 8]
+)
+
+doc.add_heading('12.2.2 Dark Mode (Modalita Notturna)', level=3)
+doc.add_paragraph(
+    'Il portale supporta una modalita chiara (default) e una modalita scura, '
+    'attivabile per ogni utente tramite toggle nella sidebar o nella pagina di login.'
+)
+dark_features = [
+    'Strategia: Tailwind CSS darkMode: "class" - la classe "dark" su <html> attiva i prefissi dark:.',
+    'Store: useThemeStore (Zustand) gestisce theme, toggleTheme(), setTheme(), initTheme().',
+    'Persistenza: localStorage con chiave "theme" (dark|light), sopravvive alla sessione.',
+    'Preferenza sistema: Se l\'utente non ha scelto, segue prefers-color-scheme del browser.',
+    'Inizializzazione: initTheme() in App.jsx applica la classe "dark" prima del primo render.',
+    'Toggle UI: Icona Sun/Moon nella sidebar (Layout.jsx) e nella login page (LoginPage.jsx).',
+    'i18n: Chiavi theme.light, theme.dark, theme.toggle in tutte e 4 le lingue (IT/EN/FR/DE).',
+    'Tutti i componenti e pagine utilizzano prefissi dark: per backgrounds, testi, bordi e hover.',
 ]
-for item in a11y:
+for item in dark_features:
+    doc.add_paragraph(item, style='List Bullet')
+
+doc.add_heading('12.2.3 Mapping colori dark mode', level=3)
+add_styled_table(doc,
+    ['Classe Light', 'Classe Dark', 'Uso'],
+    [
+        ['bg-white', 'dark:bg-gray-800', 'Card, modali, input'],
+        ['bg-gray-50', 'dark:bg-gray-800/900', 'Sfondi sezione, table header'],
+        ['text-gray-900', 'dark:text-gray-100', 'Titoli principali'],
+        ['text-gray-700', 'dark:text-gray-300', 'Label, testo secondario'],
+        ['text-gray-500', 'dark:text-gray-400', 'Testo muted'],
+        ['border-gray-200', 'dark:border-gray-700', 'Bordi card'],
+        ['border-gray-300', 'dark:border-gray-600', 'Bordi input'],
+        ['bg-red-50', 'dark:bg-red-900/30', 'Alert errore'],
+        ['bg-blue-100', 'dark:bg-blue-900/30', 'Badge info'],
+    ],
+    [3, 3, 7]
+)
+
+doc.add_heading('12.2.4 Fix pagina bianca al primo caricamento', level=3)
+doc.add_paragraph(
+    'Dopo un deploy, il browser puo servire un index.html cachato che referenzia bundle JS con hash '
+    'obsoleti, causando una pagina bianca. Il fix prevede:'
+)
+cache_fixes = [
+    'Program.cs: Middleware OnStarting che aggiunge Cache-Control: no-cache, no-store, must-revalidate a tutte le risposte HTML.',
+    'StaticFileOptions: OnPrepareResponse con no-cache per index.html, sw.js, workbox-*.js.',
+    'web.config: Regola IIS NoCacheHTML per risposte text/html + NoCacheSW per service worker e manifest.',
+]
+for item in cache_fixes:
     doc.add_paragraph(item, style='List Bullet')
 
 doc.add_heading('12.3 Progressive Web App (PWA)', level=2)

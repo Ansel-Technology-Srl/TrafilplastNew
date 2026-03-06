@@ -11,9 +11,9 @@ import toast from 'react-hot-toast';
 import EuritmoPreviewModal from '../components/EuritmoPreviewModal';
 
 const STATUS_COLORS = {
-  Carrello: 'bg-gray-100 text-gray-700',
-  Preventivo: 'bg-blue-100 text-blue-700',
-  Ordine: 'bg-green-100 text-green-700'
+  Carrello: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
+  Preventivo: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+  Ordine: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
 };
 
 export default function OrdersPage() {
@@ -200,7 +200,7 @@ export default function OrdersPage() {
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                   filterStato === fb.key
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600'
                 }`}
               >
                 {fb.label}
@@ -211,7 +211,7 @@ export default function OrdersPage() {
 
           {/* Ricerca */}
           <div className="relative w-full md:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
             <input
               type="text"
               value={search}
@@ -230,7 +230,7 @@ export default function OrdersPage() {
             <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
           </div>
         ) : orders.length === 0 ? (
-          <div className="text-center py-12 text-gray-400">
+          <div className="text-center py-12 text-gray-400 dark:text-gray-500">
             <Package className="w-12 h-12 mx-auto mb-3 opacity-50" />
             <p>{t('orders.noOrders')}</p>
           </div>
@@ -239,7 +239,7 @@ export default function OrdersPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm" aria-label={t('a11y.tableCaption.orders')}>
                 <thead>
-                  <tr className="bg-gray-50 border-b text-left text-xs text-gray-500 uppercase">
+                  <tr className="bg-gray-50 dark:bg-gray-800 border-b text-left text-xs text-gray-500 dark:text-gray-400 uppercase">
                     <th scope="col" className="px-4 py-3">{t('orders.number')}</th>
                     <th scope="col" className="px-4 py-3">{t('orders.date')}</th>
                     <th scope="col" className="px-4 py-3">{t('orders.status')}</th>
@@ -251,9 +251,9 @@ export default function OrdersPage() {
                 </thead>
                 <tbody className="divide-y">
                   {orders.map(ord => (
-                    <tr key={ord.ordNum} className="hover:bg-gray-50 transition-colors">
+                    <tr key={ord.ordNum} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                       <td className="px-4 py-3 font-medium">#{ord.ordNum}</td>
-                      <td className="px-4 py-3 text-gray-500">
+                      <td className="px-4 py-3 text-gray-500 dark:text-gray-400">
                         {fmt.date(ord.ordData)}
                       </td>
                       <td className="px-4 py-3">
@@ -267,21 +267,21 @@ export default function OrdersPage() {
                         {ord.flagInvioFornitore ? (
                           <CheckCircle className="w-4 h-4 text-green-500 mx-auto" />
                         ) : (
-                          <span className="text-gray-300">—</span>
+                          <span className="text-gray-300 dark:text-gray-600">—</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-1">
                           <button
                             onClick={() => openDetail(ord.ordNum)}
-                            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded"
+                            className="p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded"
                             title={t('orders.detail.title')}
                           >
                             <Eye className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDownloadPdf(ord.ordNum)}
-                            className="p-1.5 text-gray-600 hover:bg-gray-100 rounded"
+                            className="p-1.5 text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 rounded"
                             title={t('orders.printPdf')}
                           >
                             <Download className="w-4 h-4" />
@@ -289,7 +289,7 @@ export default function OrdersPage() {
                           {!ord.flagConferma && (
                             <button
                               onClick={() => setConfirmAction({ type: 'confirm', ordNum: ord.ordNum })}
-                              className="p-1.5 text-green-600 hover:bg-green-50 rounded"
+                              className="p-1.5 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/30 rounded"
                               title={t('orders.confirm')}
                             >
                               <CheckCircle className="w-4 h-4" />
@@ -298,7 +298,7 @@ export default function OrdersPage() {
                           {ord.flagConferma && !ord.flagInvioFornitore && (
                             <button
                               onClick={() => setConfirmAction({ type: 'send', ordNum: ord.ordNum })}
-                              className="p-1.5 text-orange-600 hover:bg-orange-50 rounded"
+                              className="p-1.5 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/30 rounded"
                               title={t('orders.sendSupplier')}
                             >
                               <Send className="w-4 h-4" />
@@ -307,7 +307,7 @@ export default function OrdersPage() {
                           {!ord.flagConferma && (
                             <button
                               onClick={() => setConfirmAction({ type: 'delete', ordNum: ord.ordNum })}
-                              className="p-1.5 text-red-500 hover:bg-red-50 rounded"
+                              className="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded"
                               title={t('common.delete')}
                             >
                               <Trash2 className="w-4 h-4" />
@@ -323,15 +323,15 @@ export default function OrdersPage() {
 
             {/* Paginazione */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between px-4 py-3 border-t text-sm">
-                <span className="text-gray-500">
+              <div className="flex items-center justify-between px-4 py-3 border-t dark:border-gray-700 text-sm">
+                <span className="text-gray-500 dark:text-gray-400">
                   {t('orders.showing', { count: orders.length, total })}
                 </span>
                 <div className="flex gap-1">
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="px-3 py-1 rounded border hover:bg-gray-50 disabled:opacity-40"
+                    className="px-3 py-1 rounded border dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40"
                   >
                     ←
                   </button>
@@ -339,7 +339,7 @@ export default function OrdersPage() {
                   <button
                     onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="px-3 py-1 rounded border hover:bg-gray-50 disabled:opacity-40"
+                    className="px-3 py-1 rounded border dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40"
                   >
                     →
                   </button>
@@ -353,9 +353,9 @@ export default function OrdersPage() {
       {/* ── Modal Dettaglio Ordine ──────────────────────────────── */}
       {selectedOrder && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-10 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 mb-10" role="dialog" aria-modal="true" aria-labelledby="order-detail-title">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-4xl mx-4 mb-10" role="dialog" aria-modal="true" aria-labelledby="order-detail-title">
             {/* Header modal */}
-            <div className="flex items-center justify-between p-5 border-b">
+            <div className="flex items-center justify-between p-5 border-b dark:border-gray-700">
               <h2 id="order-detail-title" className="text-lg font-bold flex items-center gap-2">
                 <FileText className="w-5 h-5" aria-hidden="true" />
                 {t('orders.detail.title')} #{selectedOrder}
@@ -365,7 +365,7 @@ export default function OrdersPage() {
                   </span>
                 )}
               </h2>
-              <button onClick={closeDetail} className="p-1 hover:bg-gray-100 rounded">
+              <button onClick={closeDetail} className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -378,19 +378,19 @@ export default function OrdersPage() {
               <div className="p-5 space-y-5">
                 {/* Dati testata: fatturazione e consegna */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h3 className="text-sm font-semibold text-gray-500 mb-2">{t('quote.invoiceData')}</h3>
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                    <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">{t('quote.invoiceData')}</h3>
                     <p className="font-medium">{detailData.fattRagSoc}</p>
-                    <p className="text-sm text-gray-600">{detailData.fattIndirizzo}</p>
-                    <p className="text-sm text-gray-600">{detailData.fattCap} {detailData.fattCitta} ({detailData.fattProvincia})</p>
-                    {detailData.fattPIva && <p className="text-xs text-gray-500 mt-1">P.IVA: {detailData.fattPIva}</p>}
-                    {detailData.fattCFis && <p className="text-xs text-gray-500">C.F.: {detailData.fattCFis}</p>}
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{detailData.fattIndirizzo}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{detailData.fattCap} {detailData.fattCitta} ({detailData.fattProvincia})</p>
+                    {detailData.fattPIva && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">P.IVA: {detailData.fattPIva}</p>}
+                    {detailData.fattCFis && <p className="text-xs text-gray-500 dark:text-gray-400">C.F.: {detailData.fattCFis}</p>}
                   </div>
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h3 className="text-sm font-semibold text-gray-500 mb-2">{t('quote.deliveryData')}</h3>
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                    <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">{t('quote.deliveryData')}</h3>
                     <p className="font-medium">{detailData.consRagSoc}</p>
-                    <p className="text-sm text-gray-600">{detailData.consIndirizzo}</p>
-                    <p className="text-sm text-gray-600">{detailData.consCap} {detailData.consCitta} ({detailData.consProvincia})</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{detailData.consIndirizzo}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{detailData.consCap} {detailData.consCitta} ({detailData.consProvincia})</p>
                   </div>
                 </div>
 
@@ -398,19 +398,19 @@ export default function OrdersPage() {
                 {(detailData.note || detailData.pagDescrizione) && (
                   <div className="flex gap-4 text-sm">
                     {detailData.pagDescrizione && (
-                      <span className="text-gray-500">{t('quote.payment')}: <strong>{detailData.pagCod} - {detailData.pagDescrizione}</strong></span>
+                      <span className="text-gray-500 dark:text-gray-400">{t('quote.payment')}: <strong>{detailData.pagCod} - {detailData.pagDescrizione}</strong></span>
                     )}
                     {detailData.note && (
-                      <span className="text-gray-500">{t('quote.notes')}: {detailData.note}</span>
+                      <span className="text-gray-500 dark:text-gray-400">{t('quote.notes')}: {detailData.note}</span>
                     )}
                   </div>
                 )}
 
                 {/* Tabella righe */}
-                <div className="border rounded-lg overflow-hidden">
+                <div className="border dark:border-gray-700 rounded-lg overflow-hidden">
                   <table className="w-full text-sm" aria-label={t('a11y.tableCaption.orderDetail')}>
                     <thead>
-                      <tr className="bg-gray-100 text-left text-xs text-gray-500 uppercase">
+                      <tr className="bg-gray-100 dark:bg-gray-700 text-left text-xs text-gray-500 dark:text-gray-400 uppercase">
                         <th scope="col" className="px-3 py-2 w-8"></th>
                         <th scope="col" className="px-3 py-2">{t('cart.product')}</th>
                         <th scope="col" className="px-3 py-2 text-center">{t('cart.um')}</th>
@@ -429,10 +429,10 @@ export default function OrdersPage() {
                               <table className="w-full">
                                 <tbody>
                                   {/* Riga padre */}
-                                  <tr className="hover:bg-gray-50">
+                                  <tr className="hover:bg-gray-50 dark:hover:bg-gray-700">
                                     <td className="px-3 py-2 w-8">
                                       {riga.isConfigured && (
-                                        <button onClick={() => toggleRowExpand(riga.rigaNum)} className="text-gray-400 hover:text-blue-600">
+                                        <button onClick={() => toggleRowExpand(riga.rigaNum)} className="text-gray-400 dark:text-gray-500 hover:text-blue-600">
                                           {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                                         </button>
                                       )}
@@ -442,9 +442,9 @@ export default function OrdersPage() {
                                         <span className={riga.isConfigured ? 'font-medium' : ''}>
                                           {riga.prdDes}
                                         </span>
-                                        <span className="text-xs text-gray-400">{riga.prdCod}</span>
+                                        <span className="text-xs text-gray-400 dark:text-gray-500">{riga.prdCod}</span>
                                         {riga.isConfigured && (
-                                          <span className="inline-flex items-center text-xs bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">
+                                          <span className="inline-flex items-center text-xs bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 px-1.5 py-0.5 rounded">
                                             <Settings2 className="w-3 h-3 mr-0.5" />
                                             {t('cart.configuredProduct')}
                                           </span>
@@ -462,14 +462,14 @@ export default function OrdersPage() {
                                           href={`/alleg_documenti/${riga.prdCod.replace(/ /g, '_')}_sctec.pdf`}
                                           target="_blank"
                                           rel="noopener noreferrer"
-                                          className="inline-flex items-center gap-0.5 text-xs text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-1.5 py-0.5 rounded transition-colors"
+                                          className="inline-flex items-center gap-0.5 text-xs text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/50 px-1.5 py-0.5 rounded transition-colors"
                                           title="Scheda Tecnica"
                                         >
                                           <BookOpen className="w-3 h-3" /> Scheda Tecnica
                                         </a>
                                       </div>
                                     </td>
-                                    <td className="px-3 py-2 text-center text-gray-500">{riga.prdUm}</td>
+                                    <td className="px-3 py-2 text-center text-gray-500 dark:text-gray-400">{riga.prdUm}</td>
                                     <td className="px-3 py-2 text-center">{riga.quantita}</td>
                                     <td className="px-3 py-2 text-right">
                                       {riga.isConfigured ? '' : fmt.currency(riga.prezzoUnitario || 0)}
@@ -491,10 +491,10 @@ export default function OrdersPage() {
 
                                   {/* Config params */}
                                   {riga.isConfigured && isExpanded && riga.config && (
-                                    <tr className="bg-purple-50">
+                                    <tr className="bg-purple-50 dark:bg-purple-900/20">
                                       <td></td>
                                       <td colSpan={6} className="px-3 py-2">
-                                        <div className="flex flex-wrap gap-3 text-xs text-purple-700">
+                                        <div className="flex flex-wrap gap-3 text-xs text-purple-700 dark:text-purple-300">
                                           <span><strong>{t('orders.configParams')}:</strong></span>
                                           <span>📏 {t('configurator.height')}: {riga.config.altezzaPali}cm</span>
                                           <span>🎨 {t('configurator.slats')}: {riga.config.tipoDoghe}</span>
@@ -511,17 +511,17 @@ export default function OrdersPage() {
 
                                   {/* Componenti figli */}
                                   {riga.isConfigured && isExpanded && riga.componenti?.map((comp, ci) => (
-                                    <tr key={ci} className="bg-blue-50/50 text-xs">
+                                    <tr key={ci} className="bg-blue-50/50 dark:bg-blue-900/20 text-xs">
                                       <td></td>
-                                      <td className="px-3 py-1.5 pl-10 text-gray-600">
-                                        <span className="text-gray-400 mr-1">└</span>
+                                      <td className="px-3 py-1.5 pl-10 text-gray-600 dark:text-gray-400">
+                                        <span className="text-gray-400 dark:text-gray-500 mr-1">└</span>
                                         {comp.prdDes}
-                                        <span className="text-gray-400 ml-2">{comp.prdCod}</span>
+                                        <span className="text-gray-400 dark:text-gray-500 ml-2">{comp.prdCod}</span>
                                       </td>
-                                      <td className="px-3 py-1.5 text-center text-gray-500">{comp.prdUm}</td>
-                                      <td className="px-3 py-1.5 text-center text-gray-500">{comp.quantita}</td>
-                                      <td className="px-3 py-1.5 text-right text-gray-500">{fmt.currency(comp.prezzoUnitario || 0)}</td>
-                                      <td className="px-3 py-1.5 text-right text-gray-600">{fmt.currency(comp.prezzoTotale || 0)}</td>
+                                      <td className="px-3 py-1.5 text-center text-gray-500 dark:text-gray-400">{comp.prdUm}</td>
+                                      <td className="px-3 py-1.5 text-center text-gray-500 dark:text-gray-400">{comp.quantita}</td>
+                                      <td className="px-3 py-1.5 text-right text-gray-500 dark:text-gray-400">{fmt.currency(comp.prezzoUnitario || 0)}</td>
+                                      <td className="px-3 py-1.5 text-right text-gray-600 dark:text-gray-400">{fmt.currency(comp.prezzoTotale || 0)}</td>
                                       {!detailData.flagConferma && <td></td>}
                                     </tr>
                                   ))}
@@ -539,11 +539,11 @@ export default function OrdersPage() {
                 <div className="flex justify-end">
                   <div className="w-64 space-y-1 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-500">{t('cart.subtotal')}</span>
+                      <span className="text-gray-500 dark:text-gray-400">{t('cart.subtotal')}</span>
                       <span>{fmt.currency(detailData.subtotale || 0)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500">{t('cart.vat')} ({detailData.aliquotaIVA}%)</span>
+                      <span className="text-gray-500 dark:text-gray-400">{t('cart.vat')} ({detailData.aliquotaIVA}%)</span>
                       <span>{fmt.currency(detailData.importoIVA || 0)}</span>
                     </div>
                     <hr />
@@ -555,7 +555,7 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Azioni dettaglio */}
-                <div className="flex flex-wrap gap-2 pt-2 border-t">
+                <div className="flex flex-wrap gap-2 pt-2 border-t dark:border-gray-700">
                   <button onClick={() => handleDownloadPdf(detailData.ordNum)} className="btn-secondary flex items-center gap-1.5 text-sm">
                     <Download className="w-4 h-4" /> {t('orders.printPdf')}
                   </button>
@@ -609,12 +609,12 @@ export default function OrdersPage() {
       {/* ── Dialog conferma ─────────────────────────────────────── */}
       {confirmAction && (
         <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm mx-4" role="alertdialog" aria-modal="true" aria-labelledby="confirm-action-title">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 max-w-sm mx-4" role="alertdialog" aria-modal="true" aria-labelledby="confirm-action-title">
             <div className="flex items-start gap-3 mb-4">
               <AlertTriangle className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
               <div>
                 <h3 id="confirm-action-title" className="font-semibold mb-1">{t('orders.confirmAction')}</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   {confirmAction.type === 'confirm' && t('orders.confirmOrderMessage')}
                   {confirmAction.type === 'send' && t('orders.confirmSendMessage')}
                   {confirmAction.type === 'delete' && t('orders.confirmDeleteMessage')}

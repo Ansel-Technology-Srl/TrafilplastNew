@@ -36,7 +36,7 @@ export default function PriceListsPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">{t('priceLists.title')}</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('priceLists.title')}</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -59,8 +59,8 @@ export default function PriceListsPage() {
               <PublicListView pdv={selectedPdv} onCreated={handleRefresh} />
             )
           ) : (
-            <div className="card text-center py-16 text-gray-400">
-              <Store className="mx-auto mb-3 text-gray-300" size={40} />
+            <div className="card text-center py-16 text-gray-400 dark:text-gray-500">
+              <Store className="mx-auto mb-3 text-gray-300 dark:text-gray-600" size={40} />
               <p className="text-lg">{t('priceLists.selectBranch')}</p>
               <p className="text-sm mt-1">{t('priceLists.selectBranchHint')}</p>
             </div>
@@ -78,13 +78,13 @@ function PdvSelector({ pdvList, loading, selectedPdv, onSelect }) {
   const { t } = useTranslation();
 
   if (loading) return (
-    <div className="card text-center py-8 text-gray-400">
+    <div className="card text-center py-8 text-gray-400 dark:text-gray-500">
       <RefreshCw className="animate-spin mx-auto mb-2" size={20} /> {t('app.loading')}
     </div>
   );
 
   if (pdvList.length === 0) return (
-    <div className="card text-center py-8 text-gray-400">
+    <div className="card text-center py-8 text-gray-400 dark:text-gray-500">
       {t('priceLists.noBranches')}
     </div>
   );
@@ -99,33 +99,33 @@ function PdvSelector({ pdvList, loading, selectedPdv, onSelect }) {
             onClick={() => onSelect(pdv)}
             className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
               isSelected
-                ? 'border-primary-500 bg-primary-50 shadow-sm'
-                : 'border-gray-100 bg-white hover:border-gray-300 hover:shadow-sm'
+                ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/30 shadow-sm'
+                : 'border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm'
             }`}
           >
             <div className="flex items-start gap-3">
-              <div className={`p-2 rounded-lg flex-shrink-0 ${isSelected ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-gray-500'}`}>
+              <div className={`p-2 rounded-lg flex-shrink-0 ${isSelected ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
                 <Store size={18} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-900 text-sm truncate">{pdv.itemDes || pdv.itemIDSede}</p>
-                {pdv.loc && <p className="text-xs text-gray-500 truncate">{pdv.loc}{pdv.pro ? ` (${pdv.pro})` : ''}</p>}
+                <p className="font-medium text-gray-900 dark:text-gray-100 text-sm truncate">{pdv.itemDes || pdv.itemIDSede}</p>
+                {pdv.loc && <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{pdv.loc}{pdv.pro ? ` (${pdv.pro})` : ''}</p>}
                 <div className="flex items-center gap-2 mt-2">
                   {pdv.hasCustomList ? (
                     <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${
                       pdv.customIsValid
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-yellow-100 text-yellow-700'
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                        : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400'
                     }`}>
                       <Tag size={10} />
                       {pdv.customIsValid ? t('priceLists.customActive') : t('priceLists.customExpired')}
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                    <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
                       <Tag size={10} /> {t('priceLists.publicOnly')}
                     </span>
                   )}
-                  <span className="text-xs text-gray-400">{pdv.numPrezziPubb} {t('priceLists.items')}</span>
+                  <span className="text-xs text-gray-400 dark:text-gray-500">{pdv.numPrezziPubb} {t('priceLists.items')}</span>
                 </div>
               </div>
             </div>
@@ -178,11 +178,11 @@ function PublicListView({ pdv, onCreated }) {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="card bg-blue-50 border border-blue-200">
+      <div className="card bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h2 className="font-semibold text-blue-900">{pdv.itemDes || pdv.itemIDSede}</h2>
-            <p className="text-sm text-blue-700 mt-1">
+            <h2 className="font-semibold text-blue-900 dark:text-blue-100">{pdv.itemDes || pdv.itemIDSede}</h2>
+            <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
               {t('priceLists.publicListCode')}: <span className="font-mono">{pdv.lstCodPubb || '—'}</span>
             </p>
           </div>
@@ -194,16 +194,16 @@ function PublicListView({ pdv, onCreated }) {
 
         {/* Create form */}
         {showCreate && (
-          <div className="mt-4 pt-4 border-t border-blue-200">
-            <p className="text-sm text-blue-800 mb-3">{t('priceLists.createHint')}</p>
+          <div className="mt-4 pt-4 border-t border-blue-200 dark:border-blue-800">
+            <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">{t('priceLists.createHint')}</p>
             <div className="flex flex-wrap items-end gap-3">
               <div>
-                <label className="block text-xs font-medium text-blue-700 mb-1">{t('priceLists.validFrom')}</label>
+                <label className="block text-xs font-medium text-blue-700 dark:text-blue-300 mb-1">{t('priceLists.validFrom')}</label>
                 <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
                   className="input-field text-sm w-40" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-blue-700 mb-1">{t('priceLists.validTo')}</label>
+                <label className="block text-xs font-medium text-blue-700 dark:text-blue-300 mb-1">{t('priceLists.validTo')}</label>
                 <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)}
                   className="input-field text-sm w-40" />
               </div>
@@ -332,8 +332,8 @@ function PriceListEditor({ pdv, onRefresh }) {
       <div className="card">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h2 className="font-semibold text-gray-900">{pdv.itemDes || pdv.itemIDSede}</h2>
-            <p className="text-sm text-gray-500 mt-1">
+            <h2 className="font-semibold text-gray-900 dark:text-gray-100">{pdv.itemDes || pdv.itemIDSede}</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               {t('priceLists.customListCode')}: <span className="font-mono text-primary-600">{pdv.customLstCod}</span>
             </p>
             <div className="flex items-center gap-2 mt-2">
@@ -352,9 +352,10 @@ function PriceListEditor({ pdv, onRefresh }) {
               <RotateCcw size={14} /> {t('priceLists.resetAll')}
             </button>
             <button onClick={handleDelete}
-              className="text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors">
+              className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors">
               <Trash2 size={14} /> {t('priceLists.deleteList')}
             </button>
+
           </div>
         </div>
 
@@ -362,11 +363,11 @@ function PriceListEditor({ pdv, onRefresh }) {
         {showDates && (
           <div className="mt-4 pt-4 border-t flex flex-wrap items-end gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">{t('priceLists.validFrom')}</label>
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">{t('priceLists.validFrom')}</label>
               <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="input-field text-sm w-40" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">{t('priceLists.validTo')}</label>
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">{t('priceLists.validTo')}</label>
               <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="input-field text-sm w-40" />
             </div>
             <button onClick={handleSaveDates} className="btn-primary text-sm flex items-center gap-1">
@@ -382,22 +383,22 @@ function PriceListEditor({ pdv, onRefresh }) {
         <div className="grid grid-cols-3 gap-3">
           <div className="card p-3 text-center cursor-pointer hover:shadow-md transition-all"
             onClick={() => { setFilter('all'); setPage(1); }}>
-            <p className="text-2xl font-bold text-gray-900">{summary.total}</p>
-            <p className={`text-xs ${filter === 'all' ? 'text-primary-600 font-medium' : 'text-gray-500'}`}>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{summary.total}</p>
+            <p className={`text-xs ${filter === 'all' ? 'text-primary-600 font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
               {t('priceLists.totalProducts')}
             </p>
           </div>
           <div className="card p-3 text-center cursor-pointer hover:shadow-md transition-all"
             onClick={() => { setFilter('modified'); setPage(1); }}>
             <p className="text-2xl font-bold text-amber-600">{summary.modified}</p>
-            <p className={`text-xs ${filter === 'modified' ? 'text-primary-600 font-medium' : 'text-gray-500'}`}>
+            <p className={`text-xs ${filter === 'modified' ? 'text-primary-600 font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
               {t('priceLists.modified')}
             </p>
           </div>
           <div className="card p-3 text-center cursor-pointer hover:shadow-md transition-all"
             onClick={() => { setFilter('unchanged'); setPage(1); }}>
-            <p className="text-2xl font-bold text-gray-400">{summary.unchanged}</p>
-            <p className={`text-xs ${filter === 'unchanged' ? 'text-primary-600 font-medium' : 'text-gray-500'}`}>
+            <p className="text-2xl font-bold text-gray-400 dark:text-gray-500">{summary.unchanged}</p>
+            <p className={`text-xs ${filter === 'unchanged' ? 'text-primary-600 font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
               {t('priceLists.unchanged')}
             </p>
           </div>
@@ -421,7 +422,7 @@ function PriceListEditor({ pdv, onRefresh }) {
         <div className="overflow-x-auto">
           <table className="w-full text-sm" aria-label={t('a11y.tableCaption.priceList')}>
             <thead>
-              <tr className="bg-gray-50 text-left text-gray-600 border-b">
+              <tr className="bg-gray-50 dark:bg-gray-700 text-left text-gray-600 dark:text-gray-400 border-b dark:border-gray-600">
                 <th scope="col" className="px-4 py-3 font-medium">{t('priceLists.colCode')}</th>
                 <th scope="col" className="px-4 py-3 font-medium">{t('priceLists.colDescription')}</th>
                 <th scope="col" className="px-4 py-3 font-medium">{t('priceLists.colUm')}</th>
@@ -439,13 +440,13 @@ function PriceListEditor({ pdv, onRefresh }) {
               ) : data.length === 0 ? (
                 <tr><td colSpan={7} className="text-center py-12 text-gray-400">{t('common.noData')}</td></tr>
               ) : data.map(row => (
-                <tr key={row.prdCod} className={`border-t transition-colors ${
-                  row.isModified ? 'bg-amber-50/50 hover:bg-amber-50' : 'hover:bg-gray-50'
+                <tr key={row.prdCod} className={`border-t dark:border-gray-600 transition-colors ${
+                  row.isModified ? 'bg-amber-50/50 dark:bg-amber-900/20 hover:bg-amber-50 dark:hover:bg-amber-900/30' : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}>
-                  <td className="px-4 py-2.5 font-mono text-xs text-gray-600">{row.prdCod}</td>
-                  <td className="px-4 py-2.5 text-gray-800">{row.prdDes}</td>
-                  <td className="px-4 py-2.5 text-gray-500 text-xs">{row.prdUm}</td>
-                  <td className="px-4 py-2.5 text-right text-gray-500">
+                  <td className="px-4 py-2.5 font-mono text-xs text-gray-600 dark:text-gray-400">{row.prdCod}</td>
+                  <td className="px-4 py-2.5 text-gray-800 dark:text-gray-100">{row.prdDes}</td>
+                  <td className="px-4 py-2.5 text-gray-500 dark:text-gray-400 text-xs">{row.prdUm}</td>
+                  <td className="px-4 py-2.5 text-right text-gray-500 dark:text-gray-400">
                     {fmt.currency(row.prezzoPubblico ?? 0)}
                   </td>
                   <td className="px-4 py-2.5 text-right">
@@ -463,7 +464,7 @@ function PriceListEditor({ pdv, onRefresh }) {
                         autoFocus
                       />
                     ) : (
-                      <span className={`font-medium ${row.isModified ? 'text-amber-700' : 'text-gray-700'}`}>
+                      <span className={`font-medium ${row.isModified ? 'text-amber-700 dark:text-amber-400' : 'text-gray-700 dark:text-gray-300'}`}>
                         {fmt.currency(row.prezzoCustom ?? row.prezzoPubblico ?? 0)}
                       </span>
                     )}
@@ -477,7 +478,7 @@ function PriceListEditor({ pdv, onRefresh }) {
                         {row.diffPerc > 0 ? '+' : ''}{row.diffPerc}%
                       </span>
                     ) : (
-                      <Minus size={14} className="mx-auto text-gray-300" />
+                      <Minus size={14} className="mx-auto text-gray-300 dark:text-gray-600" />
                     )}
                   </td>
                   <td className="px-4 py-2.5 text-center">
@@ -485,11 +486,11 @@ function PriceListEditor({ pdv, onRefresh }) {
                       <div className="flex gap-1 justify-center">
                         <button onMouseDown={e => { e.preventDefault(); savePrice(row.prdCod); }}
                           disabled={saving}
-                          className="p-1 text-green-600 hover:bg-green-50 rounded">
+                          className="p-1 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/30 rounded">
                           <Check size={15} />
                         </button>
                         <button onMouseDown={e => { e.preventDefault(); cancelEdit(); }}
-                          className="p-1 text-gray-400 hover:bg-gray-100 rounded">
+                          className="p-1 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
                           <X size={15} />
                         </button>
                       </div>
@@ -508,8 +509,8 @@ function PriceListEditor({ pdv, onRefresh }) {
 
         {/* Pagination */}
         {pagination && pagination.totalPages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t bg-gray-50 text-sm">
-            <span className="text-gray-500">
+          <div className="flex items-center justify-between px-4 py-3 border-t dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm">
+            <span className="text-gray-500 dark:text-gray-400">
               {t('import.showing', {
                 from: (pagination.page - 1) * pagination.pageSize + 1,
                 to: Math.min(pagination.page * pagination.pageSize, pagination.total),
@@ -518,7 +519,7 @@ function PriceListEditor({ pdv, onRefresh }) {
             </span>
             <div className="flex gap-1">
               <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1}
-                className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30">
+                className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-30">
                 <ChevronLeft size={18} />
               </button>
               {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
@@ -529,13 +530,13 @@ function PriceListEditor({ pdv, onRefresh }) {
                 else pn = page - 2 + i;
                 return (
                   <button key={pn} onClick={() => setPage(pn)}
-                    className={`px-3 py-1 rounded text-sm ${page === pn ? 'bg-primary-600 text-white' : 'hover:bg-gray-200'}`}>
+                    className={`px-3 py-1 rounded text-sm ${page === pn ? 'bg-primary-600 text-white' : 'hover:bg-gray-200 dark:hover:bg-gray-600'}`}>
                     {pn}
                   </button>
                 );
               })}
               <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page >= pagination.totalPages}
-                className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30">
+                className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-30">
                 <ChevronRight size={18} />
               </button>
             </div>
@@ -574,10 +575,10 @@ function DataTable({ data, loading, pagination, page, setPage, readOnly }) {
             ) : data.length === 0 ? (
               <tr><td colSpan={4} className="text-center py-12 text-gray-400">{t('common.noData')}</td></tr>
             ) : data.map((row, idx) => (
-              <tr key={idx} className="border-t hover:bg-gray-50">
-                <td className="px-4 py-2.5 font-mono text-xs text-gray-600">{row.prdCod}</td>
-                <td className="px-4 py-2.5 text-gray-800">{row.prdDes}</td>
-                <td className="px-4 py-2.5 text-gray-500 text-xs">{row.prdUm}</td>
+              <tr key={idx} className="border-t dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td className="px-4 py-2.5 font-mono text-xs text-gray-600 dark:text-gray-400">{row.prdCod}</td>
+                <td className="px-4 py-2.5 text-gray-800 dark:text-gray-100">{row.prdDes}</td>
+                <td className="px-4 py-2.5 text-gray-500 dark:text-gray-400 text-xs">{row.prdUm}</td>
                 <td className="px-4 py-2.5 text-right font-medium">{fmt.currency(row.prdPrz ?? 0)}</td>
               </tr>
             ))}

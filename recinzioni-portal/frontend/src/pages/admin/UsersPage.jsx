@@ -115,7 +115,7 @@ export default function UsersPage() {
       <div className="card p-0 overflow-x-auto">
         <table className="w-full text-sm" aria-label={t('a11y.tableCaption.users')}>
           <thead>
-            <tr className="bg-gray-50 text-left text-gray-600">
+            <tr className="bg-gray-50 dark:bg-gray-700 text-left text-gray-600 dark:text-gray-400">
               <th scope="col" className="px-4 py-3">{t('users.id')}</th>
               <th scope="col" className="px-4 py-3">{t('users.login')}</th>
               <th scope="col" className="px-4 py-3">{t('users.name')}</th>
@@ -132,22 +132,22 @@ export default function UsersPage() {
             ) : users.length === 0 ? (
               <tr><td colSpan="8" className="text-center py-8 text-gray-400">{t('common.noData')}</td></tr>
             ) : users.map(u => (
-              <tr key={u.userID} className="border-t hover:bg-gray-50">
+              <tr key={u.userID} className="border-t dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td className="px-4 py-3 font-mono">{u.userID}</td>
                 <td className="px-4 py-3">{u.userLogin}</td>
                 <td className="px-4 py-3 font-medium">{u.userName}</td>
                 <td className="px-4 py-3">
-                  <span className="text-xs px-2 py-1 rounded-full bg-gray-100">{USER_TYPES[u.userType]}</span>
+                  <span className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 dark:text-gray-300">{USER_TYPES[u.userType]}</span>
                 </td>
-                <td className="px-4 py-3 text-gray-500">{u.mailAddress}</td>
+                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{u.mailAddress}</td>
                 <td className="px-4 py-3 font-mono text-xs">{u.itemID}</td>
                 <td className="px-4 py-3 font-mono text-xs">{u.itemIDSede}</td>
                 <td className="px-4 py-3">
                   <div className="flex gap-1">
-                    <button onClick={() => openEdit(u)} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded">
+                    <button onClick={() => openEdit(u)} className="p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded">
                       <Pencil size={15} />
                     </button>
-                    <button onClick={() => handleDelete(u.userID)} className="p-1.5 text-red-500 hover:bg-red-50 rounded">
+                    <button onClick={() => handleDelete(u.userID)} className="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded">
                       <Trash2 size={15} />
                     </button>
                   </div>
@@ -161,18 +161,18 @@ export default function UsersPage() {
       {/* Modal */}
       {modal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-4 border-b">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
               <h3 className="font-semibold text-lg">
                 {modal === 'create' ? t('users.add') : t('users.edit')}
               </h3>
-              <button onClick={() => setModal(null)} className="p-1 hover:bg-gray-100 rounded"><X size={20} /></button>
+              <button onClick={() => setModal(null)} className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"><X size={20} /></button>
             </div>
 
             <div className="p-4 space-y-4">
               {modal === 'create' && (
                 <div>
-                  <label className="block text-sm font-medium mb-1">UserID *</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">UserID *</label>
                   <input type="number" value={form.userID} onChange={e => update('userID', e.target.value)}
                     className="input-field" />
                 </div>
@@ -180,12 +180,12 @@ export default function UsersPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Login *</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Login *</label>
                   <input type="text" value={form.userLogin || ''} onChange={e => update('userLogin', e.target.value)}
                     className="input-field" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Password {modal === 'edit' ? '(lascia vuoto per non cambiare)' : '*'}
                   </label>
                   <input type="password" value={form.password || ''} onChange={e => update('password', e.target.value)}
@@ -201,7 +201,7 @@ export default function UsersPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Tipo *</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo *</label>
                   <select value={form.userType} onChange={e => update('userType', e.target.value)} className="input-field">
                     {Object.entries(USER_TYPES).map(([k, v]) => (
                       <option key={k} value={k}>{v}</option>
@@ -209,7 +209,7 @@ export default function UsersPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Email</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
                   <input type="email" value={form.mailAddress || ''} onChange={e => update('mailAddress', e.target.value)}
                     className="input-field" />
                 </div>
@@ -217,19 +217,19 @@ export default function UsersPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Codice Cliente (ItemID)</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Codice Cliente (ItemID)</label>
                   <input type="text" value={form.itemID || ''} onChange={e => update('itemID', e.target.value)}
                     className="input-field" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Codice Sede (ItemIDSede)</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Codice Sede (ItemIDSede)</label>
                   <input type="text" value={form.itemIDSede || ''} onChange={e => update('itemIDSede', e.target.value)}
                     className="input-field" />
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 p-4 border-t">
+            <div className="flex justify-end gap-3 p-4 border-t dark:border-gray-700">
               <button onClick={() => setModal(null)} className="btn-secondary">{t('common.cancel')}</button>
               <button onClick={handleSave} className="btn-primary">{t('common.save')}</button>
             </div>

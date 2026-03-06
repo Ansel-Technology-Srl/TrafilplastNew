@@ -19,7 +19,7 @@ export default function PasswordStrengthIndicator({ password = '' }) {
 
   const passedCount = rules.filter(r => r.test).length;
   const strength = passedCount === 0 ? 0 : passedCount <= 2 ? 1 : passedCount <= 4 ? 2 : 3;
-  const strengthColors = ['bg-gray-200', 'bg-red-500', 'bg-yellow-500', 'bg-green-500'];
+  const strengthColors = ['bg-gray-200 dark:bg-gray-600', 'bg-red-500', 'bg-yellow-500', 'bg-green-500'];
   const strengthLabels = ['', 'Debole', 'Media', 'Forte'];
 
   if (!password) return null;
@@ -32,14 +32,14 @@ export default function PasswordStrengthIndicator({ password = '' }) {
           <div
             key={level}
             className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-              strength >= level ? strengthColors[strength] : 'bg-gray-200'
+              strength >= level ? strengthColors[strength] : 'bg-gray-200 dark:bg-gray-600'
             }`}
           />
         ))}
       </div>
       {strength > 0 && (
         <p className={`text-xs font-medium ${
-          strength === 1 ? 'text-red-600' : strength === 2 ? 'text-yellow-600' : 'text-green-600'
+          strength === 1 ? 'text-red-600 dark:text-red-400' : strength === 2 ? 'text-yellow-600 dark:text-yellow-400' : 'text-green-600 dark:text-green-400'
         }`}>
           {strengthLabels[strength]}
         </p>
@@ -47,7 +47,7 @@ export default function PasswordStrengthIndicator({ password = '' }) {
 
       {/* Checklist regole */}
       <div className="space-y-1">
-        <p className="text-xs font-medium text-gray-500">{t('auth.passwordRules')}</p>
+        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{t('auth.passwordRules')}</p>
         {rules.map(rule => (
           <div key={rule.key} className="flex items-center gap-1.5 text-xs">
             {rule.test ? (
@@ -55,11 +55,11 @@ export default function PasswordStrengthIndicator({ password = '' }) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             ) : (
-              <svg className="w-3.5 h-3.5 text-gray-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <circle cx="12" cy="12" r="9" />
               </svg>
             )}
-            <span className={rule.test ? 'text-green-700' : 'text-gray-400'}>
+            <span className={rule.test ? 'text-green-700 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}>
               {rule.label}
             </span>
           </div>
