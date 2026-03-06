@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RecinzioniPortal.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c5452c8ea4208e84c058b88f48cafa6203047fe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fefa6b832e77cd74b44f5061fb0e82045d38b070")]
 [assembly: System.Reflection.AssemblyProductAttribute("RecinzioniPortal.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RecinzioniPortal.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
