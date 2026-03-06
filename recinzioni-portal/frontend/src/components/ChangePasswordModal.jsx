@@ -73,10 +73,10 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modale */}
-      <div ref={modalRef} className="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
+      <div ref={modalRef} className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
             <svg className="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
             </svg>
@@ -84,7 +84,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
           </h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+            className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
             aria-label={t('a11y.closeModal')}
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -95,7 +95,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
 
         {/* Errore */}
         {errorMsg && (
-          <div className="mb-4 flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm" role="alert">
+          <div className="mb-4 flex items-start gap-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-xl text-sm" role="alert">
             <svg className="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
             </svg>
@@ -106,7 +106,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           {/* Password attuale */}
           <div>
-            <label htmlFor="currentPwd" className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label htmlFor="currentPwd" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
               {t('auth.currentPassword')}
             </label>
             <div className="relative">
@@ -123,7 +123,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
               <button
                 type="button"
                 onClick={() => setShowCurrent(!showCurrent)}
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                 tabIndex={-1}
               >
                 <EyeIcon show={showCurrent} />
@@ -133,7 +133,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
 
           {/* Nuova password */}
           <div>
-            <label htmlFor="newPwd" className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label htmlFor="newPwd" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
               {t('auth.newPassword')}
             </label>
             <div className="relative">
@@ -149,7 +149,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
               <button
                 type="button"
                 onClick={() => setShowNew(!showNew)}
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                 tabIndex={-1}
               >
                 <EyeIcon show={showNew} />
@@ -160,7 +160,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
 
           {/* Conferma nuova password */}
           <div>
-            <label htmlFor="confirmPwd" className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label htmlFor="confirmPwd" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
               {t('auth.confirmNewPassword')}
             </label>
             <input
@@ -179,7 +179,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
               disabled={loading}
             />
             {confirmPassword && confirmPassword !== newPassword && (
-              <p className="mt-1 text-xs text-red-600">{t('auth.passwordMismatch')}</p>
+              <p className="mt-1 text-xs text-red-600 dark:text-red-400">{t('auth.passwordMismatch')}</p>
             )}
           </div>
 

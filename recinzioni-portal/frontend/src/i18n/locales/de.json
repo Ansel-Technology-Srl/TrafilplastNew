@@ -595,5 +595,10 @@
     "updateMessage": "Eine neue Version ist verfügbar. Aktualisieren Sie, um die neuesten Funktionen zu erhalten.",
     "updateButton": "Jetzt aktualisieren",
     "updateDismiss": "Später"
+  },
+  "theme": {
+    "light": "Heller Modus",
+    "dark": "Dunkler Modus",
+    "toggle": "Hell-/Dunkel-Modus umschalten"
   }
 }

@@ -2,7 +2,7 @@ import { useEffect, Suspense, lazy, Component } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from './store/store';
+import { useAuthStore, useThemeStore } from './store/store';
 import Layout from './components/Layout';
 import SkipLinks from './components/SkipLinks';
 
@@ -83,9 +83,11 @@ const Spinner = () => (
 
 export default function App() {
   const { checkAuth, loading } = useAuthStore();
+  const initTheme = useThemeStore(s => s.initTheme);
   const { i18n } = useTranslation();
 
   useEffect(() => { checkAuth(); }, []);
+  useEffect(() => { initTheme(); }, []);
 
   // Sync <html lang> attribute with current language (WCAG 3.1.1)
   useEffect(() => {

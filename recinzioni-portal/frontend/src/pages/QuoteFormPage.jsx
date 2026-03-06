@@ -186,7 +186,7 @@ export default function QuoteFormPage() {
     const { placeholder, maxLength, disabled, uppercase } = opts;
     return (
       <div>
-        <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
+        <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">{label}</label>
         <input
           type="text"
           value={form[field] || ''}
@@ -198,7 +198,7 @@ export default function QuoteFormPage() {
           placeholder={placeholder}
           maxLength={maxLength}
           disabled={disabled}
-          className={`input-field w-full ${errors[field] ? 'border-red-500 ring-1 ring-red-300' : ''} ${disabled ? 'bg-gray-100' : ''}`}
+          className={`input-field w-full ${errors[field] ? 'border-red-500 ring-1 ring-red-300' : ''} ${disabled ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
         />
         {errors[field] && (
           <p className="text-xs text-red-500 mt-0.5 flex items-center gap-1">
@@ -227,7 +227,7 @@ export default function QuoteFormPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* ── Fatturazione ────────────────────────── */}
         <div className="card p-5">
-          <h2 className="text-lg font-semibold mb-4 text-gray-700">{t('quote.invoiceData')}</h2>
+          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">{t('quote.invoiceData')}</h2>
           <div className="space-y-3">
             {renderField(t('quote.ragSoc'), 'fattRagSoc')}
             {renderField(t('quote.address'), 'fattIndirizzo')}
@@ -246,13 +246,13 @@ export default function QuoteFormPage() {
         {/* ── Consegna ────────────────────────────── */}
         <div className="card p-5">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-700">{t('quote.deliveryData')}</h2>
-            <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">{t('quote.deliveryData')}</h2>
+            <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
               <input
                 type="checkbox"
                 checked={sameAsInvoice}
                 onChange={(e) => setSameAsInvoice(e.target.checked)}
-                className="rounded border-gray-300"
+                className="rounded border-gray-300 dark:border-gray-600"
               />
               <Copy className="w-3.5 h-3.5" />
               {t('quote.sameAsInvoice')}
@@ -273,14 +273,14 @@ export default function QuoteFormPage() {
       {/* Pagamento e note */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         <div className="card p-5">
-          <h2 className="text-lg font-semibold mb-4 text-gray-700">{t('quote.payment')}</h2>
+          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">{t('quote.payment')}</h2>
           <div className="space-y-3">
             {renderField(t('quote.paymentCode'), 'pagCod')}
             {renderField(t('quote.paymentDesc'), 'pagDescrizione')}
           </div>
         </div>
         <div className="card p-5">
-          <h2 className="text-lg font-semibold mb-4 text-gray-700">{t('quote.notes')}</h2>
+          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">{t('quote.notes')}</h2>
           <textarea
             value={form.note}
             onChange={(e) => handleChange('note', e.target.value)}
@@ -294,14 +294,15 @@ export default function QuoteFormPage() {
       {/* Riepilogo carrello + invio */}
       <div className="mt-6 card p-5">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-3 text-sm text-gray-600">
+          <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
             <ShoppingCart className="w-5 h-5 text-blue-500" />
             <span>{t('quote.cartSummary')}: <strong>{getItemCount()}</strong> {t('quote.itemsCount')}</span>
-            <span className="text-gray-300">|</span>
+            <span className="text-gray-300 dark:text-gray-600">|</span>
             <span>{t('cart.subtotal')}: <strong>{fmt.currency(getSubtotal())}</strong></span>
-            <span className="text-gray-300">|</span>
+            <span className="text-gray-300 dark:text-gray-600">|</span>
             <span>{t('cart.vat')}: <strong>{fmt.currency(getVAT())}</strong></span>
-            <span className="text-gray-300">|</span>
+            <span className="text-gray-300 dark:text-gray-600">|</span>
+
             <span className="text-lg font-bold">{t('cart.total')}: {fmt.currency(getTotal())}</span>
           </div>
           <div className="flex gap-3">

@@ -595,5 +595,10 @@
     "updateMessage": "Una nuova versione è disponibile. Aggiorna per ottenere le ultime novità.",
     "updateButton": "Aggiorna ora",
     "updateDismiss": "Più tardi"
+  },
+  "theme": {
+    "light": "Modalità chiara",
+    "dark": "Modalità scura",
+    "toggle": "Cambia tema chiaro/scuro"
   }
 }

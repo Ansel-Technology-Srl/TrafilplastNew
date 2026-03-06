@@ -171,32 +171,32 @@ export default function CatalogPage() {
     if (!hasActiveFilters) return null;
     return (
       <div className="flex flex-wrap items-center gap-2 mb-4">
-        <span className="text-sm text-gray-500">{t('catalog.activeFilters')}:</span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">{t('catalog.activeFilters')}:</span>
         {catFilter && (
-          <span className="inline-flex items-center gap-1 px-2 py-1 bg-primary-100 text-primary-700 rounded-full text-xs font-medium">
+          <span className="inline-flex items-center gap-1 px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-xs font-medium">
             {t('catalog.category')}: {catFilter}
             <button onClick={() => { setCatFilter(''); setFamFilter(''); setGrpFilter(''); }} className="hover:text-primary-900"><X size={12} /></button>
           </span>
         )}
         {famFilter && (
-          <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+          <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
             {t('catalog.family')}: {famFilter}
             <button onClick={() => setFamFilter('')} className="hover:text-blue-900"><X size={12} /></button>
           </span>
         )}
         {grpFilter && (
-          <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+          <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-medium">
             {t('catalog.group')}: {grpFilter}
             <button onClick={() => setGrpFilter('')} className="hover:text-green-900"><X size={12} /></button>
           </span>
         )}
         {searchApplied && (
-          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">
+          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-xs font-medium">
             "{searchApplied}"
             <button onClick={clearSearch} className="hover:text-yellow-900"><X size={12} /></button>
           </span>
         )}
-        <button onClick={clearAllFilters} className="text-xs text-gray-400 hover:text-gray-600 underline ml-2">
+        <button onClick={clearAllFilters} className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 underline ml-2">
           {t('catalog.clearAll')}
         </button>
       </div>
@@ -219,7 +219,7 @@ export default function CatalogPage() {
 
     return (
       <div className="flex items-center justify-between mt-6 pt-4 border-t">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           {t('catalog.showing', {
             from: (current - 1) * pagination.pageSize + 1,
             to: Math.min(current * pagination.pageSize, pagination.total),
@@ -230,15 +230,15 @@ export default function CatalogPage() {
           <button
             onClick={() => goToPage(current - 1)}
             disabled={current === 1}
-            className="p-2 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <ChevronLeft size={18} />
           </button>
 
           {start > 1 && (
             <>
-              <button onClick={() => goToPage(1)} className="px-3 py-1 rounded text-sm hover:bg-gray-100">1</button>
-              {start > 2 && <span className="px-1 text-gray-400">…</span>}
+              <button onClick={() => goToPage(1)} className="px-3 py-1 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-700">1</button>
+              {start > 2 && <span className="px-1 text-gray-400 dark:text-gray-500">…</span>}
             </>
           )}
 
@@ -248,7 +248,7 @@ export default function CatalogPage() {
               onClick={() => goToPage(p)}
               className={`px-3 py-1 rounded text-sm ${p === current
                 ? 'bg-primary-600 text-white font-medium'
-                : 'hover:bg-gray-100'
+                : 'hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
             >
               {p}
@@ -257,15 +257,15 @@ export default function CatalogPage() {
 
           {end < total && (
             <>
-              {end < total - 1 && <span className="px-1 text-gray-400">…</span>}
-              <button onClick={() => goToPage(total)} className="px-3 py-1 rounded text-sm hover:bg-gray-100">{total}</button>
+              {end < total - 1 && <span className="px-1 text-gray-400 dark:text-gray-500">…</span>}
+              <button onClick={() => goToPage(total)} className="px-3 py-1 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-700">{total}</button>
             </>
           )}
 
           <button
             onClick={() => goToPage(current + 1)}
             disabled={current === total}
-            className="p-2 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <ChevronRight size={18} />
           </button>
@@ -279,14 +279,14 @@ export default function CatalogPage() {
     <div key={p.prdCod} className="card hover:shadow-md transition-shadow group flex flex-col">
       {/* Header: codice + badge */}
       <div className="flex justify-between items-start mb-2">
-        <p className="text-xs text-gray-400 font-mono">{p.prdCod}</p>
+        <p className="text-xs text-gray-400 dark:text-gray-500 font-mono">{p.prdCod}</p>
         <div className="flex items-center gap-1">
           {p.isConfigurabile && (
-            <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">
+            <span className="text-xs bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 px-2 py-0.5 rounded-full font-medium">
               {t('catalog.configurable')}
             </span>
           )}
-          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{p.prdUm}</span>
+          <span className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded">{p.prdUm}</span>
         </div>
       </div>
 
@@ -297,19 +297,19 @@ export default function CatalogPage() {
           <h3 className="font-semibold text-sm leading-tight mb-1 line-clamp-2 min-h-[2.5rem]">{p.prdDes}</h3>
           <div className="flex flex-wrap gap-1">
             {p.catCod && (
-              <span className="text-[10px] bg-gray-50 text-gray-400 px-1.5 py-0.5 rounded">
+              <span className="text-[10px] bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 px-1.5 py-0.5 rounded">
                 {p.catCod}
               </span>
             )}
             {p.famCod && (
-              <span className="text-[10px] bg-gray-50 text-gray-400 px-1.5 py-0.5 rounded">
+              <span className="text-[10px] bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 px-1.5 py-0.5 rounded">
                 {p.famCod}
               </span>
             )}
           </div>
         </div>
         {/* Destra: immagine prodotto */}
-        <div className="w-24 h-24 flex-shrink-0 rounded overflow-hidden bg-white flex items-center justify-center">
+        <div className="w-24 h-24 flex-shrink-0 rounded overflow-hidden bg-white dark:bg-gray-800 flex items-center justify-center">
           {!brokenImages.has(p.prdCod) && (
             <img
               src={getProductImageUrl(p.prdCod)}
@@ -323,13 +323,13 @@ export default function CatalogPage() {
 
       {/* Prezzo + azioni */}
       <div className="flex items-center justify-between mt-auto pt-3 border-t">
-        <span className={`text-lg font-bold ${p.prezzo != null ? 'text-primary-600' : 'text-gray-300'}`}>
+        <span className={`text-lg font-bold ${p.prezzo != null ? 'text-primary-600' : 'text-gray-300 dark:text-gray-600'}`}>
           {formatPrice(p.prezzo) || t('catalog.noPrice')}
         </span>
         <div className="flex items-center gap-1">
           <button
             onClick={() => handleOpenDetail(p.prdCod)}
-            className="p-2 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+            className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
             title={t('catalog.viewDetail')}
           >
             <Eye size={16} />
@@ -363,10 +363,10 @@ export default function CatalogPage() {
 
   // ====== Product row (list mode) ======
   const renderProductRow = (p) => (
-    <tr key={p.prdCod} className="hover:bg-gray-50 border-b last:border-b-0">
+    <tr key={p.prdCod} className="hover:bg-gray-50 dark:hover:bg-gray-700 border-b dark:border-gray-700 last:border-b-0">
       <td className="px-3 py-3">
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded overflow-hidden bg-gray-50 flex-shrink-0 flex items-center justify-center">
+          <div className="w-10 h-10 rounded overflow-hidden bg-gray-50 dark:bg-gray-800 flex-shrink-0 flex items-center justify-center">
             {!brokenImages.has(p.prdCod) && (
               <img
                 src={getProductImageUrl(p.prdCod)}
@@ -376,30 +376,30 @@ export default function CatalogPage() {
               />
             )}
           </div>
-          <span className="font-mono text-xs text-gray-500">{p.prdCod}</span>
+          <span className="font-mono text-xs text-gray-500 dark:text-gray-400">{p.prdCod}</span>
         </div>
       </td>
       <td className="px-3 py-3">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium">{p.prdDes}</span>
           {p.isConfigurabile && (
-            <span className="text-[10px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full font-medium whitespace-nowrap">
+            <span className="text-[10px] bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 px-1.5 py-0.5 rounded-full font-medium whitespace-nowrap">
               {t('catalog.configurable')}
             </span>
           )}
         </div>
       </td>
       <td className="px-3 py-3 text-center">
-        <span className="text-xs text-gray-500">{p.catCod || '-'}</span>
+        <span className="text-xs text-gray-500 dark:text-gray-400">{p.catCod || '-'}</span>
       </td>
       <td className="px-3 py-3 text-center">
-        <span className="text-xs text-gray-500">{p.famCod || '-'}</span>
+        <span className="text-xs text-gray-500 dark:text-gray-400">{p.famCod || '-'}</span>
       </td>
       <td className="px-3 py-3 text-center">
-        <span className="text-xs bg-gray-100 px-2 py-0.5 rounded">{p.prdUm}</span>
+        <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded">{p.prdUm}</span>
       </td>
       <td className="px-3 py-3 text-right">
-        <span className={`font-semibold ${p.prezzo != null ? 'text-primary-600' : 'text-gray-300'}`}>
+        <span className={`font-semibold ${p.prezzo != null ? 'text-primary-600' : 'text-gray-300 dark:text-gray-600'}`}>
           {formatPrice(p.prezzo) || '-'}
         </span>
       </td>
@@ -407,7 +407,7 @@ export default function CatalogPage() {
         <div className="flex items-center justify-end gap-1">
           <button
             onClick={() => handleOpenDetail(p.prdCod)}
-            className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+            className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
             title={t('catalog.viewDetail')}
           >
             <Eye size={15} />
@@ -447,7 +447,7 @@ export default function CatalogPage() {
           <Package className="text-primary-600" size={24} />
           <h1 className="text-2xl font-bold">{t('catalog.title')}</h1>
           {!loading && (
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-gray-400 dark:text-gray-500">
               ({pagination.total} {t('catalog.productsCount')})
             </span>
           )}
@@ -457,14 +457,14 @@ export default function CatalogPage() {
           <div className="flex border rounded overflow-hidden">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 ${viewMode === 'grid' ? 'bg-primary-600 text-white' : 'bg-white text-gray-400 hover:text-gray-600'}`}
+              className={`p-2 ${viewMode === 'grid' ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'}`}
               title={t('catalog.gridView')}
             >
               <LayoutGrid size={18} />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 ${viewMode === 'list' ? 'bg-primary-600 text-white' : 'bg-white text-gray-400 hover:text-gray-600'}`}
+              className={`p-2 ${viewMode === 'list' ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'}`}
               title={t('catalog.listView')}
             >
               <List size={18} />
@@ -496,7 +496,7 @@ export default function CatalogPage() {
               <button
                 type="button"
                 onClick={() => { setSearch(''); if (searchApplied) { setSearchApplied(''); } }}
-                className="absolute right-3 top-2.5 text-gray-300 hover:text-gray-500"
+                className="absolute right-3 top-2.5 text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400"
               >
                 <X size={16} />
               </button>
@@ -509,7 +509,7 @@ export default function CatalogPage() {
             type="button"
             onClick={() => setShowFilters(!showFilters)}
             className={`hidden md:flex items-center gap-2 px-3 py-2 rounded border text-sm
-              ${showFilters ? 'bg-primary-50 border-primary-300 text-primary-600' : 'border-gray-300 text-gray-600 hover:bg-gray-50'}`}
+              ${showFilters ? 'bg-primary-50 border-primary-300 text-primary-600' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
           >
             <Filter size={16} />
             {t('catalog.filters')}
@@ -526,7 +526,7 @@ export default function CatalogPage() {
           <div className="mt-4 pt-4 border-t grid grid-cols-1 md:grid-cols-4 gap-3">
             {/* Categoria */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">{t('catalog.category')}</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{t('catalog.category')}</label>
               <select
                 value={catFilter}
                 onChange={e => { setCatFilter(e.target.value); setFamFilter(''); setGrpFilter(''); }}
@@ -541,7 +541,7 @@ export default function CatalogPage() {
 
             {/* Famiglia */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">{t('catalog.family')}</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{t('catalog.family')}</label>
               <select
                 value={famFilter}
                 onChange={e => { setFamFilter(e.target.value); setGrpFilter(''); }}
@@ -556,7 +556,7 @@ export default function CatalogPage() {
 
             {/* Gruppo */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">{t('catalog.group')}</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{t('catalog.group')}</label>
               <select
                 value={grpFilter}
                 onChange={e => setGrpFilter(e.target.value)}
@@ -571,7 +571,7 @@ export default function CatalogPage() {
 
             {/* Ordinamento */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">{t('catalog.sortBy')}</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{t('catalog.sortBy')}</label>
               <div className="flex gap-1">
                 <select
                   value={sortBy}
@@ -584,7 +584,7 @@ export default function CatalogPage() {
                 </select>
                 <button
                   onClick={() => setSortDir(d => d === 'asc' ? 'desc' : 'asc')}
-                  className="px-2 py-1 border rounded text-sm hover:bg-gray-50"
+                  className="px-2 py-1 border dark:border-gray-600 rounded text-sm hover:bg-gray-50 dark:hover:bg-gray-700"
                   title={sortDir === 'asc' ? 'Ascendente' : 'Discendente'}
                 >
                   {sortDir === 'asc' ? '↑' : '↓'}
@@ -602,12 +602,12 @@ export default function CatalogPage() {
       {loading ? (
         <div className="text-center py-16">
           <div className="inline-block w-8 h-8 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
-          <p className="mt-3 text-gray-500">{t('app.loading')}</p>
+          <p className="mt-3 text-gray-500 dark:text-gray-400">{t('app.loading')}</p>
         </div>
       ) : products.length === 0 ? (
         <div className="text-center py-16">
-          <Package className="mx-auto text-gray-300 mb-3" size={48} />
-          <p className="text-gray-500 font-medium">{t('catalog.noProducts')}</p>
+          <Package className="mx-auto text-gray-300 dark:text-gray-600 mb-3" size={48} />
+          <p className="text-gray-500 dark:text-gray-400 font-medium">{t('catalog.noProducts')}</p>
           {hasActiveFilters && (
             <button onClick={clearAllFilters} className="mt-2 text-sm text-primary-600 hover:underline">
               {t('catalog.clearFilters')}
@@ -625,14 +625,14 @@ export default function CatalogPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm" aria-label={t('a11y.tableCaption.products')}>
               <thead>
-                <tr className="bg-gray-50 border-b">
-                  <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">{t('catalog.code')}</th>
-                  <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">{t('catalog.description')}</th>
-                  <th scope="col" className="px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase">{t('catalog.category')}</th>
-                  <th scope="col" className="px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase">{t('catalog.family')}</th>
-                  <th scope="col" className="px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase">{t('catalog.um')}</th>
-                  <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase">{t('catalog.price')}</th>
-                  <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase">{t('catalog.actions')}</th>
+                <tr className="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700">
+                  <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('catalog.code')}</th>
+                  <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('catalog.description')}</th>
+                  <th scope="col" className="px-3 py-2 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('catalog.category')}</th>
+                  <th scope="col" className="px-3 py-2 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('catalog.family')}</th>
+                  <th scope="col" className="px-3 py-2 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('catalog.um')}</th>
+                  <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('catalog.price')}</th>
+                  <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{t('catalog.actions')}</th>
                 </tr>
               </thead>
               <tbody>

@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore, useCartStore } from '../store/store';
-import { Package, Wrench, ShoppingCart, FileText, Users, Upload, Tag, LogOut, Globe, Menu, X, KeyRound } from 'lucide-react';
+import { useAuthStore, useCartStore, useThemeStore } from '../store/store';
+import { Package, Wrench, ShoppingCart, FileText, Users, Upload, Tag, LogOut, Globe, Menu, X, KeyRound, Sun, Moon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import ChangePasswordModal from './ChangePasswordModal';
 import InstallPrompt from './InstallPrompt';
@@ -19,6 +19,7 @@ export default function Layout() {
   const { t, i18n } = useTranslation();
   const { user, logout } = useAuthStore();
   const cartCount = useCartStore(s => s.getItemCount());
+  const { theme, toggleTheme } = useThemeStore();
   const location = useLocation();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -99,8 +100,18 @@ export default function Layout() {
           ))}
         </nav>
 
-        {/* Footer sidebar: lingua, cambio password, logout — sempre visibile */}
+        {/* Footer sidebar: tema, lingua, cambio password, logout — sempre visibile */}
         <div className="p-4 border-t border-gray-600 space-y-1 flex-shrink-0">
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white w-full transition-colors mb-2"
+            aria-label={t('theme.toggle')}
+          >
+            {theme === 'dark' ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
+            <span>{theme === 'dark' ? t('theme.light') : t('theme.dark')}</span>
+          </button>
+
           {/* Language selector */}
           <div className="lang-selector flex items-center gap-2 mb-3 px-3" role="group" aria-label={t('a11y.selectLanguage')}>
             <Globe size={16} className="text-gray-400" aria-hidden="true" />
@@ -145,7 +156,7 @@ export default function Layout() {
       <OfflineBanner />
 
       {/* Main content */}
-      <main id="main-content" className="flex-1 p-4 md:p-8 overflow-auto bg-[#f5f5f5]">
+      <main id="main-content" className="flex-1 p-4 md:p-8 overflow-auto bg-[#f5f5f5] dark:bg-gray-900">
         <Outlet />
       </main>
 

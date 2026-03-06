@@ -88,7 +88,7 @@ export default function ImportPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">{t('import.title')}</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('import.title')}</h1>
       </div>
 
       {/* Stats cards — always visible, show 0 while loading */}
@@ -98,11 +98,11 @@ export default function ImportPage() {
             activeTab === tab.key ? 'ring-2 ring-primary-500 bg-primary-50' : 'hover:shadow-md'
           }`} onClick={() => setActiveTab(tab.key)}>
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg ${activeTab === tab.key ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-gray-500'}`}>
+              <div className={`p-2 rounded-lg ${activeTab === tab.key ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
                 <tab.icon size={20} />
               </div>
               <div>
-                <p className="text-xs text-gray-500 uppercase">{t(tab.labelKey)}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 uppercase">{t(tab.labelKey)}</p>
                 <p className={`text-xl font-bold ${countsLoading ? 'text-gray-300' : ''}`}>
                   {counts[tab.key] ?? 0}
                 </p>
@@ -113,7 +113,7 @@ export default function ImportPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 overflow-x-auto border-b border-gray-200">
+      <div className="flex gap-1 mb-6 overflow-x-auto border-b border-gray-200 dark:border-gray-700">
         {TABS.map(tab => (
           <button
             key={tab.key}
@@ -121,7 +121,7 @@ export default function ImportPage() {
             className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
               activeTab === tab.key
                 ? 'border-primary-600 text-primary-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
             }`}
           >
             <tab.icon size={16} />
@@ -239,13 +239,13 @@ function TabContent({ tabKey, onImportDone }) {
 
       {/* Template info */}
       {showTemplate && (
-        <div className="card bg-blue-50 border border-blue-200">
+        <div className="card bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800">
           <div className="flex items-start gap-3">
-            <FileSpreadsheet size={20} className="text-blue-600 mt-0.5 flex-shrink-0" />
+            <FileSpreadsheet size={20} className="text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-blue-900 text-sm mb-1">{t('import.templateTitle')}</p>
-              <p className="text-xs text-blue-700 font-mono break-all">{TEMPLATES[tabKey]}</p>
-              <p className="text-xs text-blue-600 mt-2">{t('import.templateNote')}</p>
+              <p className="font-medium text-blue-900 dark:text-blue-100 text-sm mb-1">{t('import.templateTitle')}</p>
+              <p className="text-xs text-blue-700 dark:text-blue-300 font-mono break-all">{TEMPLATES[tabKey]}</p>
+              <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">{t('import.templateNote')}</p>
             </div>
             <button onClick={() => setShowTemplate(false)} className="text-blue-400 hover:text-blue-600"><X size={16} /></button>
           </div>
@@ -262,7 +262,7 @@ function TabContent({ tabKey, onImportDone }) {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 text-left text-gray-600 border-b">
+              <tr className="bg-gray-50 dark:bg-gray-700 text-left text-gray-600 dark:text-gray-400 border-b dark:border-gray-600">
                 {columns.map(col => (
                   <th key={col.key} className="px-4 py-3 font-medium whitespace-nowrap">{t(col.labelKey)}</th>
                 ))}
@@ -278,9 +278,9 @@ function TabContent({ tabKey, onImportDone }) {
                   {t('common.noData')}
                 </td></tr>
               ) : data.map((row, idx) => (
-                <tr key={idx} className="border-t hover:bg-gray-50 transition-colors">
+                <tr key={idx} className="border-t dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                   {columns.map(col => (
-                    <td key={col.key} className="px-4 py-2.5 text-gray-700">
+                    <td key={col.key} className="px-4 py-2.5 text-gray-700 dark:text-gray-300">
                       {col.format === 'price' && row[col.key] != null
                         ? fmt.currency(row[col.key])
                         : row[col.key] ?? '—'}
@@ -294,8 +294,8 @@ function TabContent({ tabKey, onImportDone }) {
 
         {/* Pagination */}
         {pagination && pagination.total > 0 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t bg-gray-50 text-sm">
-            <span className="text-gray-500">
+          <div className="flex items-center justify-between px-4 py-3 border-t dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm">
+            <span className="text-gray-500 dark:text-gray-400">
               {t('import.showing', {
                 from: (pagination.page - 1) * pagination.pageSize + 1,
                 to: Math.min(pagination.page * pagination.pageSize, pagination.total),
@@ -305,7 +305,7 @@ function TabContent({ tabKey, onImportDone }) {
             {pagination.totalPages > 1 && (
               <div className="flex gap-1">
                 <button onClick={() => handlePageChange(Math.max(1, page - 1))} disabled={page <= 1}
-                  className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed">
+                  className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed">
                   <ChevronLeft size={18} />
                 </button>
                 {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
@@ -316,13 +316,13 @@ function TabContent({ tabKey, onImportDone }) {
                   else pn = page - 2 + i;
                   return (
                     <button key={pn} onClick={() => handlePageChange(pn)}
-                      className={`px-3 py-1 rounded text-sm ${page === pn ? 'bg-primary-600 text-white' : 'hover:bg-gray-200 text-gray-600'}`}>
+                      className={`px-3 py-1 rounded text-sm ${page === pn ? 'bg-primary-600 text-white' : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400'}`}>
                       {pn}
                     </button>
                   );
                 })}
                 <button onClick={() => handlePageChange(Math.min(pagination.totalPages, page + 1))} disabled={page >= pagination.totalPages}
-                  className="p-1.5 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed">
+                  className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed">
                   <ChevronRight size={18} />
                 </button>
               </div>
@@ -384,10 +384,10 @@ function ImportPanel({ tabKey, onDone, onCancel }) {
   return (
     <div className="card border-2 border-primary-200 bg-primary-50/30">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-gray-700 flex items-center gap-2">
+        <h3 className="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
           <Upload size={18} /> {t('import.importTitle')}
         </h3>
-        <button onClick={onCancel} className="text-gray-400 hover:text-gray-600"><X size={18} /></button>
+        <button onClick={onCancel} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"><X size={18} /></button>
       </div>
 
       {/* Drag & Drop Zone */}
@@ -399,7 +399,7 @@ function ImportPanel({ tabKey, onDone, onCancel }) {
         className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
           dragOver ? 'border-primary-500 bg-primary-50'
           : file ? 'border-green-400 bg-green-50'
-          : 'border-gray-300 bg-white hover:border-gray-400'
+          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500'
         }`}
       >
         <input ref={fileRef} type="file" accept=".xlsx,.csv" onChange={handleFileSelect} className="hidden" />
@@ -417,8 +417,8 @@ function ImportPanel({ tabKey, onDone, onCancel }) {
           </div>
         ) : (
           <>
-            <Upload className="mx-auto text-gray-400 mb-2" size={32} />
-            <p className="text-gray-600">
+            <Upload className="mx-auto text-gray-400 dark:text-gray-500 mb-2" size={32} />
+            <p className="text-gray-600 dark:text-gray-400">
               {t('import.dragDrop')} <span className="text-primary-600 font-medium">{t('import.browse')}</span>
             </p>
             <p className="text-xs text-gray-400 mt-1">{t('import.fileTypes')}</p>
@@ -430,10 +430,10 @@ function ImportPanel({ tabKey, onDone, onCancel }) {
       {file && !result && (
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-4">
           <div className="flex-1">
-            <p className="text-xs font-medium text-gray-500 mb-2 uppercase">{t('import.modeLabel')}</p>
+            <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase">{t('import.modeLabel')}</p>
             <div className="flex gap-3">
               <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-sm transition-all ${
-                mode === 'merge' ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-gray-200 bg-white hover:border-gray-300'
+                mode === 'merge' ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-500'
               }`}>
                 <input type="radio" name="mode" value="merge" checked={mode === 'merge'}
                   onChange={() => setMode('merge')} className="sr-only" />
@@ -442,11 +442,11 @@ function ImportPanel({ tabKey, onDone, onCancel }) {
                 {t('import.modeMerge')}
               </label>
               <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-sm transition-all ${
-                mode === 'replace' ? 'border-red-500 bg-red-50 text-red-700' : 'border-gray-200 bg-white hover:border-gray-300'
+                mode === 'replace' ? 'border-red-500 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300' : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-500'
               }`}>
                 <input type="radio" name="mode" value="replace" checked={mode === 'replace'}
                   onChange={() => setMode('replace')} className="sr-only" />
-                <span className={`w-3 h-3 rounded-full border-2 flex-shrink-0 ${mode === 'replace' ? 'border-red-500 bg-red-500' : 'border-gray-300'}`}
+                <span className={`w-3 h-3 rounded-full border-2 flex-shrink-0 ${mode === 'replace' ? 'border-red-500 bg-red-500' : 'border-gray-300 dark:border-gray-500'}`}
                   style={mode === 'replace' ? { boxShadow: 'inset 0 0 0 2px white' } : {}} />
                 {t('import.modeReplace')}
               </label>
@@ -471,7 +471,7 @@ function ImportPanel({ tabKey, onDone, onCancel }) {
       {result && (
         <div className="mt-4 space-y-3">
           <div className={`flex items-center gap-3 p-3 rounded-lg ${
-            result.righeErrore === 0 ? 'bg-green-50 text-green-800' : 'bg-yellow-50 text-yellow-800'
+            result.righeErrore === 0 ? 'bg-green-50 dark:bg-green-900/30 text-green-800 dark:text-green-200' : 'bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
           }`}>
             {result.righeErrore === 0
               ? <CheckCircle2 size={20} className="text-green-600" />
@@ -487,8 +487,8 @@ function ImportPanel({ tabKey, onDone, onCancel }) {
           </div>
 
           {result.errori?.length > 0 && (
-            <div className="bg-red-50 rounded-lg p-3 max-h-48 overflow-y-auto">
-              <p className="text-xs font-medium text-red-700 mb-2">{t('import.errorDetails')}</p>
+            <div className="bg-red-50 dark:bg-red-900/30 rounded-lg p-3 max-h-48 overflow-y-auto">
+              <p className="text-xs font-medium text-red-700 dark:text-red-300 mb-2">{t('import.errorDetails')}</p>
               <table className="w-full text-xs">
                 <thead>
                   <tr className="text-red-600">
@@ -499,7 +499,7 @@ function ImportPanel({ tabKey, onDone, onCancel }) {
                 </thead>
                 <tbody>
                   {result.errori.map((err, i) => (
-                    <tr key={i} className="border-t border-red-100">
+                    <tr key={i} className="border-t border-red-100 dark:border-red-800">
                       <td className="py-1 px-2 font-mono">{err.riga}</td>
                       <td className="py-1 px-2">{err.campo}</td>
                       <td className="py-1 px-2 text-red-600">{err.messaggio}</td>

@@ -43,7 +43,7 @@ const STEPS = [
 function ColorPicker({ colori, value, onChange, label }) {
   return (
     <div className="flex flex-col gap-1.5">
-      {label && <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</span>}
+      {label && <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">{label}</span>}
       <div className="flex gap-2">
         {colori.map((c) => (
           <button
@@ -51,7 +51,7 @@ function ColorPicker({ colori, value, onChange, label }) {
             className={`w-10 h-10 rounded-full border-2 transition-all duration-200 hover:scale-110 ${
               value === c.hex
                 ? 'border-blue-500 ring-2 ring-blue-200 scale-110'
-                : 'border-gray-300 hover:border-gray-400'
+                : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
             }`}
             style={{ backgroundColor: c.hex }}
             onClick={() => onChange(c.hex)}
@@ -77,7 +77,7 @@ function SliderInput({ value, min, max, step = 1, onChange, unit = 'cm', label }
 
   return (
     <div className="flex items-center gap-3">
-      {label && <span className="text-sm text-gray-600 w-16 shrink-0">{label}</span>}
+      {label && <span className="text-sm text-gray-600 dark:text-gray-400 w-16 shrink-0">{label}</span>}
       <input
         type="range"
         min={min}
@@ -88,7 +88,7 @@ function SliderInput({ value, min, max, step = 1, onChange, unit = 'cm', label }
           setLocalValue(Number(e.target.value));
           onChange(Number(e.target.value));
         }}
-        className="flex-1 h-2 rounded-lg appearance-none cursor-pointer bg-gray-200 accent-blue-600"
+        className="flex-1 h-2 rounded-lg appearance-none cursor-pointer bg-gray-200 dark:bg-gray-600 accent-blue-600"
       />
       <div className="flex items-center gap-1">
         <input
@@ -100,9 +100,9 @@ function SliderInput({ value, min, max, step = 1, onChange, unit = 'cm', label }
           onChange={(e) => setLocalValue(e.target.value)}
           onBlur={handleBlur}
           onKeyDown={(e) => e.key === 'Enter' && handleBlur()}
-          className="w-16 px-2 py-1 text-sm text-center border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          className="w-16 px-2 py-1 text-sm text-center border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
         />
-        <span className="text-xs text-gray-400">{unit}</span>
+        <span className="text-xs text-gray-400 dark:text-gray-500">{unit}</span>
       </div>
     </div>
   );
@@ -265,20 +265,20 @@ export default function ConfiguratorPage() {
       {/* ─── Header ────────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             {t('configurator.title')}
           </h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
             {t('configurator.subtitle')}
           </p>
         </div>
 
         {/* Toggle vista 2D/3D */}
-        <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
           <button
             onClick={() => setViewMode('2d')}
             className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              viewMode === '2d' ? 'bg-white text-blue-600 shadow-sm font-medium' : 'text-gray-500 hover:text-gray-700'
+              viewMode === '2d' ? 'bg-white dark:bg-gray-800 text-blue-600 shadow-sm font-medium' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
             }`}
           >
             <LayoutDashboard size={16} className="inline mr-1" />
@@ -287,7 +287,7 @@ export default function ConfiguratorPage() {
           <button
             onClick={() => setViewMode('3d')}
             className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              viewMode === '3d' ? 'bg-white text-blue-600 shadow-sm font-medium' : 'text-gray-500 hover:text-gray-700'
+              viewMode === '3d' ? 'bg-white dark:bg-gray-800 text-blue-600 shadow-sm font-medium' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
             }`}
           >
             <Box size={16} className="inline mr-1" />
@@ -296,7 +296,7 @@ export default function ConfiguratorPage() {
           <button
             onClick={() => setViewMode('both')}
             className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              viewMode === 'both' ? 'bg-white text-blue-600 shadow-sm font-medium' : 'text-gray-500 hover:text-gray-700'
+              viewMode === 'both' ? 'bg-white dark:bg-gray-800 text-blue-600 shadow-sm font-medium' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
             }`}
           >
             <Eye size={16} className="inline mr-1" />
@@ -319,14 +319,14 @@ export default function ConfiguratorPage() {
                   isActive
                     ? 'bg-blue-600 text-white shadow-md'
                     : isDone
-                    ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                    : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/50'
+                    : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
                 {isDone ? <Check size={16} /> : <Icon size={16} />}
                 {t(`configurator.steps.${s.id}`)}
               </button>
-              {i < STEPS.length - 1 && <ChevronRight size={16} className="text-gray-300" />}
+              {i < STEPS.length - 1 && <ChevronRight size={16} className="text-gray-300 dark:text-gray-600" />}
             </div>
           );
         })}
@@ -349,7 +349,7 @@ export default function ConfiguratorPage() {
               <div className="space-y-4">
                 {/* Colore */}
                 <div className="card p-4">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
                     <Palette size={16} className="text-blue-500" />
                     {t('configurator.color.title')}
                   </h3>
@@ -361,7 +361,7 @@ export default function ConfiguratorPage() {
                       onChange={(e) => setStessoColore(e.target.checked)}
                       className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
                     />
-                    <span className="text-sm text-gray-600">{t('configurator.color.sameColor')}</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">{t('configurator.color.sameColor')}</span>
                   </label>
 
                   <ColorPicker
@@ -385,7 +385,7 @@ export default function ConfiguratorPage() {
 
                 {/* Fissaggio */}
                 <div className="card p-4">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
                     <Anchor size={16} className="text-blue-500" />
                     {t('configurator.mounting.title')}
                   </h3>
@@ -396,8 +396,8 @@ export default function ConfiguratorPage() {
                         onClick={() => setFissaggio(tipo)}
                         className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
                           fissaggio === tipo
-                            ? 'border-blue-500 bg-blue-50 text-blue-700'
-                            : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                            ? 'border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-500'
+                            : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-500'
                         }`}
                       >
                         <div className="text-lg mb-1">{tipo === 'cemento' ? '🧱' : '🌱'}</div>
@@ -409,7 +409,7 @@ export default function ConfiguratorPage() {
 
                 {/* Tipo doghe */}
                 <div className="card p-4">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
                     <Layers size={16} className="text-blue-500" />
                     {t('configurator.slats.title')}
                   </h3>
@@ -420,15 +420,15 @@ export default function ConfiguratorPage() {
                         onClick={() => setTipoDoghe(tipo)}
                         className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
                           tipoDoghe === tipo
-                            ? 'border-blue-500 bg-blue-50 text-blue-700'
-                            : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                            ? 'border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-500'
+                            : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-500'
                         }`}
                       >
                         <div className="text-lg mb-1">
                           {tipo === 'persiana' ? '≡' : '█'}
                         </div>
                         {t(`configurator.slats.${tipo}`)}
-                        <div className="text-xs text-gray-400 mt-1">
+                        <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                           {tipo === 'persiana'
                             ? t('configurator.slats.persianaDesc')
                             : t('configurator.slats.pienoDesc')}
@@ -440,7 +440,7 @@ export default function ConfiguratorPage() {
 
                 {/* Altezza pali */}
                 <div className="card p-4">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
                     <Ruler size={16} className="text-blue-500" />
                     {t('configurator.height.title')}
                   </h3>
@@ -454,13 +454,13 @@ export default function ConfiguratorPage() {
                           onClick={() => setAltezzaPali(h)}
                           className={`p-3 rounded-lg border-2 text-center transition-all ${
                             altezzaPali === h
-                              ? 'border-blue-500 bg-blue-50 text-blue-700'
-                              : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                              ? 'border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-500'
+                              : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-500'
                           }`}
                         >
                           <div className="text-lg font-bold">{h}</div>
-                          <div className="text-xs text-gray-400">cm</div>
-                          <div className="text-xs mt-1 text-gray-500">
+                          <div className="text-xs text-gray-400 dark:text-gray-500">cm</div>
+                          <div className="text-xs mt-1 text-gray-500 dark:text-gray-400">
                             {n} {t('configurator.height.slats')}
                           </div>
                         </button>
@@ -475,7 +475,7 @@ export default function ConfiguratorPage() {
             {step === 1 && (
               <div className="space-y-4">
                 {/* Info rapida */}
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700">
+                <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-3 text-sm text-blue-700 dark:text-blue-300">
                   <AlertCircle size={14} className="inline mr-1" />
                   {t('configurator.design.hint')}
                 </div>
@@ -487,18 +487,18 @@ export default function ConfiguratorPage() {
                       key={i}
                       className={`card p-3 transition-all ${
                         selectedPaloIndex === i || selectedPaloIndex === i + 1
-                          ? 'ring-2 ring-blue-400 bg-blue-50/30'
+                          ? 'ring-2 ring-blue-400 bg-blue-50/30 dark:bg-blue-900/20'
                           : ''
                       }`}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-semibold text-gray-700">
+                        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                           {t('configurator.section')} {i + 1}
                         </span>
                         {sezioni.length > 1 && (
                           <button
                             onClick={() => removeSezione(i)}
-                            className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded"
+                            className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded"
                             title={t('configurator.design.removeSection')}
                           >
                             <Trash2 size={14} />
@@ -518,14 +518,14 @@ export default function ConfiguratorPage() {
                       {/* Angolo: 0° (in linea) o 90° */}
                       <div className="mt-2">
                         <label className="flex items-center gap-2 cursor-pointer">
-                          <RotateCw size={12} className="text-gray-400" />
+                          <RotateCw size={12} className="text-gray-400 dark:text-gray-500" />
                           <input
                             type="checkbox"
                             checked={sez.angolo === 90}
                             onChange={(e) => updateSezione(i, { angolo: e.target.checked ? 90 : 0 })}
                             className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
                           />
-                          <span className="text-sm text-gray-600">{t('configurator.design.angle90')}</span>
+                          <span className="text-sm text-gray-600 dark:text-gray-400">{t('configurator.design.angle90')}</span>
                         </label>
                       </div>
                     </div>
@@ -536,7 +536,7 @@ export default function ConfiguratorPage() {
                 <button
                   onClick={addSezione}
                   disabled={sezioni.length >= 20}
-                  className="w-full p-3 border-2 border-dashed border-gray-300 rounded-lg text-sm text-gray-500 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50/50 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full p-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   <Plus size={16} />
                   {t('configurator.design.addSection')}
@@ -544,19 +544,19 @@ export default function ConfiguratorPage() {
                 </button>
 
                 {/* Riepilogo rapido */}
-                <div className="card p-3 bg-gray-50">
+                <div className="card p-3 bg-gray-50 dark:bg-gray-700">
                   <div className="grid grid-cols-3 gap-3 text-center text-sm">
                     <div>
-                      <div className="text-lg font-bold text-gray-800">{sezioni.length}</div>
-                      <div className="text-xs text-gray-500">{t('configurator.summary.sections')}</div>
+                      <div className="text-lg font-bold text-gray-800 dark:text-gray-100">{sezioni.length}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">{t('configurator.summary.sections')}</div>
                     </div>
                     <div>
-                      <div className="text-lg font-bold text-gray-800">{sezioni.length + 1}</div>
-                      <div className="text-xs text-gray-500">{t('configurator.summary.posts')}</div>
+                      <div className="text-lg font-bold text-gray-800 dark:text-gray-100">{sezioni.length + 1}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">{t('configurator.summary.posts')}</div>
                     </div>
                     <div>
-                      <div className="text-lg font-bold text-gray-800">{lunghezzaTotale}</div>
-                      <div className="text-xs text-gray-500">cm {t('configurator.summary.total')}</div>
+                      <div className="text-lg font-bold text-gray-800 dark:text-gray-100">{lunghezzaTotale}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">cm {t('configurator.summary.total')}</div>
                     </div>
                   </div>
                 </div>
@@ -568,25 +568,25 @@ export default function ConfiguratorPage() {
               <div className="space-y-4">
                 {/* Riepilogo numerico */}
                 <div className="card p-4">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                     {t('configurator.bom.summary')}
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-gray-50 rounded-lg p-3 text-center">
-                      <div className="text-xl font-bold text-gray-800">{distinta.riepilogo.numSezioni}</div>
-                      <div className="text-xs text-gray-500">{t('configurator.summary.sections')}</div>
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 text-center">
+                      <div className="text-xl font-bold text-gray-800 dark:text-gray-100">{distinta.riepilogo.numSezioni}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">{t('configurator.summary.sections')}</div>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-3 text-center">
-                      <div className="text-xl font-bold text-gray-800">{distinta.riepilogo.numPali}</div>
-                      <div className="text-xs text-gray-500">{t('configurator.summary.posts')}</div>
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 text-center">
+                      <div className="text-xl font-bold text-gray-800 dark:text-gray-100">{distinta.riepilogo.numPali}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">{t('configurator.summary.posts')}</div>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-3 text-center">
-                      <div className="text-xl font-bold text-gray-800">{distinta.riepilogo.numDoghePerSezione}</div>
-                      <div className="text-xs text-gray-500">{t('configurator.bom.slatsPerSection')}</div>
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 text-center">
+                      <div className="text-xl font-bold text-gray-800 dark:text-gray-100">{distinta.riepilogo.numDoghePerSezione}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">{t('configurator.bom.slatsPerSection')}</div>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-3 text-center">
-                      <div className="text-xl font-bold text-gray-800">{distinta.riepilogo.lunghezzaTotale}</div>
-                      <div className="text-xs text-gray-500">cm {t('configurator.summary.total')}</div>
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 text-center">
+                      <div className="text-xl font-bold text-gray-800 dark:text-gray-100">{distinta.riepilogo.lunghezzaTotale}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">cm {t('configurator.summary.total')}</div>
                     </div>
                   </div>
                 </div>
@@ -597,12 +597,12 @@ export default function ConfiguratorPage() {
                     <div key={i} className="card p-3">
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-800 truncate">{comp.prdDes}</p>
-                          <p className="text-xs text-gray-400 font-mono">{comp.prdCod}</p>
+                          <p className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">{comp.prdDes}</p>
+                          <p className="text-xs text-gray-400 dark:text-gray-500 font-mono">{comp.prdCod}</p>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <p className="text-sm font-bold text-gray-800">{fmt.currency(comp.prezzoTotale)}</p>
-                          <p className="text-xs text-gray-400">
+                          <p className="text-sm font-bold text-gray-800 dark:text-gray-100">{fmt.currency(comp.prezzoTotale)}</p>
+                          <p className="text-xs text-gray-400 dark:text-gray-500">
                             {comp.quantita} x {fmt.currency(comp.prezzoUnitario)}
                           </p>
                         </div>
@@ -617,13 +617,13 @@ export default function ConfiguratorPage() {
             </div>{/* Fine area scrollabile */}
 
             {/* ─── Barra fissa in basso (totale + pulsanti) ───────────── */}
-            <div className="flex-shrink-0 pt-3 border-t border-gray-200 mt-3 bg-white space-y-3">
+            <div className="flex-shrink-0 pt-3 border-t border-gray-200 dark:border-gray-700 mt-3 bg-white dark:bg-gray-800 space-y-3">
               {/* Totale complessivo fisso - visibile solo allo step 2 */}
               {step === 2 && distinta && (
-                <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="p-3 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-gray-700">{t('configurator.bom.grandTotal')}</span>
-                    <span className="text-xl font-bold text-blue-700">{fmt.currency(distinta.totale)}</span>
+                    <span className="font-bold text-gray-700 dark:text-gray-300">{t('configurator.bom.grandTotal')}</span>
+                    <span className="text-xl font-bold text-blue-700 dark:text-blue-300">{fmt.currency(distinta.totale)}</span>
                   </div>
                 </div>
               )}
@@ -688,7 +688,7 @@ export default function ConfiguratorPage() {
           <div className="flex justify-end">
             <button
               onClick={() => setIs3DExpanded(!is3DExpanded)}
-              className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
+              className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
               title={is3DExpanded ? t('configurator.exitFullscreen') : t('configurator.fullscreen')}
             >
               {is3DExpanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}

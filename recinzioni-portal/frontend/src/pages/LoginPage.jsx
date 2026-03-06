@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from '../store/store';
+import { useAuthStore, useThemeStore } from '../store/store';
 import toast from 'react-hot-toast';
+import { Sun, Moon } from 'lucide-react';
 
 const LANGUAGES = [
   { code: 'it', label: 'IT', name: 'Italiano' },
@@ -16,6 +17,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const login = useAuthStore(s => s.login);
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
+  const { theme, toggleTheme } = useThemeStore();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -58,10 +60,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Language selector in alto a destra */}
-      <div className="flex justify-end p-4">
-        <div className="flex items-center gap-1 bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+      {/* Theme toggle + Language selector in alto a destra */}
+      <div className="flex justify-end items-center gap-2 p-4">
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+          aria-label={t('theme.toggle')}
+        >
+          {theme === 'dark' ? <Sun size={16} aria-hidden="true" /> : <Moon size={16} aria-hidden="true" />}
+        </button>
+        <div className="flex items-center gap-1 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-1">
           {LANGUAGES.map(lang => (
             <button
               key={lang.code}
@@ -70,7 +79,7 @@ export default function LoginPage() {
               className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors ${
                 i18n.language === lang.code
                   ? 'bg-primary-600 text-white'
-                  : 'text-gray-500 hover:bg-gray-100'
+                  : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
             >
               {lang.label}
@@ -89,16 +98,16 @@ export default function LoginPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">{t('app.title')}</h1>
-            <p className="text-sm text-gray-500 mt-1">{t('auth.loginSubtitle')}</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('app.title')}</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('auth.loginSubtitle')}</p>
           </div>
 
           {/* Card login */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
             {/* Messaggio di errore */}
             {errorMsg && (
               <div
-                className="mb-5 flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm"
+                className="mb-5 flex items-start gap-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-xl text-sm"
                 role="alert"
               >
                 <svg className="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -111,7 +120,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-5" noValidate>
               {/* Username */}
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                   {t('auth.username')}
                 </label>
                 <div className="relative">
@@ -137,7 +146,7 @@ export default function LoginPage() {
 
               {/* Password */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                   {t('auth.password')}
                 </label>
                 <div className="relative">
@@ -160,7 +169,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                     aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
                     tabIndex={-1}
                   >
@@ -188,7 +197,7 @@ export default function LoginPage() {
                     className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                     disabled={loading}
                   />
-                  <span className="text-sm text-gray-600">{t('auth.rememberMe')}</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">{t('auth.rememberMe')}</span>
                 </label>
                 <Link
                   to="/forgot-password"
@@ -226,7 +235,7 @@ export default function LoginPage() {
           </div>
 
           {/* Footer */}
-          <p className="text-center mt-6 text-xs text-gray-400">
+          <p className="text-center mt-6 text-xs text-gray-400 dark:text-gray-500">
             &copy; {new Date().getFullYear()} &mdash; {t('app.title')}
           </p>
         </div>

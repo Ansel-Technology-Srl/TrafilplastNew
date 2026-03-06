@@ -60,8 +60,8 @@ export default function Accessible3DCanvas({
           type="button"
           onClick={toggleView}
           className="inline-flex items-center gap-2 px-3 py-1.5 text-sm rounded-md
-                     border border-gray-300 bg-white text-gray-700
-                     hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+                     border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300
+                     hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
                      transition-colors"
           aria-pressed={showAccessible}
           aria-label={showAccessible
@@ -88,7 +88,7 @@ export default function Accessible3DCanvas({
         <div
           role="img"
           aria-label={canvasAriaLabel}
-          className="w-full rounded-lg overflow-hidden border border-gray-200"
+          className="w-full rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700"
           style={{ height: canvasProps.height || 400 }}
         >
           <Canvas

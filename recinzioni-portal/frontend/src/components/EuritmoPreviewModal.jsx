@@ -91,13 +91,13 @@ export default function EuritmoPreviewModal({ ordNum, isOpen, onClose, onSent })
     const lines = data.content.split('\n').filter(l => l.trim());
     return lines.map((line, idx) => {
       const recordType = line.substring(0, 3);
-      const color = RECORD_COLORS[recordType] || { bg: 'bg-white', text: 'text-gray-600', border: 'border-gray-100', label: recordType };
+      const color = RECORD_COLORS[recordType] || { bg: 'bg-white dark:bg-gray-800', text: 'text-gray-600 dark:text-gray-400', border: 'border-gray-100 dark:border-gray-700', label: recordType };
       return (
         <div key={idx} className={`flex items-start gap-2 px-3 py-1 ${color.bg} border-l-4 ${color.border}`}>
           <span className={`shrink-0 w-20 text-xs font-semibold ${color.text} pt-0.5`}>
             {t(`euritmo.recordTypes.${recordType}`, color.label)}
           </span>
-          <pre className="text-xs font-mono text-gray-700 whitespace-pre overflow-x-auto flex-1 leading-relaxed">
+          <pre className="text-xs font-mono text-gray-700 dark:text-gray-300 whitespace-pre overflow-x-auto flex-1 leading-relaxed">
             {line}
           </pre>
         </div>
@@ -109,20 +109,20 @@ export default function EuritmoPreviewModal({ ordNum, isOpen, onClose, onSent })
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div ref={modalRef} className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col" role="dialog" aria-modal="true" aria-labelledby="euritmo-modal-title">
+      <div ref={modalRef} className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col" role="dialog" aria-modal="true" aria-labelledby="euritmo-modal-title">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <FileText className="w-5 h-5 text-blue-600" />
             <div>
-              <h2 id="euritmo-modal-title" className="text-lg font-semibold text-gray-800">
+              <h2 id="euritmo-modal-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 {t('euritmo.preview')} — {t('orders.number')} {ordNum}
               </h2>
-              <p className="text-sm text-gray-500">EURITMO ORDERS Release 25.1</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">EURITMO ORDERS Release 25.1</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <X className="w-5 h-5 text-gray-500" />
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         </div>
 
@@ -130,8 +130,8 @@ export default function EuritmoPreviewModal({ ordNum, isOpen, onClose, onSent })
         {data && (
           <div className={`mx-6 mt-4 px-4 py-2 rounded-lg flex items-center gap-2 text-sm ${
             data.sent
-              ? 'bg-green-50 text-green-700 border border-green-200'
-              : 'bg-yellow-50 text-yellow-700 border border-yellow-200'
+              ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-700'
+              : 'bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-700'
           }`}>
             {data.sent ? (
               <>
@@ -153,7 +153,7 @@ export default function EuritmoPreviewModal({ ordNum, isOpen, onClose, onSent })
         {/* Contenuto */}
         <div className="flex-1 overflow-y-auto px-6 py-4">
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-16 text-gray-500">
+            <div className="flex flex-col items-center justify-center py-16 text-gray-500 dark:text-gray-400">
               <Loader2 className="w-8 h-8 animate-spin mb-3" />
               <p>{t('euritmo.generating')}</p>
             </div>
@@ -163,7 +163,7 @@ export default function EuritmoPreviewModal({ ordNum, isOpen, onClose, onSent })
               <p>{error}</p>
             </div>
           ) : (
-            <div className="space-y-0.5 rounded-lg overflow-hidden border border-gray-200">
+            <div className="space-y-0.5 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
               {renderLines()}
             </div>
           )}
@@ -171,7 +171,7 @@ export default function EuritmoPreviewModal({ ordNum, isOpen, onClose, onSent })
 
         {/* Legenda */}
         {data && !loading && (
-          <div className="px-6 py-2 border-t border-gray-100">
+          <div className="px-6 py-2 border-t border-gray-100 dark:border-gray-600">
             <div className="flex flex-wrap gap-2">
               {Object.entries(RECORD_COLORS).map(([code, c]) => (
                 <span key={code} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs ${c.bg} ${c.text}`}>
@@ -183,7 +183,7 @@ export default function EuritmoPreviewModal({ ordNum, isOpen, onClose, onSent })
         )}
 
         {/* Footer azioni */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-b-xl">
           <button onClick={onClose} className="btn-secondary">
             {t('common.close')}
           </button>

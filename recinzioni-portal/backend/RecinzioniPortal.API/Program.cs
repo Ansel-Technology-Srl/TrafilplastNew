@@ -95,9 +95,42 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Middleware: impedisci caching di index.html (sia diretto che SPA fallback).
+// Senza questo, dopo un deploy il browser usa la versione vecchia di index.html
+// che referenzia JS/CSS con hash obsoleti → pagina bianca finché F5.
+app.Use(async (context, next) =>
+{
+    context.Response.OnStarting(() =>
+    {
+        if (context.Response.ContentType?.Contains("text/html") == true
+            && !context.Request.Path.StartsWithSegments("/api")
+            && !context.Request.Path.StartsWithSegments("/swagger"))
+        {
+            context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            context.Response.Headers["Pragma"] = "no-cache";
+            context.Response.Headers["Expires"] = "0";
+        }
+        return Task.CompletedTask;
+    });
+    await next();
+});
+
 // Serve il frontend React (build statica)
 app.UseDefaultFiles();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        // Service worker e manifest: no-cache
+        var name = ctx.File.Name;
+        if (name == "index.html" || name == "sw.js" || name.StartsWith("workbox-"))
+        {
+            ctx.Context.Response.Headers.Append("Cache-Control", "no-cache, no-store, must-revalidate");
+            ctx.Context.Response.Headers.Append("Pragma", "no-cache");
+            ctx.Context.Response.Headers.Append("Expires", "0");
+        }
+    }
+});
 
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
